@@ -15,14 +15,14 @@ final List<Widget> myTabItems = [
   const Text("메뉴4"),
 ];
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class MainTabScreen extends StatefulWidget {
+  const MainTabScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<MainTabScreen> createState() => _MainTabScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _MainTabScreenState extends State<MainTabScreen> {
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
