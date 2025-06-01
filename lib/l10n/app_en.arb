@@ -3,5 +3,8 @@
   "homeTitle": "Home",
   "aboutTitle": "About",
   "aboutPage": "About Page",
-  "goToAbout": "Go to About"
+  "goToAbout": "Go to About",
+  "couponRegisterTitle": "Add Coupon",
+  "myCouponsTitle": "My Coupons",
+  "myPageTitle": "My Page"
 }
