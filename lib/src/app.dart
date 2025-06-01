@@ -1,3 +1,4 @@
+import 'package:coupon_place/src/features/home/view/home_screen.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -38,24 +39,6 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [Locale('ko'), Locale('en')],
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context)!;
-    return Scaffold(
-      appBar: AppBar(title: Text(loc.homeTitle)),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () => context.go('/about'),
-          child: Text(loc.goToAbout),
-        ),
-      ),
     );
   }
 }
