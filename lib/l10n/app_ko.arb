@@ -1,10 +1,8 @@
 {
   "appTitle": "쿠폰플레이스",
   "homeTitle": "홈",
-  "aboutTitle": "소개",
-  "aboutPage": "About 페이지",
-  "goToAbout": "About으로 이동",
   "couponRegisterTitle": "쿠폰등록",
   "myCouponsTitle": "내 쿠폰",
-  "myPageTitle": "마이페이지"
+  "myPageTitle": "마이페이지",
+  "couponRegisterTooltip": "쿠폰 등록"
 }
