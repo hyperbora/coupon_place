@@ -42,16 +42,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-class AboutScreen extends StatelessWidget {
-  const AboutScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context)!;
-    return Scaffold(
-      appBar: AppBar(title: Text(loc.aboutTitle)),
-      body: Center(child: Text(loc.aboutPage)),
-    );
-  }
-}

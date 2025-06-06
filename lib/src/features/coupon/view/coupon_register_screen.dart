@@ -1,3 +1,5 @@
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
 
 class CouponRegisterScreen extends StatefulWidget {
@@ -8,14 +10,37 @@ class CouponRegisterScreen extends StatefulWidget {
 }
 
 class _CouponRegisterScreenState extends State<CouponRegisterScreen> {
+  File? _imageFile;
+
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(title: const Text('쿠폰 등록')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [const Text('QR 코드를 스캔하여 쿠폰을 등록하세요.')],
+          children: [
+            _imageFile != null
+                ? Image.file(
+                  _imageFile!,
+                  width: 200,
+                  height: 200,
+                  fit: BoxFit.cover,
+                )
+                : const Text('쿠폰을 등록하세요.'),
+            const SizedBox(height: 16),
+            ElevatedButton(onPressed: _pickImage, child: const Text('이미지 선택')),
+          ],
         ),
       ),
     );
