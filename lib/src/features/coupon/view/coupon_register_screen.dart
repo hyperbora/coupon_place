@@ -65,38 +65,180 @@ class _CouponRegisterScreenState extends State<CouponRegisterScreen> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("쿠폰등록"),
-        leading: TextButton(
-          onPressed: () => Navigator.of(context).pop(),
+  PreferredSizeWidget _buildAppBar() {
+    return AppBar(
+      title: const Text("쿠폰등록"),
+      leading: TextButton(
+        onPressed: () => Navigator.of(context).pop(),
+        style: TextButton.styleFrom(
+          textStyle: const TextStyle(fontSize: 16),
+          padding: EdgeInsets.zero,
+          minimumSize: const Size(50, 30),
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
+        child: const Text('취소'),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            if (_formKey.currentState!.validate()) {
+              Navigator.of(context).pop(); // 이후 저장 로직 연결
+            }
+          },
           style: TextButton.styleFrom(
             textStyle: const TextStyle(fontSize: 16),
             padding: EdgeInsets.zero,
             minimumSize: const Size(50, 30),
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
-          child: const Text('취소'),
+          child: const Text('저장'),
         ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                Navigator.of(context).pop(); // 이후 저장 로직 연결
+      ],
+    );
+  }
+
+  Widget _buildImagePicker() {
+    return GestureDetector(
+      onTap: _pickImage,
+      child: SizedBox(
+        width: 200,
+        height: 200,
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey, width: 2),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Stack(
+            children: [
+              _imageFile != null
+                  ? ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.file(
+                      _imageFile!,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: double.infinity,
+                    ),
+                  )
+                  : Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    alignment: Alignment.center,
+                    child: Icon(
+                      Icons.image_outlined,
+                      color: Colors.grey,
+                      size: 200,
+                    ),
+                  ),
+              Positioned(
+                top: 8,
+                right: 8,
+                child:
+                    _imageFile != null
+                        ? GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _imageFile = null;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.black45,
+                              shape: BoxShape.circle,
+                            ),
+                            padding: const EdgeInsets.all(6),
+                            child: const Icon(
+                              Icons.close,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                          ),
+                        )
+                        : SizedBox.shrink(),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFormFields() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextFormField(
+            controller: _nameController,
+            decoration: const InputDecoration(labelText: '쿠폰 이름'),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return '쿠폰 이름을 입력하세요';
               }
+              return null;
             },
-            style: TextButton.styleFrom(
-              textStyle: const TextStyle(fontSize: 16),
-              padding: EdgeInsets.zero,
-              minimumSize: const Size(50, 30),
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+          const SizedBox(height: 16),
+          GestureDetector(
+            onTap: _pickDate,
+            child: InputDecorator(
+              decoration: const InputDecoration(
+                labelText: '유효기간',
+                border: OutlineInputBorder(),
+              ),
+              child: Text(
+                _selectedDate != null
+                    ? _selectedDate.toString().split(' ')[0]
+                    : '날짜를 선택하세요',
+              ),
             ),
-            child: const Text('저장'),
+          ),
+          const SizedBox(height: 16),
+          TextFormField(
+            controller: _codeController,
+            decoration: const InputDecoration(labelText: '쿠폰 코드'),
+          ),
+          const SizedBox(height: 16),
+          TextFormField(
+            controller: _memoController,
+            decoration: const InputDecoration(labelText: '메모'),
+            maxLines: 2,
+          ),
+          const SizedBox(height: 16),
+          DropdownButtonFormField<String>(
+            value: _selectedFolder,
+            items:
+                ['카페', '편의점', '영화'].map((folder) {
+                  return DropdownMenuItem(value: folder, child: Text(folder));
+                }).toList(),
+            onChanged: (value) => setState(() => _selectedFolder = value),
+            decoration: const InputDecoration(labelText: '폴더 선택'),
+            validator: (value) => value == null ? '폴더를 선택하세요' : null,
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              const Text('유효기간 알림 설정'),
+              Switch(
+                value: _enableAlarm,
+                onChanged: (value) {
+                  setState(() {
+                    _enableAlarm = value;
+                  });
+                },
+              ),
+            ],
           ),
         ],
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: _buildAppBar(),
       body: SafeArea(
         child: Column(
           children: [
@@ -109,159 +251,9 @@ class _CouponRegisterScreenState extends State<CouponRegisterScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const SizedBox(height: 16),
-                        GestureDetector(
-                          onTap: _pickImage,
-                          child: SizedBox(
-                            width: 200,
-                            height: 200,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 2,
-                                ),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Stack(
-                                children: [
-                                  _imageFile != null
-                                      ? ClipRRect(
-                                        borderRadius: BorderRadius.circular(12),
-                                        child: Image.file(
-                                          _imageFile!,
-                                          fit: BoxFit.cover,
-                                          width: double.infinity,
-                                          height: double.infinity,
-                                        ),
-                                      )
-                                      : Container(
-                                        width: double.infinity,
-                                        height: double.infinity,
-                                        alignment: Alignment.center,
-                                        child: Icon(
-                                          Icons.image_outlined,
-                                          color: Colors.grey,
-                                          size: 200,
-                                        ),
-                                      ),
-                                  Positioned(
-                                    top: 8,
-                                    right: 8,
-                                    child:
-                                        _imageFile != null
-                                            ? GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  _imageFile = null;
-                                                });
-                                              },
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: Colors.black45,
-                                                  shape: BoxShape.circle,
-                                                ),
-                                                padding: const EdgeInsets.all(
-                                                  6,
-                                                ),
-                                                child: const Icon(
-                                                  Icons.close,
-                                                  color: Colors.white,
-                                                  size: 20,
-                                                ),
-                                              ),
-                                            )
-                                            : SizedBox.shrink(),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
+                        _buildImagePicker(),
                         const SizedBox(height: 16),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextFormField(
-                                controller: _nameController,
-                                decoration: const InputDecoration(
-                                  labelText: '쿠폰 이름',
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return '쿠폰 이름을 입력하세요';
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 16),
-                              GestureDetector(
-                                onTap: _pickDate,
-                                child: InputDecorator(
-                                  decoration: const InputDecoration(
-                                    labelText: '유효기간',
-                                    border: OutlineInputBorder(),
-                                  ),
-                                  child: Text(
-                                    _selectedDate != null
-                                        ? _selectedDate.toString().split(' ')[0]
-                                        : '날짜를 선택하세요',
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 16),
-                              TextFormField(
-                                controller: _codeController,
-                                decoration: const InputDecoration(
-                                  labelText: '쿠폰 코드',
-                                ),
-                              ),
-                              const SizedBox(height: 16),
-                              TextFormField(
-                                controller: _memoController,
-                                decoration: const InputDecoration(
-                                  labelText: '메모',
-                                ),
-                                maxLines: 2,
-                              ),
-                              const SizedBox(height: 16),
-                              DropdownButtonFormField<String>(
-                                value: _selectedFolder,
-                                items:
-                                    ['카페', '편의점', '영화'].map((folder) {
-                                      return DropdownMenuItem(
-                                        value: folder,
-                                        child: Text(folder),
-                                      );
-                                    }).toList(),
-                                onChanged:
-                                    (value) =>
-                                        setState(() => _selectedFolder = value),
-                                decoration: const InputDecoration(
-                                  labelText: '폴더 선택',
-                                ),
-                                validator:
-                                    (value) =>
-                                        value == null ? '폴더를 선택하세요' : null,
-                              ),
-                              const SizedBox(height: 16),
-                              Row(
-                                children: [
-                                  const Text('유효기간 알림 설정'),
-                                  Switch(
-                                    value: _enableAlarm,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _enableAlarm = value;
-                                      });
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
+                        _buildFormFields(),
                         const SizedBox(height: 32),
                       ],
                     ),
