@@ -1,6 +1,7 @@
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CouponRegisterScreen extends StatefulWidget {
   const CouponRegisterScreen({super.key});
@@ -21,19 +22,20 @@ class _CouponRegisterScreenState extends State<CouponRegisterScreen> {
   DateTime? _selectedDate;
 
   Future<void> _pickImage() async {
+    final loc = AppLocalizations.of(context)!;
     final source = await showDialog<ImageSource>(
       context: context,
       builder:
           (context) => AlertDialog(
-            title: const Text('이미지 선택'),
+            title: Text(loc.imageSelect),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(ImageSource.camera),
-                child: const Text('카메라'),
+                child: Text(loc.camera),
               ),
               TextButton(
                 onPressed: () => Navigator.of(context).pop(ImageSource.gallery),
-                child: const Text('라이브러리'),
+                child: Text(loc.library),
               ),
             ],
           ),
@@ -66,8 +68,9 @@ class _CouponRegisterScreenState extends State<CouponRegisterScreen> {
   }
 
   PreferredSizeWidget _buildAppBar() {
+    final loc = AppLocalizations.of(context)!;
     return AppBar(
-      title: const Text("쿠폰등록"),
+      title: Text(loc.couponRegisterTitle),
       leading: TextButton(
         onPressed: () => Navigator.of(context).pop(),
         style: TextButton.styleFrom(
@@ -76,13 +79,13 @@ class _CouponRegisterScreenState extends State<CouponRegisterScreen> {
           minimumSize: const Size(50, 30),
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
-        child: const Text('취소'),
+        child: Text(loc.cancel),
       ),
       actions: [
         TextButton(
           onPressed: () {
             if (_formKey.currentState!.validate()) {
-              Navigator.of(context).pop(); // 이후 저장 로직 연결
+              Navigator.of(context).pop();
             }
           },
           style: TextButton.styleFrom(
@@ -91,7 +94,7 @@ class _CouponRegisterScreenState extends State<CouponRegisterScreen> {
             minimumSize: const Size(50, 30),
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
-          child: const Text('저장'),
+          child: Text(loc.save),
         ),
       ],
       centerTitle: true,
@@ -165,6 +168,7 @@ class _CouponRegisterScreenState extends State<CouponRegisterScreen> {
   }
 
   Widget _buildFormFields() {
+    final loc = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
@@ -172,10 +176,10 @@ class _CouponRegisterScreenState extends State<CouponRegisterScreen> {
         children: [
           TextFormField(
             controller: _nameController,
-            decoration: const InputDecoration(labelText: '쿠폰 이름'),
+            decoration: InputDecoration(labelText: loc.couponNameLabel),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return '쿠폰 이름을 입력하세요';
+                return loc.couponNameHint;
               }
               return null;
             },
@@ -184,26 +188,26 @@ class _CouponRegisterScreenState extends State<CouponRegisterScreen> {
           GestureDetector(
             onTap: _pickDate,
             child: InputDecorator(
-              decoration: const InputDecoration(
-                labelText: '유효기간',
+              decoration: InputDecoration(
+                labelText: loc.validDateLabel,
                 border: OutlineInputBorder(),
               ),
               child: Text(
                 _selectedDate != null
                     ? _selectedDate.toString().split(' ')[0]
-                    : '날짜를 선택하세요',
+                    : loc.validDateHint,
               ),
             ),
           ),
           const SizedBox(height: 16),
           TextFormField(
             controller: _codeController,
-            decoration: const InputDecoration(labelText: '쿠폰 코드'),
+            decoration: InputDecoration(labelText: loc.couponCodeLabel),
           ),
           const SizedBox(height: 16),
           TextFormField(
             controller: _memoController,
-            decoration: const InputDecoration(labelText: '메모'),
+            decoration: InputDecoration(labelText: loc.memoLabel),
             maxLines: 2,
           ),
           const SizedBox(height: 16),
@@ -214,13 +218,13 @@ class _CouponRegisterScreenState extends State<CouponRegisterScreen> {
                   return DropdownMenuItem(value: folder, child: Text(folder));
                 }).toList(),
             onChanged: (value) => setState(() => _selectedFolder = value),
-            decoration: const InputDecoration(labelText: '폴더 선택'),
-            validator: (value) => value == null ? '폴더를 선택하세요' : null,
+            decoration: InputDecoration(labelText: loc.folderLabel),
+            validator: (value) => value == null ? loc.folderHint : null,
           ),
           const SizedBox(height: 16),
           Row(
             children: [
-              const Text('유효기간 알림 설정'),
+              Text(loc.alarmLabel),
               Switch(
                 value: _enableAlarm,
                 onChanged: (value) {

@@ -4,5 +4,20 @@
   "couponRegisterTitle": "쿠폰등록",
   "myCouponsTitle": "내 쿠폰",
   "myPageTitle": "마이페이지",
-  "couponRegisterTooltip": "쿠폰 등록"
+  "couponRegisterTooltip": "쿠폰 등록",
+  "cancel": "취소",
+  "save": "저장",
+  "couponNameLabel": "쿠폰 이름",
+  "couponNameHint": "쿠폰 이름을 입력하세요",
+  "validDateLabel": "유효기간",
+  "validDateHint": "날짜를 선택하세요",
+  "couponCodeLabel": "쿠폰 코드",
+  "memoLabel": "메모",
+  "folderLabel": "폴더 선택",
+  "folderHint": "폴더를 선택하세요",
+  "alarmLabel": "유효기간 알림 설정",
+  "imageSelect": "이미지 선택",
+  "camera": "카메라",
+  "library": "라이브러리",
+  "registerCouponPlaceholder": "쿠폰을 등록하세요."
 }

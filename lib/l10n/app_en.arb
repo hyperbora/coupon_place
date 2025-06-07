@@ -4,5 +4,20 @@
   "couponRegisterTitle": "Add Coupon",
   "myCouponsTitle": "My Coupons",
   "myPageTitle": "My Page",
-  "couponRegisterTooltip": "Add Coupon"
+  "couponRegisterTooltip": "Add Coupon",
+  "cancel": "Cancel",
+  "save": "Save",
+  "couponNameLabel": "Coupon Name",
+  "couponNameHint": "Enter coupon name",
+  "validDateLabel": "Valid Date",
+  "validDateHint": "Select a date",
+  "couponCodeLabel": "Coupon Code",
+  "memoLabel": "Memo",
+  "folderLabel": "Select Folder",
+  "folderHint": "Please select a folder",
+  "alarmLabel": "Enable Expiry Alarm",
+  "imageSelect": "Select Image",
+  "camera": "Camera",
+  "library": "Library",
+  "registerCouponPlaceholder": "Register your coupon."
 }
