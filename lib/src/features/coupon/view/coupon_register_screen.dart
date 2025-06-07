@@ -2,91 +2,70 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:coupon_place/src/features/coupon/provider/coupon_register_provider.dart';
 
-class CouponRegisterScreen extends StatefulWidget {
+class CouponRegisterScreen extends ConsumerWidget {
   const CouponRegisterScreen({super.key});
 
+  static final _formKey = GlobalKey<FormState>();
+
   @override
-  State<CouponRegisterScreen> createState() => _CouponRegisterScreenState();
-}
-
-class _CouponRegisterScreenState extends State<CouponRegisterScreen> {
-  final _formKey = GlobalKey<FormState>();
-  File? _imageFile;
-
-  final _nameController = TextEditingController();
-  final _codeController = TextEditingController();
-  final _memoController = TextEditingController();
-  String? _selectedFolder;
-  bool _enableAlarm = false;
-  DateTime? _selectedDate;
-
-  Future<void> _pickImage() async {
+  Widget build(BuildContext context, WidgetRef ref) {
     final loc = AppLocalizations.of(context)!;
-    final source = await showDialog<ImageSource>(
-      context: context,
-      builder:
-          (context) => AlertDialog(
-            title: Text(loc.imageSelect),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(ImageSource.camera),
-                child: Text(loc.camera),
-              ),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(ImageSource.gallery),
-                child: Text(loc.library),
-              ),
-            ],
-          ),
-    );
+    final state = ref.watch(couponRegisterProvider);
+    final notifier = ref.read(couponRegisterProvider.notifier);
 
-    if (source == null) return;
+    Future<void> pickImage() async {
+      final source = await showDialog<ImageSource>(
+        context: context,
+        builder:
+            (context) => AlertDialog(
+              title: Text(loc.imageSelect),
+              actions: [
+                TextButton(
+                  onPressed:
+                      () => Navigator.of(context).pop(ImageSource.camera),
+                  child: Text(loc.camera),
+                ),
+                TextButton(
+                  onPressed:
+                      () => Navigator.of(context).pop(ImageSource.gallery),
+                  child: Text(loc.library),
+                ),
+              ],
+            ),
+      );
 
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: source);
+      if (source == null) return;
 
-    if (pickedFile != null) {
-      setState(() {
-        _imageFile = File(pickedFile.path);
-      });
+      final picker = ImagePicker();
+      final pickedFile = await picker.pickImage(source: source);
+
+      if (pickedFile != null) {
+        notifier.setImage(File(pickedFile.path));
+      }
     }
-  }
 
-  Future<void> _pickDate() async {
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
-    if (picked != null) {
-      setState(() {
-        _selectedDate = picked;
-      });
+    Future<void> pickDate() async {
+      final picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2100),
+      );
+      if (picked != null) {
+        notifier.setValidDate(picked);
+      }
     }
-  }
 
-  PreferredSizeWidget _buildAppBar() {
-    final loc = AppLocalizations.of(context)!;
-    return AppBar(
-      title: Text(loc.couponRegisterTitle),
-      leading: TextButton(
-        onPressed: () => Navigator.of(context).pop(),
-        style: TextButton.styleFrom(
-          textStyle: const TextStyle(fontSize: 16),
-          padding: EdgeInsets.zero,
-          minimumSize: const Size(50, 30),
-          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        ),
-        child: Text(loc.cancel),
-      ),
-      actions: [
-        TextButton(
+    PreferredSizeWidget buildAppBar() {
+      return AppBar(
+        title: Text(loc.couponRegisterTitle),
+        leading: TextButton(
           onPressed: () {
-            if (_formKey.currentState!.validate()) {
-              Navigator.of(context).pop();
-            }
+            notifier.reset();
+            Navigator.of(context).pop();
           },
           style: TextButton.styleFrom(
             textStyle: const TextStyle(fontSize: 16),
@@ -94,157 +73,167 @@ class _CouponRegisterScreenState extends State<CouponRegisterScreen> {
             minimumSize: const Size(50, 30),
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
-          child: Text(loc.save),
+          child: Text(loc.cancel),
         ),
-      ],
-      centerTitle: true,
-    );
-  }
-
-  Widget _buildImagePicker() {
-    return GestureDetector(
-      onTap: _pickImage,
-      child: SizedBox(
-        width: 200,
-        height: 200,
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey, width: 2),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Stack(
-            children: [
-              _imageFile != null
-                  ? ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Image.file(
-                      _imageFile!,
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      height: double.infinity,
-                    ),
-                  )
-                  : Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                    alignment: Alignment.center,
-                    child: Icon(
-                      Icons.image_outlined,
-                      color: Colors.grey,
-                      size: 200,
-                    ),
-                  ),
-              Positioned(
-                top: 8,
-                right: 8,
-                child:
-                    _imageFile != null
-                        ? GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _imageFile = null;
-                            });
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.black45,
-                              shape: BoxShape.circle,
-                            ),
-                            padding: const EdgeInsets.all(6),
-                            child: const Icon(
-                              Icons.close,
-                              color: Colors.white,
-                              size: 20,
-                            ),
-                          ),
-                        )
-                        : SizedBox.shrink(),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFormFields() {
-    final loc = AppLocalizations.of(context)!;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextFormField(
-            controller: _nameController,
-            decoration: InputDecoration(labelText: loc.couponNameLabel),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return loc.couponNameHint;
+        actions: [
+          TextButton(
+            onPressed: () {
+              if (!_formKey.currentState!.validate()) {
+                return;
               }
-              return null;
+              // 저장 로직 작성
+              notifier.reset();
+              Navigator.of(context).pop();
             },
-          ),
-          const SizedBox(height: 16),
-          GestureDetector(
-            onTap: _pickDate,
-            child: InputDecorator(
-              decoration: InputDecoration(
-                labelText: loc.validDateLabel,
-                border: OutlineInputBorder(),
-              ),
-              child: Text(
-                _selectedDate != null
-                    ? _selectedDate.toString().split(' ')[0]
-                    : loc.validDateHint,
-              ),
+            style: TextButton.styleFrom(
+              textStyle: const TextStyle(fontSize: 16),
+              padding: EdgeInsets.zero,
+              minimumSize: const Size(50, 30),
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
-          ),
-          const SizedBox(height: 16),
-          TextFormField(
-            controller: _codeController,
-            decoration: InputDecoration(labelText: loc.couponCodeLabel),
-          ),
-          const SizedBox(height: 16),
-          TextFormField(
-            controller: _memoController,
-            decoration: InputDecoration(labelText: loc.memoLabel),
-            maxLines: 2,
-          ),
-          const SizedBox(height: 16),
-          DropdownButtonFormField<String>(
-            value: _selectedFolder,
-            items:
-                ['카페', '편의점', '영화'].map((folder) {
-                  return DropdownMenuItem(value: folder, child: Text(folder));
-                }).toList(),
-            onChanged: (value) => setState(() => _selectedFolder = value),
-            decoration: InputDecoration(labelText: loc.folderLabel),
-            validator: (value) => value == null ? loc.folderHint : null,
-          ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(loc.alarmLabel),
-              Switch(
-                value: _enableAlarm,
-                onChanged: (value) {
-                  setState(() {
-                    _enableAlarm = value;
-                  });
-                },
-              ),
-            ],
+            child: Text(loc.save),
           ),
         ],
-      ),
-    );
-  }
+        centerTitle: true,
+      );
+    }
 
-  @override
-  Widget build(BuildContext context) {
+    Widget buildImagePicker() {
+      return GestureDetector(
+        onTap: pickImage,
+        child: SizedBox(
+          width: 200,
+          height: 200,
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey, width: 2),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Stack(
+              children: [
+                state.imageFile != null
+                    ? ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.file(
+                        state.imageFile!,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: double.infinity,
+                      ),
+                    )
+                    : Container(
+                      width: double.infinity,
+                      height: double.infinity,
+                      alignment: Alignment.center,
+                      child: Icon(
+                        Icons.image_outlined,
+                        color: Colors.grey,
+                        size: 200,
+                      ),
+                    ),
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child:
+                      state.imageFile != null
+                          ? GestureDetector(
+                            onTap: () => notifier.setImage(null),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.black45,
+                                shape: BoxShape.circle,
+                              ),
+                              padding: const EdgeInsets.all(6),
+                              child: const Icon(
+                                Icons.close,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            ),
+                          )
+                          : const SizedBox.shrink(),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    Widget buildFormFields() {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextFormField(
+              initialValue: state.name,
+              decoration: InputDecoration(labelText: loc.couponNameLabel),
+              onChanged: notifier.setName,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return loc.couponNameHint;
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 16),
+            GestureDetector(
+              onTap: pickDate,
+              child: InputDecorator(
+                decoration: InputDecoration(
+                  labelText: loc.validDateLabel,
+                  border: const OutlineInputBorder(),
+                ),
+                child: Text(
+                  state.validDate != null
+                      ? state.validDate.toString().split(' ')[0]
+                      : loc.validDateHint,
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextFormField(
+              initialValue: state.code,
+              decoration: InputDecoration(labelText: loc.couponCodeLabel),
+              onChanged: notifier.setCode,
+            ),
+            const SizedBox(height: 16),
+            TextFormField(
+              initialValue: state.memo,
+              decoration: InputDecoration(labelText: loc.memoLabel),
+              maxLines: 2,
+              onChanged: notifier.setMemo,
+            ),
+            const SizedBox(height: 16),
+            DropdownButtonFormField<String>(
+              value: state.folder,
+              items:
+                  ['카페', '편의점', '영화'].map((folder) {
+                    return DropdownMenuItem(value: folder, child: Text(folder));
+                  }).toList(),
+              onChanged: notifier.setFolder,
+              decoration: InputDecoration(labelText: loc.folderLabel),
+              validator: (value) => value == null ? loc.folderHint : null,
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(loc.alarmLabel),
+                Switch(
+                  value: state.enableAlarm,
+                  onChanged: notifier.setEnableAlarm,
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    }
+
     return Scaffold(
-      appBar: _buildAppBar(),
+      appBar: buildAppBar(),
       body: SafeArea(
         child: Column(
           children: [
@@ -257,9 +246,9 @@ class _CouponRegisterScreenState extends State<CouponRegisterScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const SizedBox(height: 16),
-                        _buildImagePicker(),
+                        buildImagePicker(),
                         const SizedBox(height: 16),
-                        _buildFormFields(),
+                        buildFormFields(),
                         const SizedBox(height: 32),
                       ],
                     ),
