@@ -223,6 +223,7 @@ class _CouponRegisterScreenState extends State<CouponRegisterScreen> {
           ),
           const SizedBox(height: 16),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(loc.alarmLabel),
               Switch(
