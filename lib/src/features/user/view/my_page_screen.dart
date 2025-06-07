@@ -8,7 +8,7 @@ class MyPageScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: Text(loc.myPageTitle)),
+      appBar: AppBar(title: Text(loc.myPageTitle), centerTitle: true),
       body: Center(child: Text(loc.myPageTitle)),
     );
   }

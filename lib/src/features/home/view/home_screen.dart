@@ -9,7 +9,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: Text(loc.homeTitle)),
+      appBar: AppBar(title: Text(loc.homeTitle), centerTitle: true),
       body: const Center(child: Text('home')),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

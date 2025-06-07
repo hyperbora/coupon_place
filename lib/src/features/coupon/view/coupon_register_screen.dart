@@ -94,6 +94,7 @@ class _CouponRegisterScreenState extends State<CouponRegisterScreen> {
           child: const Text('저장'),
         ),
       ],
+      centerTitle: true,
     );
   }
 

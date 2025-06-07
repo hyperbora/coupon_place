@@ -8,7 +8,7 @@ class MyCouponsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: Text(loc.myCouponsTitle)),
+      appBar: AppBar(title: Text(loc.myCouponsTitle), centerTitle: true),
       body: Center(child: Text(loc.myCouponsTitle)),
     );
   }
