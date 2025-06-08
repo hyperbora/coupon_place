@@ -19,5 +19,7 @@
   "imageSelect": "이미지 선택",
   "camera": "카메라",
   "library": "라이브러리",
-  "registerCouponPlaceholder": "쿠폰을 등록하세요."
+  "registerCouponPlaceholder": "쿠폰을 등록하세요.",
+  "folderAdd": "폴더 등록",
+  "folderEdit": "폴더 편집"
 }

@@ -7,6 +7,7 @@
   "couponRegisterTooltip": "Add Coupon",
   "cancel": "Cancel",
   "save": "Save",
+  "edit": "Edit",
   "couponNameLabel": "Coupon Name",
   "couponNameHint": "Enter coupon name",
   "validDateLabel": "Valid Date",
@@ -19,5 +20,7 @@
   "imageSelect": "Select Image",
   "camera": "Camera",
   "library": "Library",
-  "registerCouponPlaceholder": "Register your coupon."
+  "registerCouponPlaceholder": "Register your coupon.",
+  "folderAdd": "Add Folder",
+  "folderEdit": "Edit Folder"
 }
