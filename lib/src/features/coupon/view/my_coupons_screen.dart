@@ -2,6 +2,11 @@ import 'package:coupon_place/src/features/coupon/view/coupon_register_screen.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+class FolderMenuAction {
+  static const add = 'add';
+  static const edit = 'edit';
+}
+
 class MyCouponsScreen extends StatelessWidget {
   const MyCouponsScreen({super.key});
 
@@ -16,21 +21,18 @@ class MyCouponsScreen extends StatelessWidget {
           PopupMenuButton<String>(
             icon: const Icon(Icons.folder_open),
             onSelected: (value) {
-              if (value == 'add') {
-                // 폴더 등록 모달 띄우기
-              } else if (value == 'edit') {
-                // 폴더 편집 모달 띄우기
-              }
+              if (value == FolderMenuAction.add) {
+              } else if (value == FolderMenuAction.edit) {}
             },
             itemBuilder:
                 (context) => [
                   PopupMenuItem(
-                    value: 'add',
-                    child: Text(loc.folderAdd), // "폴더 등록" (다국어)
+                    value: FolderMenuAction.add,
+                    child: Text(loc.folderAdd),
                   ),
                   PopupMenuItem(
-                    value: 'edit',
-                    child: Text(loc.folderEdit), // "폴더 편집" (다국어)
+                    value: FolderMenuAction.edit,
+                    child: Text(loc.folderEdit),
                   ),
                 ],
           ),
