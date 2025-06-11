@@ -1,0 +1,196 @@
+import 'package:flutter/material.dart';
+
+class FolderFormScreen extends StatefulWidget {
+  final String? initialName;
+  final Color? initialColor;
+  final IconData? initialIcon;
+  final void Function(String name, Color color, IconData icon) onSubmit;
+
+  const FolderFormScreen({
+    super.key,
+    this.initialName,
+    this.initialColor,
+    this.initialIcon,
+    required this.onSubmit,
+  });
+
+  @override
+  State<FolderFormScreen> createState() => _FolderFormScreenState();
+}
+
+class _FolderFormScreenState extends State<FolderFormScreen> {
+  late TextEditingController _controller;
+  late Color _selectedColor;
+  late IconData _selectedIcon;
+
+  final List<Color> _colorOptions = List.generate(
+    15,
+    (i) => Colors.primaries[i % Colors.primaries.length],
+  );
+  final List<IconData> _iconOptions = [
+    Icons.list,
+    Icons.star,
+    Icons.coffee,
+    Icons.shopping_cart,
+    Icons.movie,
+    Icons.fastfood,
+    Icons.card_giftcard,
+    Icons.local_offer,
+    Icons.pets,
+    Icons.sports_esports,
+    Icons.bookmark,
+    Icons.favorite,
+    Icons.directions_car,
+    Icons.home,
+    Icons.school,
+    Icons.flight,
+    Icons.music_note,
+    Icons.restaurant,
+    Icons.local_cafe,
+    Icons.local_florist,
+    Icons.local_mall,
+    Icons.local_play,
+    Icons.local_pizza,
+    Icons.local_taxi,
+    Icons.beach_access,
+    Icons.cake,
+    Icons.child_friendly,
+    Icons.directions_bike,
+    Icons.directions_bus,
+    Icons.directions_run,
+    Icons.directions_walk,
+    Icons.emoji_emotions,
+    Icons.emoji_food_beverage,
+    Icons.emoji_nature,
+    Icons.emoji_objects,
+    Icons.emoji_transportation,
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.initialName ?? '');
+    _selectedColor = widget.initialColor ?? Colors.deepPurple;
+    _selectedIcon = widget.initialIcon ?? Icons.list;
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _submit() {
+    if (_controller.text.trim().isEmpty) return;
+    widget.onSubmit(_controller.text.trim(), _selectedColor, _selectedIcon);
+    Navigator.pop(context);
+  }
+
+  Widget _previewAndFolderName(BuildContext context) {
+    return Column(
+      children: [
+        _preview(context),
+        const SizedBox(height: 10),
+        _folderName(context),
+      ],
+    );
+  }
+
+  Widget _preview(BuildContext context) {
+    return CircleAvatar(
+      radius: 40,
+      backgroundColor: _selectedColor,
+      child: Icon(_selectedIcon, size: 80, color: Colors.white),
+    );
+  }
+
+  Widget _folderName(BuildContext context) {
+    return TextField(
+      controller: _controller,
+      decoration: InputDecoration(
+        hintText: '폴더 이름',
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+    );
+  }
+
+  Widget _colorChooser(BuildContext context) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children:
+          _colorOptions.map((color) {
+            return GestureDetector(
+              onTap: () => setState(() => _selectedColor = color),
+              child: CircleAvatar(
+                radius: 14,
+                backgroundColor: color,
+                child:
+                    _selectedColor == color
+                        ? const Icon(Icons.check, color: Colors.white, size: 18)
+                        : null,
+              ),
+            );
+          }).toList(),
+    );
+  }
+
+  Widget _iconChooser(BuildContext context) {
+    return SizedBox(
+      height: 200,
+      child: GridView.count(
+        crossAxisCount: 6,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        children:
+            _iconOptions.map((icon) {
+              return IconButton(
+                onPressed: () => setState(() => _selectedIcon = icon),
+                icon: Icon(
+                  icon,
+                  color: _selectedIcon == icon ? _selectedColor : Colors.grey,
+                ),
+              );
+            }).toList(),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey[100],
+      appBar: AppBar(
+        title: Text(widget.initialName == null ? "폴더 등록" : "폴더 수정"),
+        centerTitle: true,
+        leading: TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('취소'),
+        ),
+        actions: [TextButton(onPressed: _submit, child: const Text('완료'))],
+        backgroundColor: Colors.grey[100],
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+          top: 16,
+          left: 16,
+          right: 16,
+        ),
+        child: Form(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _previewAndFolderName(context),
+              const SizedBox(height: 16),
+              _colorChooser(context),
+              const SizedBox(height: 16),
+              _iconChooser(context),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

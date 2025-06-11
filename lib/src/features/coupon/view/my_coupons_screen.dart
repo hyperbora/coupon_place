@@ -1,4 +1,5 @@
 import 'package:coupon_place/src/features/coupon/view/coupon_register_screen.dart';
+import 'package:coupon_place/src/features/coupon/view/folder_form_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -13,6 +14,7 @@ class MyCouponsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(loc.myCouponsTitle),
@@ -22,6 +24,24 @@ class MyCouponsScreen extends StatelessWidget {
             icon: const Icon(Icons.folder_open),
             onSelected: (value) {
               if (value == FolderMenuAction.add) {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(24),
+                    ),
+                  ),
+                  builder:
+                      (context) => FractionallySizedBox(
+                        heightFactor: 0.8,
+                        child: Center(
+                          child: FolderFormScreen(
+                            onSubmit: (name, color, icon) {},
+                          ),
+                        ),
+                      ),
+                );
               } else if (value == FolderMenuAction.edit) {}
             },
             itemBuilder:
