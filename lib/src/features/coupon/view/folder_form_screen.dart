@@ -1,3 +1,4 @@
+import 'package:coupon_place/src/common/widgets/box_container.dart';
 import 'package:flutter/material.dart';
 
 class FolderFormScreen extends StatefulWidget {
@@ -87,12 +88,14 @@ class _FolderFormScreenState extends State<FolderFormScreen> {
   }
 
   Widget _previewAndFolderName(BuildContext context) {
-    return Column(
-      children: [
-        _preview(context),
-        const SizedBox(height: 10),
-        _folderName(context),
-      ],
+    return BoxContainer(
+      child: Column(
+        children: [
+          _preview(context),
+          const SizedBox(height: 10),
+          _folderName(context),
+        ],
+      ),
     );
   }
 
@@ -100,7 +103,7 @@ class _FolderFormScreenState extends State<FolderFormScreen> {
     return CircleAvatar(
       radius: 40,
       backgroundColor: _selectedColor,
-      child: Icon(_selectedIcon, size: 80, color: Colors.white),
+      child: Icon(_selectedIcon, size: 60, color: Colors.white),
     );
   }
 
@@ -115,43 +118,65 @@ class _FolderFormScreenState extends State<FolderFormScreen> {
   }
 
   Widget _colorChooser(BuildContext context) {
-    return Wrap(
-      spacing: 8,
-      runSpacing: 8,
-      children:
-          _colorOptions.map((color) {
-            return GestureDetector(
-              onTap: () => setState(() => _selectedColor = color),
-              child: CircleAvatar(
-                radius: 14,
-                backgroundColor: color,
-                child:
-                    _selectedColor == color
-                        ? const Icon(Icons.check, color: Colors.white, size: 18)
-                        : null,
-              ),
-            );
-          }).toList(),
+    return BoxContainer(
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          // 한 줄에 몇 개씩 배치할지 결정 (예: 6개)
+          const int itemsPerRow = 6;
+          final double spacing = 8;
+          final double totalSpacing = spacing * (itemsPerRow - 1);
+          final double itemWidth =
+              (constraints.maxWidth - totalSpacing) / itemsPerRow;
+
+          return Wrap(
+            spacing: spacing,
+            runSpacing: spacing,
+            children:
+                _colorOptions.map((color) {
+                  return SizedBox(
+                    width: itemWidth,
+                    child: GestureDetector(
+                      onTap: () => setState(() => _selectedColor = color),
+                      child: CircleAvatar(
+                        radius: itemWidth / 2,
+                        backgroundColor: color,
+                        child:
+                            _selectedColor == color
+                                ? const Icon(
+                                  Icons.check,
+                                  color: Colors.white,
+                                  size: 24,
+                                )
+                                : null,
+                      ),
+                    ),
+                  );
+                }).toList(),
+          );
+        },
+      ),
     );
   }
 
   Widget _iconChooser(BuildContext context) {
-    return SizedBox(
-      height: 200,
-      child: GridView.count(
-        crossAxisCount: 6,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        children:
-            _iconOptions.map((icon) {
-              return IconButton(
-                onPressed: () => setState(() => _selectedIcon = icon),
-                icon: Icon(
-                  icon,
-                  color: _selectedIcon == icon ? _selectedColor : Colors.grey,
-                ),
-              );
-            }).toList(),
+    return BoxContainer(
+      child: SizedBox(
+        height: 200,
+        child: GridView.count(
+          crossAxisCount: 6,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          children:
+              _iconOptions.map((icon) {
+                return IconButton(
+                  onPressed: () => setState(() => _selectedIcon = icon),
+                  icon: Icon(
+                    icon,
+                    color: _selectedIcon == icon ? _selectedColor : Colors.grey,
+                  ),
+                );
+              }).toList(),
+        ),
       ),
     );
   }
