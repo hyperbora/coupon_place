@@ -1,4 +1,5 @@
 import 'package:coupon_place/src/common/widgets/box_container.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class FolderFormScreen extends StatefulWidget {
@@ -162,20 +163,23 @@ class _FolderFormScreenState extends State<FolderFormScreen> {
     return BoxContainer(
       child: SizedBox(
         height: 200,
-        child: GridView.count(
-          crossAxisCount: 6,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          children:
-              _iconOptions.map((icon) {
-                return IconButton(
-                  onPressed: () => setState(() => _selectedIcon = icon),
-                  icon: Icon(
-                    icon,
-                    color: _selectedIcon == icon ? _selectedColor : Colors.grey,
-                  ),
-                );
-              }).toList(),
+        child: SingleChildScrollView(
+          child: GridView.count(
+            crossAxisCount: 6,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children:
+                _iconOptions.map((icon) {
+                  return IconButton(
+                    onPressed: () => setState(() => _selectedIcon = icon),
+                    icon: Icon(
+                      icon,
+                      color:
+                          _selectedIcon == icon ? _selectedColor : Colors.grey,
+                    ),
+                  );
+                }).toList(),
+          ),
         ),
       ),
     );
@@ -183,6 +187,7 @@ class _FolderFormScreenState extends State<FolderFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
@@ -190,9 +195,26 @@ class _FolderFormScreenState extends State<FolderFormScreen> {
         centerTitle: true,
         leading: TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('취소'),
+          style: TextButton.styleFrom(
+            textStyle: const TextStyle(fontSize: 16),
+            padding: EdgeInsets.zero,
+            minimumSize: const Size(50, 30),
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+          child: Text(loc.cancel),
         ),
-        actions: [TextButton(onPressed: _submit, child: const Text('완료'))],
+        actions: [
+          TextButton(
+            onPressed: _submit,
+            style: TextButton.styleFrom(
+              textStyle: const TextStyle(fontSize: 16),
+              padding: EdgeInsets.zero,
+              minimumSize: const Size(50, 30),
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+            child: Text(loc.save),
+          ),
+        ],
         backgroundColor: Colors.grey[100],
       ),
       body: SingleChildScrollView(

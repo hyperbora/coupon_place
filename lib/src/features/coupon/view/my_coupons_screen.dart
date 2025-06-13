@@ -34,7 +34,7 @@ class MyCouponsScreen extends StatelessWidget {
                   ),
                   builder:
                       (context) => FractionallySizedBox(
-                        heightFactor: 0.8,
+                        heightFactor: 0.9,
                         child: Center(
                           child: FolderFormScreen(
                             onSubmit: (name, color, icon) {},
