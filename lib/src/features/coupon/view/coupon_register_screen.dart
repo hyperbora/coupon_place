@@ -177,7 +177,7 @@ class CouponRegisterScreen extends ConsumerWidget {
                 return null;
               },
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 32),
             GestureDetector(
               onTap: pickDate,
               child: InputDecorator(
