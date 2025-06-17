@@ -22,5 +22,6 @@
   "library": "Library",
   "registerCouponPlaceholder": "Register your coupon.",
   "folderAdd": "Add Folder",
-  "folderEdit": "Edit Folder"
+  "folderEdit": "Edit Folder",
+  "folderNameHint": "Folder Name"
 }

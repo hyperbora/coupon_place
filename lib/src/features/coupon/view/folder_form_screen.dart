@@ -109,10 +109,11 @@ class _FolderFormScreenState extends State<FolderFormScreen> {
   }
 
   Widget _folderName(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return TextField(
       controller: _controller,
       decoration: InputDecoration(
-        hintText: '폴더 이름',
+        hintText: loc.folderNameHint,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
@@ -122,7 +123,6 @@ class _FolderFormScreenState extends State<FolderFormScreen> {
     return BoxContainer(
       child: LayoutBuilder(
         builder: (context, constraints) {
-          // 한 줄에 몇 개씩 배치할지 결정 (예: 6개)
           const int itemsPerRow = 6;
           final double spacing = 8;
           final double totalSpacing = spacing * (itemsPerRow - 1);
@@ -191,7 +191,9 @@ class _FolderFormScreenState extends State<FolderFormScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: Text(widget.initialName == null ? "폴더 등록" : "폴더 수정"),
+        title: Text(
+          widget.initialName == null ? loc.folderAdd : loc.folderEdit,
+        ),
         centerTitle: true,
         leading: TextButton(
           onPressed: () => Navigator.of(context).pop(),

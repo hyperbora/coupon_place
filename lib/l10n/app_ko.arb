@@ -7,6 +7,7 @@
   "couponRegisterTooltip": "쿠폰 등록",
   "cancel": "취소",
   "save": "저장",
+  "edit": "편집",
   "couponNameLabel": "쿠폰 이름",
   "couponNameHint": "쿠폰 이름을 입력하세요",
   "validDateLabel": "유효기간",
@@ -21,5 +22,6 @@
   "library": "라이브러리",
   "registerCouponPlaceholder": "쿠폰을 등록하세요.",
   "folderAdd": "폴더 등록",
-  "folderEdit": "폴더 편집"
+  "folderEdit": "폴더 편집",
+  "folderNameHint": "폴더 이름"
 }
