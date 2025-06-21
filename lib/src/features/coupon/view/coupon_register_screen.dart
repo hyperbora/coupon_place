@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:coupon_place/src/features/coupon/provider/coupon_register_provider.dart';
+import 'package:coupon_place/src/features/coupon/provider/folder_provider.dart';
 
 class CouponRegisterScreen extends ConsumerWidget {
   const CouponRegisterScreen({super.key});
@@ -15,6 +16,8 @@ class CouponRegisterScreen extends ConsumerWidget {
     final loc = AppLocalizations.of(context)!;
     final state = ref.watch(couponRegisterProvider);
     final notifier = ref.read(couponRegisterProvider.notifier);
+
+    final folders = ref.watch(folderProvider).folders;
 
     Future<void> pickImage() async {
       final source = await showDialog<ImageSource>(
@@ -209,9 +212,28 @@ class CouponRegisterScreen extends ConsumerWidget {
             DropdownButtonFormField<String>(
               value: state.folder,
               items:
-                  ['카페', '편의점', '영화'].map((folder) {
-                    return DropdownMenuItem(value: folder, child: Text(folder));
-                  }).toList(),
+                  folders
+                      .map(
+                        (folder) => DropdownMenuItem(
+                          value: folder.id,
+                          child: Row(
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: folder.color,
+                                radius: 10,
+                                child: Icon(
+                                  folder.icon,
+                                  color: Colors.white,
+                                  size: 14,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Text(folder.name),
+                            ],
+                          ),
+                        ),
+                      )
+                      .toList(),
               onChanged: notifier.setFolder,
               decoration: InputDecoration(labelText: loc.folderLabel),
               validator: (value) => value == null ? loc.folderHint : null,
