@@ -24,5 +24,6 @@
   "folderAdd": "Add Folder",
   "folderEdit": "Edit Folder",
   "folderNameHint": "Folder Name",
-  "folderNameEmptyError": "Please enter a folder name"
+  "folderNameEmptyError": "Please enter a folder name",
+  "folderCreateFirst": "Please create a folder first."
 }

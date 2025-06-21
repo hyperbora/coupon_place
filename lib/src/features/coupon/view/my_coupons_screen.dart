@@ -84,24 +84,42 @@ class MyCouponsScreen extends ConsumerWidget {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-            ),
-            builder:
-                (context) => FractionallySizedBox(
-                  heightFactor: 0.9,
-                  child: const CouponRegisterScreen(),
-                ),
-          );
+      floatingActionButton: GestureDetector(
+        onTap: () {
+          if (folders.isEmpty) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(loc.folderCreateFirst)));
+          }
         },
-        tooltip: loc.couponRegisterTooltip,
-        shape: const CircleBorder(),
-        child: const Icon(Icons.add_card),
+        child: AbsorbPointer(
+          absorbing: folders.isEmpty,
+          child: FloatingActionButton(
+            onPressed:
+                folders.isEmpty
+                    ? null
+                    : () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(24),
+                          ),
+                        ),
+                        builder:
+                            (context) => FractionallySizedBox(
+                              heightFactor: 0.9,
+                              child: const CouponRegisterScreen(),
+                            ),
+                      );
+                    },
+            tooltip: loc.couponRegisterTooltip,
+            shape: const CircleBorder(),
+            backgroundColor: folders.isEmpty ? Colors.grey : null,
+            child: const Icon(Icons.add_card),
+          ),
+        ),
       ),
     );
   }

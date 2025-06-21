@@ -24,5 +24,6 @@
   "folderAdd": "폴더 등록",
   "folderEdit": "폴더 편집",
   "folderNameHint": "폴더 이름",
-  "folderNameEmptyError": "폴더 이름을 입력하세요"
+  "folderNameEmptyError": "폴더 이름을 입력하세요",
+  "folderCreateFirst": "폴더를 먼저 생성해주세요."
 }
