@@ -24,6 +24,7 @@ class _FolderFormScreenState extends State<FolderFormScreen> {
   late TextEditingController _controller;
   late Color _selectedColor;
   late IconData _selectedIcon;
+  final _formKey = GlobalKey<FormState>();
 
   final List<Color> _colorOptions = List.generate(
     15,
@@ -83,9 +84,10 @@ class _FolderFormScreenState extends State<FolderFormScreen> {
   }
 
   void _submit() {
-    if (_controller.text.trim().isEmpty) return;
-    widget.onSubmit(_controller.text.trim(), _selectedColor, _selectedIcon);
-    Navigator.pop(context);
+    if (_formKey.currentState!.validate()) {
+      widget.onSubmit(_controller.text.trim(), _selectedColor, _selectedIcon);
+      Navigator.pop(context);
+    }
   }
 
   Widget _previewAndFolderName(BuildContext context) {
@@ -110,7 +112,13 @@ class _FolderFormScreenState extends State<FolderFormScreen> {
 
   Widget _folderName(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
-    return TextField(
+    return TextFormField(
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return loc.folderNameEmptyError;
+        }
+        return null;
+      },
       controller: _controller,
       decoration: InputDecoration(
         hintText: loc.folderNameHint,
@@ -227,6 +235,7 @@ class _FolderFormScreenState extends State<FolderFormScreen> {
           right: 16,
         ),
         child: Form(
+          key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,

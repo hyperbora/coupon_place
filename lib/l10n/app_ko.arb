@@ -23,5 +23,6 @@
   "registerCouponPlaceholder": "쿠폰을 등록하세요.",
   "folderAdd": "폴더 등록",
   "folderEdit": "폴더 편집",
-  "folderNameHint": "폴더 이름"
+  "folderNameHint": "폴더 이름",
+  "folderNameEmptyError": "폴더 이름을 입력하세요"
 }

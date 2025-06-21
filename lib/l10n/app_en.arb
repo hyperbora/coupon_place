@@ -23,5 +23,6 @@
   "registerCouponPlaceholder": "Register your coupon.",
   "folderAdd": "Add Folder",
   "folderEdit": "Edit Folder",
-  "folderNameHint": "Folder Name"
+  "folderNameHint": "Folder Name",
+  "folderNameEmptyError": "Please enter a folder name"
 }
