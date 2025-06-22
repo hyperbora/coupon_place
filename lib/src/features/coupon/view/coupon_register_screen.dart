@@ -1,3 +1,5 @@
+import 'package:coupon_place/src/features/coupon/model/coupon.dart';
+import 'package:coupon_place/src/features/coupon/provider/coupon_list_provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -84,7 +86,16 @@ class CouponRegisterScreen extends ConsumerWidget {
               if (!_formKey.currentState!.validate()) {
                 return;
               }
-              // 저장 로직 작성
+              final coupon = Coupon.create(
+                name: state.name,
+                code: state.code,
+                memo: state.memo,
+                validDate: state.validDate,
+                imageFile: state.imageFile,
+                folderId: state.folder!,
+                enableAlarm: state.enableAlarm,
+              );
+              ref.read(couponListProvider.notifier).addCoupon(coupon);
               notifier.reset();
               Navigator.of(context).pop();
             },
