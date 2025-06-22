@@ -1,9 +1,11 @@
+import 'package:coupon_place/src/core/router/app_routes.dart';
 import 'package:coupon_place/src/features/coupon/provider/folder_provider.dart';
 import 'package:coupon_place/src/features/coupon/view/coupon_register_screen.dart';
 import 'package:coupon_place/src/features/coupon/view/folder_form_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class FolderMenuAction {
   static const add = 'add';
@@ -80,7 +82,12 @@ class MyCouponsScreen extends ConsumerWidget {
               icon: const Icon(Icons.delete),
               onPressed: () => folderNotifier.removeFolder(folder.id),
             ),
-            // onTap: () => ... (폴더 상세/수정 등)
+            onTap: () {
+              context.push(
+                AppRoutes.folderDetail.replaceFirst(':folderId', folder.id),
+                extra: folder.name,
+              );
+            },
           );
         },
       ),
