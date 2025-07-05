@@ -22,4 +22,8 @@ class FileHelper {
     final appDir = await getApplicationDocumentsDirectory();
     return File(filePath).absolute.path.startsWith(appDir.path);
   }
+
+  static Future<bool> isNotInAppDir(String filePath) async {
+    return isInAppDir(filePath).then((value) => !value);
+  }
 }

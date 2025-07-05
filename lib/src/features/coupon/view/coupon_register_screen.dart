@@ -8,9 +8,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:coupon_place/src/features/coupon/provider/coupon_register_provider.dart';
 import 'package:coupon_place/src/features/coupon/provider/folder_provider.dart';
-import 'package:intl/intl.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:uuid/uuid.dart';
 
 class CouponRegisterScreen extends ConsumerWidget {
   const CouponRegisterScreen({super.key});
@@ -93,7 +90,7 @@ class CouponRegisterScreen extends ConsumerWidget {
 
               String? savedImagePath;
               if (state.imageFilePath != null &&
-                  !(await FileHelper.isInAppDir(state.imageFilePath!))) {
+                  await FileHelper.isNotInAppDir(state.imageFilePath!)) {
                 savedImagePath = await FileHelper.saveImageToAppDir(
                   state.imageFilePath!,
                 );
@@ -110,7 +107,10 @@ class CouponRegisterScreen extends ConsumerWidget {
               );
               ref.read(couponListProvider.notifier).addCoupon(coupon);
               notifier.reset();
-              Navigator.of(context).pop();
+
+              if (context.mounted) {
+                Navigator.of(context).pop();
+              }
             },
             style: TextButton.styleFrom(
               textStyle: const TextStyle(fontSize: 16),
