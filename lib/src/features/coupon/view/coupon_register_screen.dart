@@ -1,3 +1,4 @@
+import 'package:coupon_place/src/common/util/file_helper.dart';
 import 'package:coupon_place/src/features/coupon/model/coupon.dart';
 import 'package:coupon_place/src/features/coupon/provider/coupon_list_provider.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,6 +8,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:coupon_place/src/features/coupon/provider/coupon_register_provider.dart';
 import 'package:coupon_place/src/features/coupon/provider/folder_provider.dart';
+import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:uuid/uuid.dart';
 
 class CouponRegisterScreen extends ConsumerWidget {
   const CouponRegisterScreen({super.key});
@@ -48,7 +52,7 @@ class CouponRegisterScreen extends ConsumerWidget {
       final pickedFile = await picker.pickImage(source: source);
 
       if (pickedFile != null) {
-        notifier.setImage(File(pickedFile.path));
+        notifier.setImagePath(pickedFile.path);
       }
     }
 
@@ -82,16 +86,25 @@ class CouponRegisterScreen extends ConsumerWidget {
         ),
         actions: [
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               if (!_formKey.currentState!.validate()) {
                 return;
               }
+
+              String? savedImagePath;
+              if (state.imageFilePath != null &&
+                  !(await FileHelper.isInAppDir(state.imageFilePath!))) {
+                savedImagePath = await FileHelper.saveImageToAppDir(
+                  state.imageFilePath!,
+                );
+              }
+
               final coupon = Coupon.create(
                 name: state.name,
                 code: state.code,
                 memo: state.memo,
                 validDate: state.validDate,
-                imageFile: state.imageFile,
+                imagePath: savedImagePath,
                 folderId: state.folder!,
                 enableAlarm: state.enableAlarm,
               );
@@ -125,11 +138,11 @@ class CouponRegisterScreen extends ConsumerWidget {
             ),
             child: Stack(
               children: [
-                state.imageFile != null
+                state.imageFilePath != null
                     ? ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: Image.file(
-                        state.imageFile!,
+                        File(state.imageFilePath!),
                         fit: BoxFit.cover,
                         width: double.infinity,
                         height: double.infinity,
@@ -149,9 +162,9 @@ class CouponRegisterScreen extends ConsumerWidget {
                   top: 8,
                   right: 8,
                   child:
-                      state.imageFile != null
+                      state.imageFilePath != null
                           ? GestureDetector(
-                            onTap: () => notifier.setImage(null),
+                            onTap: () => notifier.setImagePath(null),
                             child: Container(
                               decoration: BoxDecoration(
                                 color: Colors.black45,

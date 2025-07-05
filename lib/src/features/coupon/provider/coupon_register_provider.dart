@@ -1,8 +1,7 @@
-import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CouponRegisterState {
-  final File? imageFile;
+  final String? imageFilePath;
   final String name;
   final String code;
   final String memo;
@@ -11,7 +10,7 @@ class CouponRegisterState {
   final DateTime? validDate;
 
   CouponRegisterState({
-    this.imageFile,
+    this.imageFilePath,
     this.name = '',
     this.code = '',
     this.memo = '',
@@ -21,7 +20,7 @@ class CouponRegisterState {
   });
 
   CouponRegisterState copyWith({
-    File? imageFile,
+    String? imageFilePath,
     String? name,
     String? code,
     String? memo,
@@ -30,7 +29,7 @@ class CouponRegisterState {
     DateTime? validDate,
   }) {
     return CouponRegisterState(
-      imageFile: imageFile ?? this.imageFile,
+      imageFilePath: imageFilePath ?? this.imageFilePath,
       name: name ?? this.name,
       code: code ?? this.code,
       memo: memo ?? this.memo,
@@ -44,7 +43,8 @@ class CouponRegisterState {
 class CouponRegisterNotifier extends StateNotifier<CouponRegisterState> {
   CouponRegisterNotifier() : super(CouponRegisterState());
 
-  void setImage(File? file) => state = state.copyWith(imageFile: file);
+  void setImagePath(String? filePath) =>
+      state = state.copyWith(imageFilePath: filePath);
   void setName(String name) => state = state.copyWith(name: name);
   void setCode(String code) => state = state.copyWith(code: code);
   void setMemo(String memo) => state = state.copyWith(memo: memo);

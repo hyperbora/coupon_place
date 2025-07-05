@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:uuid/uuid.dart';
 
 class Coupon {
@@ -7,7 +6,7 @@ class Coupon {
   final String? code;
   final String? memo;
   final DateTime? validDate;
-  final File? imageFile;
+  final String? imagePath;
   final String folderId;
   final bool enableAlarm;
 
@@ -17,7 +16,7 @@ class Coupon {
     this.code,
     this.memo,
     this.validDate,
-    this.imageFile,
+    this.imagePath,
     required this.folderId,
     this.enableAlarm = false,
   });
@@ -27,7 +26,7 @@ class Coupon {
     String? code,
     String? memo,
     DateTime? validDate,
-    File? imageFile,
+    String? imagePath,
     required String folderId,
     bool enableAlarm = false,
   }) {
@@ -37,7 +36,7 @@ class Coupon {
       code: code,
       memo: memo,
       validDate: validDate,
-      imageFile: imageFile,
+      imagePath: imagePath,
       folderId: folderId,
       enableAlarm: enableAlarm,
     );
