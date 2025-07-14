@@ -33,16 +33,18 @@ class MyApp extends StatelessWidget {
     );
 
     return MaterialApp.router(
-      title: 'Flutter Demo',
+      title: 'Coupon Place',
       theme: FlexThemeData.light(
         scheme: FlexScheme.deepPurple,
         useMaterial3: true,
+      ).copyWith(
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: Colors.white,
+          selectedItemColor: Colors.deepPurple,
+          unselectedItemColor: Colors.grey,
+        ),
       ),
-      darkTheme: FlexThemeData.dark(
-        scheme: FlexScheme.deepPurple,
-        useMaterial3: true,
-      ),
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.light,
       routerConfig: router,
       localizationsDelegates: const [
         AppLocalizations.delegate,

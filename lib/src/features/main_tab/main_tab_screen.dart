@@ -42,8 +42,6 @@ class _MainTabScreenState extends State<MainTabScreen> {
             label: loc.myPageTitle,
           ),
         ],
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.grey,
         showUnselectedLabels: true,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
