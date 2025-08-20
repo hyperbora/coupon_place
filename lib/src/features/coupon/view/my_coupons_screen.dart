@@ -27,7 +27,7 @@ class MyCouponsScreen extends ConsumerWidget {
         centerTitle: true,
         actions: [
           PopupMenuButton<String>(
-            icon: const Icon(Icons.folder_open),
+            icon: const Icon(Icons.more_vert_outlined),
             onSelected: (value) {
               if (value == FolderMenuAction.add) {
                 showModalBottomSheet(
