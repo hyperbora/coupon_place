@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 enum FolderMenuAction { add, edit }
 
@@ -70,25 +71,65 @@ class MyCouponsScreen extends ConsumerWidget {
         itemCount: folders.length,
         itemBuilder: (context, index) {
           final folder = folders[index];
-          return ListTile(
-            leading: CircleAvatar(
-              backgroundColor: folder.color,
-              child: Icon(folder.icon, color: Colors.white),
+          return Slidable(
+            key: ValueKey(folder.id),
+            endActionPane: ActionPane(
+              motion: const ScrollMotion(),
+              children: [
+                SlidableAction(
+                  onPressed: (context) {},
+                  backgroundColor: const Color.fromRGBO(33, 150, 243, 1),
+                  foregroundColor: Colors.white,
+                  icon: Icons.edit,
+                  label: 'edit',
+                ),
+                SlidableAction(
+                  onPressed: (context) {},
+                  backgroundColor: const Color.fromRGBO(244, 67, 54, 1),
+                  foregroundColor: Colors.white,
+                  icon: Icons.delete,
+                  label: 'delete',
+                ),
+              ],
             ),
-            title: Text(folder.name),
-            trailing: Visibility(
-              visible: isEditing,
-              child: IconButton(
-                icon: const Icon(Icons.delete),
-                onPressed: () => folderNotifier.removeFolder(folder.id),
-              ),
+            child: Builder(
+              builder: (context) {
+                final slidable = Slidable.of(context);
+                return ValueListenableBuilder<ActionPaneType>(
+                  valueListenable: slidable!.actionPaneType,
+                  builder: (context, actionPaneType, child) {
+                    final isOpen = actionPaneType != ActionPaneType.none;
+                    return IgnorePointer(
+                      ignoring: isOpen,
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: folder.color,
+                          child: Icon(folder.icon, color: Colors.white),
+                        ),
+                        title: Text(folder.name),
+                        trailing: Visibility(
+                          visible: isEditing,
+                          child: IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed:
+                                () => folderNotifier.removeFolder(folder.id),
+                          ),
+                        ),
+                        onTap: () {
+                          context.push(
+                            AppRoutes.folderDetail.replaceFirst(
+                              ':folderId',
+                              folder.id,
+                            ),
+                            extra: folder.name,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                );
+              },
             ),
-            onTap: () {
-              context.push(
-                AppRoutes.folderDetail.replaceFirst(':folderId', folder.id),
-                extra: folder.name,
-              );
-            },
           );
         },
       ),
