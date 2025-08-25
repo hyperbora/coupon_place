@@ -7,10 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class FolderMenuAction {
-  static const add = 'add';
-  static const edit = 'edit';
-}
+enum FolderMenuAction { add, edit }
 
 class MyCouponsScreen extends ConsumerWidget {
   const MyCouponsScreen({super.key});
@@ -19,6 +16,7 @@ class MyCouponsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final loc = AppLocalizations.of(context)!;
     final folders = ref.watch(folderProvider).folders;
+    final isEditing = ref.watch(folderProvider).isEditing;
     final folderNotifier = ref.read(folderProvider.notifier);
 
     return Scaffold(
@@ -26,7 +24,7 @@ class MyCouponsScreen extends ConsumerWidget {
         title: Text(loc.myCouponsTitle),
         centerTitle: true,
         actions: [
-          PopupMenuButton<String>(
+          PopupMenuButton<FolderMenuAction>(
             icon: const Icon(Icons.more_vert_outlined),
             onSelected: (value) {
               if (value == FolderMenuAction.add) {
@@ -51,7 +49,7 @@ class MyCouponsScreen extends ConsumerWidget {
                       ),
                 );
               } else if (value == FolderMenuAction.edit) {
-                // 폴더 편집
+                folderNotifier.toggleEditing();
               }
             },
             itemBuilder:
@@ -78,9 +76,12 @@ class MyCouponsScreen extends ConsumerWidget {
               child: Icon(folder.icon, color: Colors.white),
             ),
             title: Text(folder.name),
-            trailing: IconButton(
-              icon: const Icon(Icons.delete),
-              onPressed: () => folderNotifier.removeFolder(folder.id),
+            trailing: Visibility(
+              visible: isEditing,
+              child: IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: () => folderNotifier.removeFolder(folder.id),
+              ),
             ),
             onTap: () {
               context.push(

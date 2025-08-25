@@ -18,11 +18,15 @@ class Folder {
 
 class FolderState {
   final List<Folder> folders;
+  final bool isEditing;
 
-  FolderState({this.folders = const []});
+  FolderState({this.folders = const [], this.isEditing = false});
 
-  FolderState copyWith({List<Folder>? folders}) {
-    return FolderState(folders: folders ?? this.folders);
+  FolderState copyWith({List<Folder>? folders, bool? isEditing}) {
+    return FolderState(
+      folders: folders ?? this.folders,
+      isEditing: isEditing ?? this.isEditing,
+    );
   }
 }
 
@@ -57,6 +61,10 @@ class FolderNotifier extends StateNotifier<FolderState> {
     state = state.copyWith(
       folders: state.folders.where((folder) => folder.id != id).toList(),
     );
+  }
+
+  void toggleEditing() {
+    state = state.copyWith(isEditing: !state.isEditing);
   }
 }
 
