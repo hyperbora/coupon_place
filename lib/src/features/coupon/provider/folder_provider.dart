@@ -31,11 +31,11 @@ class Folder {
     return Folder(
       id: map['id'],
       name: map['name'],
-      color: Color.fromARGB(
-        colorMap['a'],
-        colorMap['r'],
-        colorMap['g'],
-        colorMap['b'],
+      color: Color.from(
+        alpha: double.parse(colorMap['a'].toString()),
+        red: double.parse(colorMap['r'].toString()),
+        green: double.parse(colorMap['g'].toString()),
+        blue: double.parse(colorMap['b'].toString()),
       ),
       icon: IconData(map['iconCode'], fontFamily: map['iconFont']),
     );
@@ -59,9 +59,17 @@ class FolderState {
 final firestoreService = FirestoreService();
 
 class FolderNotifier extends StateNotifier<FolderState> {
-  FolderNotifier() : super(FolderState());
+  FolderNotifier() : super(FolderState()) {
+    _loadFolders();
+  }
 
   final _uuid = const Uuid();
+
+  Future<void> _loadFolders() async {
+    final folderMaps = await firestoreService.getFoldersFromFirestore();
+    final folders = folderMaps.map((map) => Folder.fromMap(map)).toList();
+    state = state.copyWith(folders: folders);
+  }
 
   void addFolder(String name, Color color, IconData icon) {
     final newFolder = Folder(

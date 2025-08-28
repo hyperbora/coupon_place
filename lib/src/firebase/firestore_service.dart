@@ -15,4 +15,11 @@ class FirestoreService {
       'createdAt': FieldValue.serverTimestamp(),
     });
   }
+
+  Future<List<Map<String, dynamic>>> getFoldersFromFirestore() async {
+    final querySnapshot = await _userFolders.get();
+    return querySnapshot.docs
+        .map((doc) => doc.data() as Map<String, dynamic>)
+        .toList();
+  }
 }
