@@ -1,3 +1,4 @@
+import 'package:coupon_place/src/firebase/firestore_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
@@ -14,6 +15,31 @@ class Folder {
     required this.color,
     required this.icon,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'color': {'a': color.a, 'r': color.r, 'g': color.g, 'b': color.b},
+      'iconCode': icon.codePoint,
+      'iconFont': icon.fontFamily,
+    };
+  }
+
+  factory Folder.fromMap(Map<String, dynamic> map) {
+    final colorMap = map['color'] as Map<String, dynamic>;
+    return Folder(
+      id: map['id'],
+      name: map['name'],
+      color: Color.fromARGB(
+        colorMap['a'],
+        colorMap['r'],
+        colorMap['g'],
+        colorMap['b'],
+      ),
+      icon: IconData(map['iconCode'], fontFamily: map['iconFont']),
+    );
+  }
 }
 
 class FolderState {
@@ -30,6 +56,8 @@ class FolderState {
   }
 }
 
+final firestoreService = FirestoreService();
+
 class FolderNotifier extends StateNotifier<FolderState> {
   FolderNotifier() : super(FolderState());
 
@@ -43,6 +71,7 @@ class FolderNotifier extends StateNotifier<FolderState> {
       icon: icon,
     );
     state = state.copyWith(folders: [...state.folders, newFolder]);
+    firestoreService.addFolderToFirestore(newFolder);
   }
 
   void editFolder(String id, String name, Color color, IconData icon) {
