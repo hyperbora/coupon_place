@@ -199,9 +199,7 @@ class _FolderFormScreenState extends State<FolderFormScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: Text(
-          widget.initialName == null ? loc.folderAdd : loc.folderEdit,
-        ),
+        title: Text(widget.initialName ?? loc.folderAdd),
         centerTitle: true,
         leading: TextButton(
           onPressed: () => Navigator.of(context).pop(),

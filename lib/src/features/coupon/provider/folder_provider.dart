@@ -44,15 +44,11 @@ class Folder {
 
 class FolderState {
   final List<Folder> folders;
-  final bool isEditing;
 
-  FolderState({this.folders = const [], this.isEditing = false});
+  FolderState({this.folders = const []});
 
   FolderState copyWith({List<Folder>? folders, bool? isEditing}) {
-    return FolderState(
-      folders: folders ?? this.folders,
-      isEditing: isEditing ?? this.isEditing,
-    );
+    return FolderState(folders: folders ?? this.folders);
   }
 }
 
@@ -99,10 +95,6 @@ class FolderNotifier extends StateNotifier<FolderState> {
       folders: state.folders.where((folder) => folder.id != id).toList(),
     );
     firestoreService.removeFolder(id);
-  }
-
-  void toggleEditing() {
-    state = state.copyWith(isEditing: !state.isEditing);
   }
 }
 

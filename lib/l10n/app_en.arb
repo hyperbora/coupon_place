@@ -22,7 +22,7 @@
   "library": "Library",
   "registerCouponPlaceholder": "Register your coupon.",
   "folderAdd": "Add Folder",
-  "folderEdit": "Edit Folder",
+  "folderSelect": "Select Folder",
   "folderNameHint": "Folder Name",
   "folderNameEmptyError": "Please enter a folder name",
   "folderCreateFirst": "Please create a folder first."

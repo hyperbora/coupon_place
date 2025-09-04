@@ -8,7 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-enum FolderMenuAction { add, edit }
+enum FolderMenuAction { add, select }
 
 class MyCouponsScreen extends ConsumerWidget {
   const MyCouponsScreen({super.key});
@@ -17,7 +17,6 @@ class MyCouponsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final loc = AppLocalizations.of(context)!;
     final folders = ref.watch(folderProvider).folders;
-    final isEditing = ref.watch(folderProvider).isEditing;
     final folderNotifier = ref.read(folderProvider.notifier);
 
     return Scaffold(
@@ -49,9 +48,7 @@ class MyCouponsScreen extends ConsumerWidget {
                         ),
                       ),
                 );
-              } else if (value == FolderMenuAction.edit) {
-                folderNotifier.toggleEditing();
-              }
+              } else if (value == FolderMenuAction.select) {}
             },
             itemBuilder:
                 (context) => [
@@ -60,8 +57,8 @@ class MyCouponsScreen extends ConsumerWidget {
                     child: Text(loc.folderAdd),
                   ),
                   PopupMenuItem(
-                    value: FolderMenuAction.edit,
-                    child: Text(loc.folderEdit),
+                    value: FolderMenuAction.select,
+                    child: Text(loc.folderSelect),
                   ),
                 ],
           ),
