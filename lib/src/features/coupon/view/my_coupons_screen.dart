@@ -8,6 +8,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+final selectModeProvider = StateProvider<bool>((ref) => false);
+final selectedFoldersProvider = StateProvider<Set<String>>((ref) => {});
+
 enum FolderMenuAction { add, select }
 
 class MyCouponsScreen extends ConsumerWidget {
@@ -21,9 +24,23 @@ class MyCouponsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(loc.myCouponsTitle),
+        title: Text(
+          ref.watch(selectModeProvider) ? loc.folderSelect : loc.myCouponsTitle,
+        ),
         centerTitle: true,
         actions: [
+          if (ref.watch(selectModeProvider))
+            IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: () {
+                final selected = ref.read(selectedFoldersProvider);
+                for (final id in selected) {
+                  folderNotifier.removeFolder(id);
+                }
+                ref.read(selectModeProvider.notifier).state = false;
+                ref.read(selectedFoldersProvider.notifier).state = {};
+              },
+            ),
           PopupMenuButton<FolderMenuAction>(
             icon: const Icon(Icons.more_vert_outlined),
             onSelected: (value) {
@@ -48,7 +65,11 @@ class MyCouponsScreen extends ConsumerWidget {
                         ),
                       ),
                 );
-              } else if (value == FolderMenuAction.select) {}
+              } else if (value == FolderMenuAction.select) {
+                final current = ref.read(selectModeProvider);
+                ref.read(selectModeProvider.notifier).state = !current;
+                ref.read(selectedFoldersProvider.notifier).state = {};
+              }
             },
             itemBuilder:
                 (context) => [
@@ -101,9 +122,32 @@ class MyCouponsScreen extends ConsumerWidget {
                     return IgnorePointer(
                       ignoring: isOpen,
                       child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: folder.color,
-                          child: Icon(folder.icon, color: Colors.white),
+                        leading: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (ref.watch(selectModeProvider))
+                              Checkbox(
+                                value: ref
+                                    .watch(selectedFoldersProvider)
+                                    .contains(folder.id),
+                                onChanged: (checked) {
+                                  final selected = ref.read(
+                                    selectedFoldersProvider.notifier,
+                                  );
+                                  final current = {...selected.state};
+                                  if (checked == true) {
+                                    current.add(folder.id);
+                                  } else {
+                                    current.remove(folder.id);
+                                  }
+                                  selected.state = current;
+                                },
+                              ),
+                            CircleAvatar(
+                              backgroundColor: folder.color,
+                              child: Icon(folder.icon, color: Colors.white),
+                            ),
+                          ],
                         ),
                         title: Text(folder.name),
                         onTap: () {
