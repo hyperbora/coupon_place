@@ -22,4 +22,12 @@ class FirestoreService {
         .map((doc) => doc.data() as Map<String, dynamic>)
         .toList();
   }
+
+  Future<void> removeFolder(String id) async {
+    final querySnapshot =
+        await _userFolders.where('id', isEqualTo: id).limit(1).get();
+    if (querySnapshot.docs.isNotEmpty) {
+      await querySnapshot.docs.first.reference.delete();
+    }
+  }
 }

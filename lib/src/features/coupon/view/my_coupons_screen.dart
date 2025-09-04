@@ -84,7 +84,9 @@ class MyCouponsScreen extends ConsumerWidget {
                   label: 'edit',
                 ),
                 SlidableAction(
-                  onPressed: (context) {},
+                  onPressed: (context) {
+                    folderNotifier.removeFolder(folder.id);
+                  },
                   backgroundColor: const Color.fromRGBO(244, 67, 54, 1),
                   foregroundColor: Colors.white,
                   icon: Icons.delete,
@@ -107,14 +109,6 @@ class MyCouponsScreen extends ConsumerWidget {
                           child: Icon(folder.icon, color: Colors.white),
                         ),
                         title: Text(folder.name),
-                        trailing: Visibility(
-                          visible: isEditing,
-                          child: IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed:
-                                () => folderNotifier.removeFolder(folder.id),
-                          ),
-                        ),
                         onTap: () {
                           context.push(
                             AppRoutes.folderDetail.replaceFirst(

@@ -98,6 +98,7 @@ class FolderNotifier extends StateNotifier<FolderState> {
     state = state.copyWith(
       folders: state.folders.where((folder) => folder.id != id).toList(),
     );
+    firestoreService.removeFolder(id);
   }
 
   void toggleEditing() {
