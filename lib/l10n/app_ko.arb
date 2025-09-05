@@ -8,6 +8,7 @@
   "cancel": "취소",
   "save": "저장",
   "edit": "편집",
+  "delete": "삭제",
   "couponNameLabel": "쿠폰 이름",
   "couponNameHint": "쿠폰 이름을 입력하세요",
   "validDateLabel": "유효기간",

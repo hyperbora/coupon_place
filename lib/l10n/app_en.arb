@@ -8,6 +8,7 @@
   "cancel": "Cancel",
   "save": "Save",
   "edit": "Edit",
+  "delete": "Delete",
   "couponNameLabel": "Coupon Name",
   "couponNameHint": "Enter coupon name",
   "validDateLabel": "Valid Date",

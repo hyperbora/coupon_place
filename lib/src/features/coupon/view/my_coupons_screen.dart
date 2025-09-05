@@ -109,7 +109,7 @@ class MyCouponsScreen extends ConsumerWidget {
                   backgroundColor: const Color.fromRGBO(33, 150, 243, 1),
                   foregroundColor: Colors.white,
                   icon: Icons.edit,
-                  label: 'edit',
+                  label: loc.edit,
                 ),
                 SlidableAction(
                   onPressed: (context) {
@@ -118,7 +118,7 @@ class MyCouponsScreen extends ConsumerWidget {
                   backgroundColor: const Color.fromRGBO(244, 67, 54, 1),
                   foregroundColor: Colors.white,
                   icon: Icons.delete,
-                  label: 'delete',
+                  label: loc.delete,
                 ),
               ],
             ),
