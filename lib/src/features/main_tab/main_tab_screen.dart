@@ -1,13 +1,11 @@
 import 'package:coupon_place/src/features/coupon/view/my_coupons_screen.dart';
-import 'package:coupon_place/src/features/home/view/home_screen.dart';
-import 'package:coupon_place/src/features/user/view/my_page_screen.dart';
+import 'package:coupon_place/src/features/user/view/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 final List<Widget> myTabItems = [
-  const HomeScreen(),
   const MyCouponsScreen(),
-  const MyPageScreen(),
+  const SettingsScreen(),
 ];
 
 class MainTabScreen extends StatefulWidget {
@@ -32,14 +30,13 @@ class _MainTabScreenState extends State<MainTabScreen> {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: loc.homeTitle),
           BottomNavigationBarItem(
             icon: Icon(Icons.card_giftcard),
             label: loc.myCouponsTitle,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: loc.myPageTitle,
+            icon: Icon(Icons.settings_sharp),
+            label: loc.settingsTitle,
           ),
         ],
         showUnselectedLabels: true,
