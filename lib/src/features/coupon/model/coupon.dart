@@ -1,4 +1,5 @@
 import 'package:uuid/uuid.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Coupon {
   final String id;
@@ -39,6 +40,35 @@ class Coupon {
       imagePath: imagePath,
       folderId: folderId,
       enableAlarm: enableAlarm,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'code': code,
+      'memo': memo,
+      'validDate': validDate != null ? Timestamp.fromDate(validDate!) : null,
+      'imagePath': imagePath,
+      'folderId': folderId,
+      'enableAlarm': enableAlarm,
+    };
+  }
+
+  factory Coupon.fromMap(Map<String, dynamic> map) {
+    return Coupon(
+      id: map['id'],
+      name: map['name'],
+      code: map['code'],
+      memo: map['memo'],
+      validDate:
+          map['validDate'] != null
+              ? (map['validDate'] as Timestamp).toDate()
+              : null,
+      imagePath: map['imagePath'],
+      folderId: map['folderId'],
+      enableAlarm: map['enableAlarm'] ?? false,
     );
   }
 }
