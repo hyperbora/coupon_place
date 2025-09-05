@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:coupon_place/src/features/coupon/model/coupon.dart';
 import 'package:coupon_place/src/features/coupon/provider/folder_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -10,7 +11,7 @@ class FirestoreService {
       _firestore.collection('users').doc(_user.uid).collection('folders');
 
   Future<void> addFolderToFirestore(Folder folder) async {
-    await _userFolders.add({
+    await _userFolders.doc(folder.id).set({
       ...folder.toMap(),
       'createdAt': FieldValue.serverTimestamp(),
     });
@@ -29,5 +30,13 @@ class FirestoreService {
     if (querySnapshot.docs.isNotEmpty) {
       await querySnapshot.docs.first.reference.delete();
     }
+  }
+
+  Future<void> addCouponToFirestore(Coupon coupon) async {
+    final folderRef = _userFolders.doc(coupon.folderId).collection('coupons');
+    await folderRef.doc(coupon.id).set({
+      ...coupon.toMap(),
+      'createdAt': FieldValue.serverTimestamp(),
+    });
   }
 }
