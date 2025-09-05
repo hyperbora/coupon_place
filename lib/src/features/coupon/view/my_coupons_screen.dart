@@ -21,6 +21,7 @@ class MyCouponsScreen extends ConsumerWidget {
     final loc = AppLocalizations.of(context)!;
     final folders = ref.watch(folderProvider).folders;
     final folderNotifier = ref.read(folderProvider.notifier);
+    final isSelectMode = ref.watch(selectModeProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -29,7 +30,14 @@ class MyCouponsScreen extends ConsumerWidget {
         ),
         centerTitle: true,
         actions: [
-          if (ref.watch(selectModeProvider))
+          if (isSelectMode) ...[
+            IconButton(
+              icon: const Icon(Icons.check_sharp, color: Colors.green),
+              onPressed: () {
+                ref.read(selectModeProvider.notifier).state = false;
+                ref.read(selectedFoldersProvider.notifier).state = {};
+              },
+            ),
             IconButton(
               icon: const Icon(Icons.delete),
               onPressed: () {
@@ -41,48 +49,50 @@ class MyCouponsScreen extends ConsumerWidget {
                 ref.read(selectedFoldersProvider.notifier).state = {};
               },
             ),
-          PopupMenuButton<FolderMenuAction>(
-            icon: const Icon(Icons.more_vert_outlined),
-            onSelected: (value) {
-              if (value == FolderMenuAction.add) {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(24),
+          ] else ...[
+            PopupMenuButton<FolderMenuAction>(
+              icon: const Icon(Icons.more_vert_outlined),
+              onSelected: (value) {
+                if (value == FolderMenuAction.add) {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(24),
+                      ),
                     ),
-                  ),
-                  builder:
-                      (context) => FractionallySizedBox(
-                        heightFactor: 0.9,
-                        child: Center(
-                          child: FolderFormScreen(
-                            onSubmit: (name, color, icon) {
-                              folderNotifier.addFolder(name, color, icon);
-                            },
+                    builder:
+                        (context) => FractionallySizedBox(
+                          heightFactor: 0.9,
+                          child: Center(
+                            child: FolderFormScreen(
+                              onSubmit: (name, color, icon) {
+                                folderNotifier.addFolder(name, color, icon);
+                              },
+                            ),
                           ),
                         ),
-                      ),
-                );
-              } else if (value == FolderMenuAction.select) {
-                final current = ref.read(selectModeProvider);
-                ref.read(selectModeProvider.notifier).state = !current;
-                ref.read(selectedFoldersProvider.notifier).state = {};
-              }
-            },
-            itemBuilder:
-                (context) => [
-                  PopupMenuItem(
-                    value: FolderMenuAction.add,
-                    child: Text(loc.folderAdd),
-                  ),
-                  PopupMenuItem(
-                    value: FolderMenuAction.select,
-                    child: Text(loc.folderSelect),
-                  ),
-                ],
-          ),
+                  );
+                } else if (value == FolderMenuAction.select) {
+                  final current = ref.read(selectModeProvider);
+                  ref.read(selectModeProvider.notifier).state = !current;
+                  ref.read(selectedFoldersProvider.notifier).state = {};
+                }
+              },
+              itemBuilder:
+                  (context) => [
+                    PopupMenuItem(
+                      value: FolderMenuAction.add,
+                      child: Text(loc.folderAdd),
+                    ),
+                    PopupMenuItem(
+                      value: FolderMenuAction.select,
+                      child: Text(loc.folderSelect),
+                    ),
+                  ],
+            ),
+          ],
         ],
       ),
       body: ListView.builder(
