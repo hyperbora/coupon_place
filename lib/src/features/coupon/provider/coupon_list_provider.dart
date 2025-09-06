@@ -5,7 +5,14 @@ import '../model/coupon.dart';
 final _firestoreService = FirestoreService();
 
 class CouponListNotifier extends StateNotifier<List<Coupon>> {
-  CouponListNotifier() : super([]);
+  final String folderId;
+  CouponListNotifier(this.folderId) : super([]) {
+    _loadCoupons();
+  }
+
+  Future<void> _loadCoupons() async {
+    state = await _firestoreService.getCouponsFromFirestore(folderId);
+  }
 
   void addCoupon(Coupon coupon) {
     state = [...state, coupon];
@@ -23,7 +30,38 @@ class CouponListNotifier extends StateNotifier<List<Coupon>> {
   }
 }
 
+class AllCouponsNotifier extends StateNotifier<List<Coupon>> {
+  AllCouponsNotifier() : super([]) {
+    _loadAllCoupons();
+  }
+
+  Future<void> _loadAllCoupons() async {
+    state = await _firestoreService.getAllCouponsFromFirestore();
+  }
+
+  void addCoupon(Coupon coupon) {
+    state = [...state, coupon];
+    _firestoreService.addCouponToFirestore(coupon);
+  }
+
+  void updateCoupon(Coupon updated) {
+    state = [
+      for (final coupon in state) coupon.id == updated.id ? updated : coupon,
+    ];
+  }
+
+  void removeCoupon(String id) {
+    state = state.where((coupon) => coupon.id != id).toList();
+    _firestoreService.removeCoupon(id);
+  }
+}
+
 final couponListProvider =
-    StateNotifierProvider<CouponListNotifier, List<Coupon>>(
-      (ref) => CouponListNotifier(),
+    StateNotifierProvider.family<CouponListNotifier, List<Coupon>, String>(
+      (ref, folderId) => CouponListNotifier(folderId),
+    );
+
+final allCouponsProvider =
+    StateNotifierProvider<AllCouponsNotifier, List<Coupon>>(
+      (ref) => AllCouponsNotifier(),
     );

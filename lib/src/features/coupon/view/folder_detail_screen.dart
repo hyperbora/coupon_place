@@ -19,11 +19,7 @@ class FolderDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final loc = AppLocalizations.of(context)!;
-    final coupons =
-        ref
-            .watch(couponListProvider)
-            .where((c) => c.folderId == folderId)
-            .toList();
+    final coupons = ref.watch(couponListProvider(folderId));
 
     return Scaffold(
       appBar: AppBar(title: Text(folderName)),

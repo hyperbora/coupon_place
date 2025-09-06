@@ -105,7 +105,9 @@ class CouponRegisterScreen extends ConsumerWidget {
                 folderId: state.folder!,
                 enableAlarm: state.enableAlarm,
               );
-              ref.read(couponListProvider.notifier).addCoupon(coupon);
+              ref
+                  .read(couponListProvider(state.folder!).notifier)
+                  .addCoupon(coupon);
               notifier.reset();
 
               if (context.mounted) {
