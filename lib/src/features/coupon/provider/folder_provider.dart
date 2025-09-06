@@ -62,8 +62,7 @@ class FolderNotifier extends StateNotifier<FolderState> {
   final _uuid = const Uuid();
 
   Future<void> _loadFolders() async {
-    final folderMaps = await firestoreService.getFoldersFromFirestore();
-    final folders = folderMaps.map((map) => Folder.fromMap(map)).toList();
+    final folders = await firestoreService.getFoldersFromFirestore();
     state = state.copyWith(folders: folders);
   }
 
