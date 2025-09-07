@@ -1,5 +1,3 @@
-// /Users/hyperbora/Documents/study/my_flutter/coupon_place/lib/src/firebase/firestore_service.dart
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coupon_place/src/features/coupon/model/coupon.dart';
 import 'package:coupon_place/src/features/coupon/provider/folder_provider.dart';
