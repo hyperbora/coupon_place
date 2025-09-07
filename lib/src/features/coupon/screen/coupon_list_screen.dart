@@ -46,8 +46,8 @@ class CouponListScreen extends ConsumerWidget {
                   onPressed: (context) async {
                     showConfirmDialog(
                       context,
-                      title: loc.delete,
-                      message: loc.delete,
+                      title: loc.deleteCouponTitle,
+                      message: loc.deleteCouponContent,
                       onConfirm: () {
                         ref
                             .read(couponListProvider(folderId).notifier)

@@ -27,5 +27,7 @@
   "folderSelect": "폴더 선택",
   "folderNameHint": "폴더 이름",
   "folderNameEmptyError": "폴더 이름을 입력하세요",
-  "folderCreateFirst": "폴더를 먼저 생성해주세요."
+  "folderCreateFirst": "폴더를 먼저 생성해주세요.",
+  "deleteCouponTitle": "쿠폰 삭제",
+  "deleteCouponContent": "정말로 이 쿠폰을 삭제하시겠습니까?"
 }

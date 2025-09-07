@@ -27,5 +27,7 @@
   "folderSelect": "Select Folder",
   "folderNameHint": "Folder Name",
   "folderNameEmptyError": "Please enter a folder name",
-  "folderCreateFirst": "Please create a folder first."
+  "folderCreateFirst": "Please create a folder first.",
+  "deleteCouponTitle": "Delete Coupon",
+  "deleteCouponContent": "Are you sure you want to delete this coupon?"
 }
