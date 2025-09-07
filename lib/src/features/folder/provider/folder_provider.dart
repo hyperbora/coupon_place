@@ -1,46 +1,8 @@
+import 'package:coupon_place/src/features/folder/model/folder.dart';
 import 'package:coupon_place/src/infra/firebase/firestore_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
-
-class Folder {
-  final String id;
-  final String name;
-  final Color color;
-  final IconData icon;
-
-  Folder({
-    required this.id,
-    required this.name,
-    required this.color,
-    required this.icon,
-  });
-
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'name': name,
-      'color': {'a': color.a, 'r': color.r, 'g': color.g, 'b': color.b},
-      'iconCode': icon.codePoint,
-      'iconFont': icon.fontFamily,
-    };
-  }
-
-  factory Folder.fromMap(Map<String, dynamic> map) {
-    final colorMap = map['color'] as Map<String, dynamic>;
-    return Folder(
-      id: map['id'],
-      name: map['name'],
-      color: Color.from(
-        alpha: double.parse(colorMap['a'].toString()),
-        red: double.parse(colorMap['r'].toString()),
-        green: double.parse(colorMap['g'].toString()),
-        blue: double.parse(colorMap['b'].toString()),
-      ),
-      icon: IconData(map['iconCode'], fontFamily: map['iconFont']),
-    );
-  }
-}
 
 class FolderState {
   final List<Folder> folders;

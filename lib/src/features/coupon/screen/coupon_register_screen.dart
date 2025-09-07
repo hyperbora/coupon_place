@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:coupon_place/src/features/coupon/provider/coupon_register_provider.dart';
-import 'package:coupon_place/src/features/coupon/provider/folder_provider.dart';
+import 'package:coupon_place/src/features/folder/provider/folder_provider.dart';
 
 class CouponRegisterScreen extends ConsumerWidget {
   const CouponRegisterScreen({super.key});

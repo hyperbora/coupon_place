@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coupon_place/src/features/coupon/model/coupon.dart';
-import 'package:coupon_place/src/features/coupon/provider/folder_provider.dart';
+import 'package:coupon_place/src/features/folder/model/folder.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirestoreService {
