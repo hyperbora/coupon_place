@@ -1,4 +1,5 @@
 import 'package:coupon_place/src/features/coupon/widget/coupon_list_item.dart';
+import 'package:coupon_place/src/shared/widgets/confirm_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -6,11 +7,11 @@ import 'coupon_register_screen.dart';
 import '../provider/coupon_list_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class FolderDetailScreen extends ConsumerWidget {
+class CouponListScreen extends ConsumerWidget {
   final String folderId;
   final String folderName;
 
-  const FolderDetailScreen({
+  const CouponListScreen({
     super.key,
     required this.folderId,
     required this.folderName,
@@ -42,8 +43,17 @@ class FolderDetailScreen extends ConsumerWidget {
                   label: loc.edit,
                 ),
                 SlidableAction(
-                  onPressed: (context) {
-                    // TODO: 쿠폰 삭제 로직 추가
+                  onPressed: (context) async {
+                    showConfirmDialog(
+                      context,
+                      title: loc.delete,
+                      message: loc.delete,
+                      onConfirm: () {
+                        ref
+                            .read(couponListProvider(folderId).notifier)
+                            .removeCoupon(coupon);
+                      },
+                    );
                   },
                   backgroundColor: Colors.red,
                   foregroundColor: Colors.white,

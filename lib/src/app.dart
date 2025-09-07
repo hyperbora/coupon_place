@@ -1,5 +1,5 @@
 import 'package:coupon_place/src/core/router/app_routes.dart';
-import 'package:coupon_place/src/features/coupon/screen/folder_detail_screen.dart';
+import 'package:coupon_place/src/features/coupon/screen/coupon_list_screen.dart';
 import 'package:coupon_place/src/features/main_tab/main_tab_screen.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
           builder: (context, state) {
             final folderId = state.pathParameters['folderId'];
             final folderName = state.extra as String? ?? '';
-            return FolderDetailScreen(
+            return CouponListScreen(
               folderId: folderId!,
               folderName: folderName,
             );

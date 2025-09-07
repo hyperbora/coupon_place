@@ -25,8 +25,9 @@ class CouponListNotifier extends StateNotifier<List<Coupon>> {
     ];
   }
 
-  void removeCoupon(String id) {
-    state = state.where((coupon) => coupon.id != id).toList();
+  void removeCoupon(Coupon deleted) {
+    _firestoreService.removeCoupon(deleted.id);
+    state = state.where((coupon) => coupon.id != deleted.id).toList();
   }
 }
 
@@ -50,9 +51,9 @@ class AllCouponsNotifier extends StateNotifier<List<Coupon>> {
     ];
   }
 
-  void removeCoupon(String id) {
-    state = state.where((coupon) => coupon.id != id).toList();
-    _firestoreService.removeCoupon(id);
+  void removeCoupon(Coupon deleted) {
+    _firestoreService.removeCoupon(deleted.id);
+    state = state.where((coupon) => coupon.id != deleted.id).toList();
   }
 }
 
