@@ -1,4 +1,4 @@
-import 'package:coupon_place/src/firebase/firestore_service.dart';
+import 'package:coupon_place/src/infra/firebase/firestore_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';

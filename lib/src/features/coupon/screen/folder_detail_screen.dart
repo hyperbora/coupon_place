@@ -1,4 +1,4 @@
-import 'package:coupon_place/src/features/coupon/view/coupon_list_item.dart';
+import 'package:coupon_place/src/features/coupon/widget/coupon_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';

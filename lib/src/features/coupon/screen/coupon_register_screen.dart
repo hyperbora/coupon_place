@@ -1,4 +1,4 @@
-import 'package:coupon_place/src/common/util/file_helper.dart';
+import 'package:coupon_place/src/shared/utils/file_helper.dart';
 import 'package:coupon_place/src/features/coupon/model/coupon.dart';
 import 'package:coupon_place/src/features/coupon/provider/coupon_list_provider.dart';
 import 'package:image_picker/image_picker.dart';

@@ -1,7 +1,7 @@
 import 'package:coupon_place/src/core/router/app_routes.dart';
 import 'package:coupon_place/src/features/coupon/provider/folder_provider.dart';
-import 'package:coupon_place/src/features/coupon/view/coupon_register_screen.dart';
-import 'package:coupon_place/src/features/coupon/view/folder_form_screen.dart';
+import 'package:coupon_place/src/features/coupon/screen/coupon_register_screen.dart';
+import 'package:coupon_place/src/features/coupon/screen/folder_form_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

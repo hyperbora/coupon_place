@@ -1,4 +1,4 @@
-import 'package:coupon_place/src/common/widgets/box_container.dart';
+import 'package:coupon_place/src/shared/widgets/box_container.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
