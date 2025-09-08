@@ -109,14 +109,16 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
     }
 
     Future<void> pickDate() async {
+      final initial =
+          ref.read(couponRegisterProvider).validDate ?? DateTime.now();
       final picked = await showDatePicker(
         context: context,
-        initialDate: DateTime.now(),
+        initialDate: initial,
         firstDate: DateTime(2000),
         lastDate: DateTime(2100),
       );
       if (picked != null) {
-        notifier.setValidDate(picked);
+        ref.read(couponRegisterProvider.notifier).setValidDate(picked);
       }
     }
 
