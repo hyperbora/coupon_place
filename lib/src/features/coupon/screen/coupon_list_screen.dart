@@ -3,7 +3,7 @@ import 'package:coupon_place/src/shared/widgets/confirm_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'coupon_register_screen.dart';
+import 'coupon_form_screen.dart';
 import '../provider/coupon_list_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -77,7 +77,7 @@ class CouponListScreen extends ConsumerWidget {
             builder:
                 (context) => FractionallySizedBox(
                   heightFactor: 0.9,
-                  child: const CouponRegisterScreen(),
+                  child: const CouponFormScreen(),
                 ),
           );
         },

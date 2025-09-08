@@ -2,6 +2,7 @@
   "appTitle": "Coupon Place",
   "homeTitle": "Home",
   "couponRegisterTitle": "Add Coupon",
+  "couponEditTitle": "Edit Coupon",
   "myCouponsTitle": "My Coupons",
   "settingsTitle": "Settings",
   "couponRegisterTooltip": "Add Coupon",

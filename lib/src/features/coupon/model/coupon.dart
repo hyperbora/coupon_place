@@ -43,19 +43,6 @@ class Coupon {
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'name': name,
-      'code': code,
-      'memo': memo,
-      'validDate': validDate != null ? Timestamp.fromDate(validDate!) : null,
-      'imagePath': imagePath,
-      'folderId': folderId,
-      'enableAlarm': enableAlarm,
-    };
-  }
-
   factory Coupon.fromMap(Map<String, dynamic> map) {
     return Coupon(
       id: map['id'],
@@ -69,6 +56,41 @@ class Coupon {
       imagePath: map['imagePath'],
       folderId: map['folderId'],
       enableAlarm: map['enableAlarm'] ?? false,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'code': code,
+      'memo': memo,
+      'validDate': validDate != null ? Timestamp.fromDate(validDate!) : null,
+      'imagePath': imagePath,
+      'folderId': folderId,
+      'enableAlarm': enableAlarm,
+    };
+  }
+
+  Coupon copyWith({
+    String? id,
+    String? name,
+    String? code,
+    String? memo,
+    DateTime? validDate,
+    String? imagePath,
+    String? folderId,
+    bool? enableAlarm,
+  }) {
+    return Coupon(
+      id: this.id,
+      name: name ?? this.name,
+      code: code ?? this.code,
+      memo: memo ?? this.memo,
+      validDate: validDate ?? this.validDate,
+      imagePath: imagePath ?? this.imagePath,
+      folderId: folderId ?? this.folderId,
+      enableAlarm: enableAlarm ?? this.enableAlarm,
     );
   }
 }

@@ -9,8 +9,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:coupon_place/src/features/coupon/provider/coupon_register_provider.dart';
 import 'package:coupon_place/src/features/folder/provider/folder_provider.dart';
 
-class CouponRegisterScreen extends ConsumerWidget {
-  const CouponRegisterScreen({super.key});
+class CouponFormScreen extends ConsumerWidget {
+  final Coupon? coupon;
+
+  const CouponFormScreen({super.key, this.coupon});
 
   static final _formKey = GlobalKey<FormState>();
 
@@ -19,7 +21,6 @@ class CouponRegisterScreen extends ConsumerWidget {
     final loc = AppLocalizations.of(context)!;
     final state = ref.watch(couponRegisterProvider);
     final notifier = ref.read(couponRegisterProvider.notifier);
-
     final folders = ref.watch(folderProvider).folders;
 
     Future<void> pickImage() async {
@@ -67,7 +68,9 @@ class CouponRegisterScreen extends ConsumerWidget {
 
     PreferredSizeWidget buildAppBar() {
       return AppBar(
-        title: Text(loc.couponRegisterTitle),
+        title: Text(
+          coupon == null ? loc.couponRegisterTitle : loc.couponEditTitle,
+        ),
         leading: TextButton(
           onPressed: () {
             notifier.reset();
@@ -96,18 +99,35 @@ class CouponRegisterScreen extends ConsumerWidget {
                 );
               }
 
-              final coupon = Coupon.create(
-                name: state.name,
-                code: state.code,
-                memo: state.memo,
-                validDate: state.validDate,
-                imagePath: savedImagePath,
-                folderId: state.folder!,
-                enableAlarm: state.enableAlarm,
-              );
-              ref
-                  .read(couponListProvider(state.folder!).notifier)
-                  .addCoupon(coupon);
+              final newCoupon =
+                  coupon == null
+                      ? Coupon.create(
+                        name: state.name,
+                        code: state.code,
+                        memo: state.memo,
+                        validDate: state.validDate,
+                        imagePath: savedImagePath,
+                        folderId: state.folder!,
+                        enableAlarm: state.enableAlarm,
+                      )
+                      : coupon!.copyWith(
+                        name: state.name,
+                        code: state.code,
+                        memo: state.memo,
+                        validDate: state.validDate,
+                        imagePath: savedImagePath ?? coupon!.imagePath,
+                        folderId: state.folder!,
+                        enableAlarm: state.enableAlarm,
+                      );
+              if (coupon == null) {
+                ref
+                    .read(couponListProvider(state.folder!).notifier)
+                    .addCoupon(newCoupon);
+              } else {
+                ref
+                    .read(couponListProvider(state.folder!).notifier)
+                    .updateCoupon(newCoupon);
+              }
               notifier.reset();
 
               if (context.mounted) {

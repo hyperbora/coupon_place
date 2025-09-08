@@ -1,6 +1,6 @@
 import 'package:coupon_place/src/core/router/app_routes.dart';
 import 'package:coupon_place/src/features/folder/provider/folder_provider.dart';
-import 'package:coupon_place/src/features/coupon/screen/coupon_register_screen.dart';
+import 'package:coupon_place/src/features/coupon/screen/coupon_form_screen.dart';
 import 'package:coupon_place/src/features/folder/screen/folder_form_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -204,7 +204,7 @@ class MyCouponsScreen extends ConsumerWidget {
                         builder:
                             (context) => FractionallySizedBox(
                               heightFactor: 0.9,
-                              child: const CouponRegisterScreen(),
+                              child: const CouponFormScreen(),
                             ),
                       );
                     },

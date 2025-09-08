@@ -57,6 +57,14 @@ class FirestoreService {
     });
   }
 
+  /// 쿠폰 업데이트 (일부 필드 변경 가능)
+  Future<void> updateCouponInFirestore(Coupon coupon) async {
+    await _userCoupons.doc(coupon.id).update({
+      ...coupon.toMap(),
+      'updatedAt': FieldValue.serverTimestamp(),
+    });
+  }
+
   /// 특정 폴더 쿠폰 가져오기
   Future<List<Coupon>> getCouponsFromFirestore(String folderId) async {
     final querySnapshot =

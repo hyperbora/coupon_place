@@ -2,6 +2,7 @@
   "appTitle": "쿠폰플레이스",
   "homeTitle": "홈",
   "couponRegisterTitle": "쿠폰등록",
+  "couponEditTitle": "쿠폰수정",
   "myCouponsTitle": "내 쿠폰",
   "settingsTitle": "설정",
   "couponRegisterTooltip": "쿠폰 등록",

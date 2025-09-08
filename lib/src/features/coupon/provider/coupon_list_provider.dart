@@ -23,6 +23,7 @@ class CouponListNotifier extends StateNotifier<List<Coupon>> {
     state = [
       for (final coupon in state) coupon.id == updated.id ? updated : coupon,
     ];
+    _firestoreService.updateCouponInFirestore(updated);
   }
 
   void removeCoupon(Coupon deleted) {
@@ -49,6 +50,7 @@ class AllCouponsNotifier extends StateNotifier<List<Coupon>> {
     state = [
       for (final coupon in state) coupon.id == updated.id ? updated : coupon,
     ];
+    _firestoreService.updateCouponInFirestore(updated);
   }
 
   void removeCoupon(Coupon deleted) {
