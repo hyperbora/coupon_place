@@ -3,6 +3,7 @@ import 'package:coupon_place/src/shared/widgets/confirm_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:go_router/go_router.dart';
 import 'coupon_form_screen.dart';
 import '../provider/coupon_list_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -35,7 +36,9 @@ class CouponListScreen extends ConsumerWidget {
               children: [
                 SlidableAction(
                   onPressed: (context) {
-                    // TODO: 수정 화면 이동 (쿠폰 수정 폼 연결)
+                    context.push(
+                      '/coupon/${coupon.folderId}/${coupon.id}/edit',
+                    );
                   },
                   backgroundColor: Colors.blue,
                   foregroundColor: Colors.white,

@@ -1,5 +1,7 @@
 import 'package:coupon_place/src/core/router/app_routes.dart';
+import 'package:coupon_place/src/features/coupon/screen/coupon_form_screen.dart';
 import 'package:coupon_place/src/features/coupon/screen/coupon_list_screen.dart';
+import 'package:coupon_place/src/features/coupon/screen/coupon_detail_screen.dart';
 import 'package:coupon_place/src/features/main_tab/main_tab_screen.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +30,32 @@ class MyApp extends StatelessWidget {
               folderName: folderName,
             );
           },
+        ),
+        GoRoute(
+          path: AppRoutes.couponFormNew,
+          builder: (context, state) => CouponFormScreen(),
+        ),
+        GoRoute(
+          path: AppRoutes.couponDetail,
+          builder: (context, state) {
+            final folderId = state.pathParameters['folderId']!;
+            final couponId = state.pathParameters['couponId']!;
+            return CouponDetailScreen(folderId: folderId, couponId: couponId);
+          },
+          routes: [
+            GoRoute(
+              path: 'edit',
+              builder: (context, state) {
+                final folderId = state.pathParameters['folderId']!;
+                final couponId = state.pathParameters['couponId']!;
+                return CouponFormScreen(
+                  folderId: folderId,
+                  couponId: couponId,
+                  key: ValueKey(couponId),
+                );
+              },
+            ),
+          ],
         ),
       ],
     );

@@ -9,19 +9,73 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:coupon_place/src/features/coupon/provider/coupon_register_provider.dart';
 import 'package:coupon_place/src/features/folder/provider/folder_provider.dart';
 
-class CouponFormScreen extends ConsumerWidget {
-  final Coupon? coupon;
+class CouponFormScreen extends ConsumerStatefulWidget {
+  final String? couponId;
+  final String? folderId;
 
-  const CouponFormScreen({super.key, this.coupon});
+  const CouponFormScreen({super.key, this.folderId, this.couponId});
 
   static final _formKey = GlobalKey<FormState>();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<CouponFormScreen> createState() => _CouponFormScreenState();
+}
+
+class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
+  Coupon? coupon;
+  bool _initialized = false;
+
+  late final TextEditingController _nameController;
+  late final TextEditingController _codeController;
+  late final TextEditingController _memoController;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController();
+    _codeController = TextEditingController();
+    _memoController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _codeController.dispose();
+    _memoController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
     final state = ref.watch(couponRegisterProvider);
     final notifier = ref.read(couponRegisterProvider.notifier);
     final folders = ref.watch(folderProvider).folders;
+
+    if (!_initialized) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        notifier.reset(); // build 완료 후에 안전하게 상태 초기화
+        if (widget.couponId != null && widget.folderId != null) {
+          final couponList = ref.read(couponListProvider(widget.folderId!));
+          final foundCoupon = couponList.firstWhere(
+            (c) => c.id == widget.couponId,
+          );
+          coupon = foundCoupon;
+          notifier.setName(foundCoupon.name);
+          notifier.setCode(foundCoupon.code ?? '');
+          notifier.setMemo(foundCoupon.memo ?? '');
+          notifier.setValidDate(foundCoupon.validDate);
+          notifier.setImagePath(foundCoupon.imagePath);
+          notifier.setFolder(foundCoupon.folderId);
+          notifier.setEnableAlarm(foundCoupon.enableAlarm);
+
+          _nameController.text = foundCoupon.name;
+          _codeController.text = foundCoupon.code ?? '';
+          _memoController.text = foundCoupon.memo ?? '';
+        }
+      });
+      _initialized = true;
+    }
 
     Future<void> pickImage() async {
       final source = await showDialog<ImageSource>(
@@ -69,7 +123,9 @@ class CouponFormScreen extends ConsumerWidget {
     PreferredSizeWidget buildAppBar() {
       return AppBar(
         title: Text(
-          coupon == null ? loc.couponRegisterTitle : loc.couponEditTitle,
+          widget.couponId == null
+              ? loc.couponRegisterTitle
+              : loc.couponEditTitle,
         ),
         leading: TextButton(
           onPressed: () {
@@ -87,7 +143,7 @@ class CouponFormScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () async {
-              if (!_formKey.currentState!.validate()) {
+              if (!CouponFormScreen._formKey.currentState!.validate()) {
                 return;
               }
 
@@ -100,7 +156,7 @@ class CouponFormScreen extends ConsumerWidget {
               }
 
               final newCoupon =
-                  coupon == null
+                  widget.couponId == null
                       ? Coupon.create(
                         name: state.name,
                         code: state.code,
@@ -119,7 +175,7 @@ class CouponFormScreen extends ConsumerWidget {
                         folderId: state.folder!,
                         enableAlarm: state.enableAlarm,
                       );
-              if (coupon == null) {
+              if (widget.couponId == null) {
                 ref
                     .read(couponListProvider(state.folder!).notifier)
                     .addCoupon(newCoupon);
@@ -216,7 +272,7 @@ class CouponFormScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFormField(
-              initialValue: state.name,
+              controller: _nameController,
               decoration: InputDecoration(labelText: loc.couponNameLabel),
               onChanged: notifier.setName,
               validator: (value) {
@@ -243,13 +299,13 @@ class CouponFormScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             TextFormField(
-              initialValue: state.code,
+              controller: _codeController,
               decoration: InputDecoration(labelText: loc.couponCodeLabel),
               onChanged: notifier.setCode,
             ),
             const SizedBox(height: 16),
             TextFormField(
-              initialValue: state.memo,
+              controller: _memoController,
               decoration: InputDecoration(labelText: loc.memoLabel),
               maxLines: 2,
               onChanged: notifier.setMemo,
@@ -309,7 +365,7 @@ class CouponFormScreen extends ConsumerWidget {
               child: SingleChildScrollView(
                 child: Center(
                   child: Form(
-                    key: _formKey,
+                    key: CouponFormScreen._formKey,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
