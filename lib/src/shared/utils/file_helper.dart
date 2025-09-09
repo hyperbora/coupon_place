@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
-import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 import 'package:path/path.dart' as p;
 
@@ -8,11 +7,8 @@ class FileHelper {
   static final String imagesRootDirName = 'images';
   static Future<String> saveImageToAppDir(String originPath) async {
     final appDir = await getApplicationDocumentsDirectory();
-    final folderName = DateFormat('yyyyMMdd').format(DateTime.now());
     final fileName = const Uuid().v4();
-    final folderDir = Directory(
-      p.join(appDir.path, imagesRootDirName, folderName),
-    );
+    final folderDir = Directory(p.join(appDir.path, imagesRootDirName));
     if (!await folderDir.exists()) {
       await folderDir.create(recursive: true);
     }
