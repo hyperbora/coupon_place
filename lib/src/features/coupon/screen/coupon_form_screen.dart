@@ -218,7 +218,8 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
             ),
             child: Stack(
               children: [
-                state.imageFilePath != null
+                state.imageFilePath != null &&
+                        File(state.imageFilePath!).existsSync()
                     ? ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: Image.file(

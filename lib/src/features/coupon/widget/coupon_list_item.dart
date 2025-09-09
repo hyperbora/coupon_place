@@ -12,7 +12,7 @@ class CouponListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading:
-          coupon.imagePath != null && coupon.imagePath!.isNotEmpty
+          (coupon.imagePath != null && File(coupon.imagePath!).existsSync())
               ? ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Image.file(
@@ -24,7 +24,7 @@ class CouponListItem extends StatelessWidget {
               )
               : CircleAvatar(
                 backgroundColor: Colors.grey[200],
-                child: Icon(Icons.card_giftcard, color: Colors.grey[600]),
+                child: Icon(Icons.image_not_supported, color: Colors.grey[600]),
               ),
       title: Text(coupon.name),
       subtitle: Text(coupon.code ?? ''),
