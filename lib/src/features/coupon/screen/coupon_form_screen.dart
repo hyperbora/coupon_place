@@ -8,6 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:coupon_place/src/features/coupon/provider/coupon_register_provider.dart';
 import 'package:coupon_place/src/features/folder/provider/folder_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class CouponFormScreen extends ConsumerStatefulWidget {
   final String? couponId;
@@ -43,6 +44,24 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
     _codeController.dispose();
     _memoController.dispose();
     super.dispose();
+  }
+
+  Future<bool> _checkPermission(ImageSource source) async {
+    if (source == ImageSource.camera) {
+      final status = await Permission.camera.request();
+      return status.isGranted;
+    } else {
+      final status = await Permission.photos.request();
+      return status.isGranted;
+    }
+  }
+
+  String _getPermissionDescription(ImageSource source, AppLocalizations loc) {
+    if (source == ImageSource.camera) {
+      return loc.cameraUsageDescription;
+    } else {
+      return loc.photoLibraryUsageDescription;
+    }
   }
 
   @override
@@ -99,6 +118,14 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
       );
 
       if (source == null) return;
+
+      final granted = await _checkPermission(source);
+      if (!granted && context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(_getPermissionDescription(source, loc))),
+        );
+        return;
+      }
 
       final picker = ImagePicker();
       final pickedFile = await picker.pickImage(source: source);

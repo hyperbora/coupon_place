@@ -30,5 +30,7 @@
   "folderNameEmptyError": "폴더 이름을 입력하세요",
   "folderCreateFirst": "폴더를 먼저 생성해주세요.",
   "deleteCouponTitle": "쿠폰 삭제",
-  "deleteCouponContent": "정말로 이 쿠폰을 삭제하시겠습니까?"
+  "deleteCouponContent": "정말로 이 쿠폰을 삭제하시겠습니까?",
+  "cameraUsageDescription": "이 앱은 쿠폰 등록을 위해 카메라 접근 권한이 필요합니다.",
+  "photoLibraryUsageDescription": "이 앱은 쿠폰 이미지를 선택하기 위해 사진 라이브러리 접근 권한이 필요합니다."
 }
