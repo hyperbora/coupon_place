@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:coupon_place/src/features/coupon/model/coupon.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class CouponListItem extends StatelessWidget {
   final Coupon coupon;
@@ -28,6 +29,9 @@ class CouponListItem extends StatelessWidget {
               ),
       title: Text(coupon.name),
       subtitle: Text(coupon.code ?? ''),
+      onTap: () {
+        context.push('/coupon/${coupon.folderId}/${coupon.id}');
+      },
     );
   }
 }
