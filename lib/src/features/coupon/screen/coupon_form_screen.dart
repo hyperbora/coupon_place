@@ -46,14 +46,58 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
     super.dispose();
   }
 
-  Future<bool> _checkPermission(ImageSource source) async {
-    if (source == ImageSource.camera) {
-      final status = await Permission.camera.request();
-      return status.isGranted;
+  Future<bool> _checkPermission(
+    BuildContext context,
+    ImageSource source,
+  ) async {
+    final Permission permission =
+        source == ImageSource.camera ? Permission.camera : Permission.photos;
+
+    final status = await permission.request();
+
+    if (status.isGranted) return true;
+
+    if (status.isPermanentlyDenied) {
+      if (context.mounted) {
+        _showPermissionDialog(context);
+      }
     } else {
-      final status = await Permission.photos.request();
-      return status.isGranted;
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              _getPermissionDescription(source, AppLocalizations.of(context)!),
+            ),
+          ),
+        );
+      }
     }
+    return false;
+  }
+
+  void _showPermissionDialog(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      builder:
+          (ctx) => AlertDialog(
+            title: Text(loc.needPermission),
+            content: Text(loc.permissionDescription),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(),
+                child: Text(loc.cancel),
+              ),
+              TextButton(
+                onPressed: () async {
+                  Navigator.of(ctx).pop();
+                  await openAppSettings();
+                },
+                child: Text(loc.goToSettings),
+              ),
+            ],
+          ),
+    );
   }
 
   String _getPermissionDescription(ImageSource source, AppLocalizations loc) {
@@ -119,12 +163,11 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
 
       if (source == null) return;
 
-      final granted = await _checkPermission(source);
-      if (!granted && context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(_getPermissionDescription(source, loc))),
-        );
-        return;
+      if (context.mounted) {
+        final granted = await _checkPermission(context, source);
+        if (!granted) {
+          return;
+        }
       }
 
       final picker = ImagePicker();

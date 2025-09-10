@@ -32,5 +32,8 @@
   "deleteCouponTitle": "Delete Coupon",
   "deleteCouponContent": "Are you sure you want to delete this coupon?",
   "cameraUsageDescription": "This app needs camera access to register coupons.",
-  "photoLibraryUsageDescription": "This app needs photo library access to select coupon images."
+  "photoLibraryUsageDescription": "This app needs photo library access to select coupon images.",
+  "needPermission": "Permission Needed",
+  "goToSettings": "Go to Settings",
+  "permissionDescription": "To continue using, please allow permissions in settings."
 }
