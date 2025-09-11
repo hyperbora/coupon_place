@@ -1,39 +1,160 @@
 {
   "appTitle": "Coupon Place",
+  "@appTitle": {
+    "description": "The title of the app"
+  },
   "homeTitle": "Home",
+  "@homeTitle": {
+    "description": "The title for the home screen"
+  },
   "couponRegisterTitle": "Add Coupon",
+  "@couponRegisterTitle": {
+    "description": "The title for the coupon registration screen"
+  },
   "couponEditTitle": "Edit Coupon",
+  "@couponEditTitle": {
+    "description": "The title for the coupon editing screen"
+  },
   "myCouponsTitle": "My Coupons",
+  "@myCouponsTitle": {
+    "description": "The title for the user's coupons list"
+  },
   "settingsTitle": "Settings",
+  "@settingsTitle": {
+    "description": "The title for the settings screen"
+  },
   "couponRegisterTooltip": "Add Coupon",
+  "@couponRegisterTooltip": {
+    "description": "Tooltip for the add coupon button"
+  },
   "confirm": "Confirm",
+  "@confirm": {
+    "description": "Label for a confirmation button"
+  },
   "cancel": "Cancel",
+  "@cancel": {
+    "description": "Label for a cancel button"
+  },
   "save": "Save",
+  "@save": {
+    "description": "Label for a save button"
+  },
   "edit": "Edit",
+  "@edit": {
+    "description": "Label for an edit button"
+  },
   "delete": "Delete",
+  "@delete": {
+    "description": "Label for a delete button"
+  },
   "couponNameLabel": "Coupon Name",
+  "@couponNameLabel": {
+    "description": "Label for the coupon name input field"
+  },
   "couponNameHint": "Enter coupon name",
+  "@couponNameHint": {
+    "description": "Hint text for the coupon name input field"
+  },
   "validDateLabel": "Valid Date",
+  "@validDateLabel": {
+    "description": "Label for the coupon's valid date"
+  },
   "validDateHint": "Select a date",
+  "@validDateHint": {
+    "description": "Hint text for selecting a valid date"
+  },
   "couponCodeLabel": "Coupon Code",
+  "@couponCodeLabel": {
+    "description": "Label for the coupon code input field"
+  },
   "memoLabel": "Memo",
+  "@memoLabel": {
+    "description": "Label for the memo input field"
+  },
   "folderLabel": "Select Folder",
+  "@folderLabel": {
+    "description": "Label for the folder selection field"
+  },
   "folderHint": "Please select a folder",
+  "@folderHint": {
+    "description": "Hint text for selecting a folder"
+  },
   "alarmLabel": "Enable Expiry Alarm",
+  "@alarmLabel": {
+    "description": "Label for enabling or disabling the expiry alarm"
+  },
   "imageSelect": "Select Image",
+  "@imageSelect": {
+    "description": "Label or button to select an image"
+  },
   "camera": "Camera",
+  "@camera": {
+    "description": "Label for the camera option"
+  },
   "library": "Library",
+  "@library": {
+    "description": "Label for the photo library option"
+  },
   "registerCouponPlaceholder": "Register your coupon.",
+  "@registerCouponPlaceholder": {
+    "description": "Placeholder text for registering a coupon"
+  },
   "folderAdd": "Add Folder",
+  "@folderAdd": {
+    "description": "Label for adding a new folder"
+  },
   "folderSelect": "Select Folder",
+  "@folderSelect": {
+    "description": "Label for selecting a folder"
+  },
   "folderNameHint": "Folder Name",
+  "@folderNameHint": {
+    "description": "Hint text for entering a folder name"
+  },
   "folderNameEmptyError": "Please enter a folder name",
+  "@folderNameEmptyError": {
+    "description": "Error message when folder name is left empty"
+  },
   "folderCreateFirst": "Please create a folder first.",
+  "@folderCreateFirst": {
+    "description": "Prompt to create a folder before proceeding"
+  },
   "deleteCouponTitle": "Delete Coupon",
+  "@deleteCouponTitle": {
+    "description": "Title for the delete coupon confirmation dialog"
+  },
   "deleteCouponContent": "Are you sure you want to delete this coupon?",
+  "@deleteCouponContent": {
+    "description": "Content message for the delete coupon confirmation dialog"
+  },
   "cameraUsageDescription": "This app needs camera access to register coupons.",
+  "@cameraUsageDescription": {
+    "description": "Description explaining why camera access is needed"
+  },
   "photoLibraryUsageDescription": "This app needs photo library access to select coupon images.",
+  "@photoLibraryUsageDescription": {
+    "description": "Description explaining why photo library access is needed"
+  },
   "needPermission": "Permission Needed",
+  "@needPermission": {
+    "description": "Title indicating that a permission is required"
+  },
   "goToSettings": "Go to Settings",
-  "permissionDescription": "To continue using, please allow permissions in settings."
+  "@goToSettings": {
+    "description": "Button label to navigate to device settings"
+  },
+  "permissionDescription": "To continue using, please allow permissions in settings.",
+  "@permissionDescription": {
+    "description": "Message prompting the user to allow permissions"
+  },
+  "couponDetailCode": "Code: {code}",
+  "@couponDetailCode": {
+    "description": "Coupon code display format",
+    "placeholders": {
+      "code": {
+        "type": "String",
+        "example": "ABC123"
+      }
+    }
+  }
 }

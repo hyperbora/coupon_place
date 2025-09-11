@@ -1,39 +1,161 @@
 {
+  "@@locale": "ko",
   "appTitle": "쿠폰플레이스",
+  "@appTitle": {
+    "description": "앱의 제목"
+  },
   "homeTitle": "홈",
+  "@homeTitle": {
+    "description": "홈 화면의 제목"
+  },
   "couponRegisterTitle": "쿠폰등록",
+  "@couponRegisterTitle": {
+    "description": "쿠폰 등록 화면의 제목"
+  },
   "couponEditTitle": "쿠폰수정",
+  "@couponEditTitle": {
+    "description": "쿠폰 수정 화면의 제목"
+  },
   "myCouponsTitle": "내 쿠폰",
+  "@myCouponsTitle": {
+    "description": "내 쿠폰 목록 화면의 제목"
+  },
   "settingsTitle": "설정",
+  "@settingsTitle": {
+    "description": "설정 화면의 제목"
+  },
   "couponRegisterTooltip": "쿠폰 등록",
+  "@couponRegisterTooltip": {
+    "description": "쿠폰 등록 버튼의 툴팁"
+  },
   "confirm": "확인",
+  "@confirm": {
+    "description": "확인 버튼 텍스트"
+  },
   "cancel": "취소",
+  "@cancel": {
+    "description": "취소 버튼 텍스트"
+  },
   "save": "저장",
+  "@save": {
+    "description": "저장 버튼 텍스트"
+  },
   "edit": "편집",
+  "@edit": {
+    "description": "편집 버튼 텍스트"
+  },
   "delete": "삭제",
+  "@delete": {
+    "description": "삭제 버튼 텍스트"
+  },
   "couponNameLabel": "쿠폰 이름",
+  "@couponNameLabel": {
+    "description": "쿠폰 이름 입력 필드의 라벨"
+  },
   "couponNameHint": "쿠폰 이름을 입력하세요",
+  "@couponNameHint": {
+    "description": "쿠폰 이름 입력 필드의 힌트"
+  },
   "validDateLabel": "유효기간",
+  "@validDateLabel": {
+    "description": "유효기간 입력 필드의 라벨"
+  },
   "validDateHint": "날짜를 선택하세요",
+  "@validDateHint": {
+    "description": "유효기간 입력 필드의 힌트"
+  },
   "couponCodeLabel": "쿠폰 코드",
+  "@couponCodeLabel": {
+    "description": "쿠폰 코드 입력 필드의 라벨"
+  },
   "memoLabel": "메모",
+  "@memoLabel": {
+    "description": "메모 입력 필드의 라벨"
+  },
   "folderLabel": "폴더 선택",
+  "@folderLabel": {
+    "description": "폴더 선택 입력 필드의 라벨"
+  },
   "folderHint": "폴더를 선택하세요",
+  "@folderHint": {
+    "description": "폴더 선택 입력 필드의 힌트"
+  },
   "alarmLabel": "유효기간 알림 설정",
+  "@alarmLabel": {
+    "description": "유효기간 알림 설정 스위치의 라벨"
+  },
   "imageSelect": "이미지 선택",
+  "@imageSelect": {
+    "description": "이미지 선택 버튼의 텍스트"
+  },
   "camera": "카메라",
+  "@camera": {
+    "description": "카메라 선택 버튼의 텍스트"
+  },
   "library": "라이브러리",
+  "@library": {
+    "description": "라이브러리 선택 버튼의 텍스트"
+  },
   "registerCouponPlaceholder": "쿠폰을 등록하세요.",
+  "@registerCouponPlaceholder": {
+    "description": "쿠폰 등록 화면의 플레이스홀더"
+  },
   "folderAdd": "폴더 등록",
+  "@folderAdd": {
+    "description": "폴더 추가 버튼의 텍스트"
+  },
   "folderSelect": "폴더 선택",
+  "@folderSelect": {
+    "description": "폴더 선택 버튼의 텍스트"
+  },
   "folderNameHint": "폴더 이름",
+  "@folderNameHint": {
+    "description": "폴더 이름 입력 필드의 힌트"
+  },
   "folderNameEmptyError": "폴더 이름을 입력하세요",
+  "@folderNameEmptyError": {
+    "description": "폴더 이름이 비었을 때 표시되는 오류 메시지"
+  },
   "folderCreateFirst": "폴더를 먼저 생성해주세요.",
+  "@folderCreateFirst": {
+    "description": "폴더가 없을 때 표시되는 안내 메시지"
+  },
   "deleteCouponTitle": "쿠폰 삭제",
+  "@deleteCouponTitle": {
+    "description": "쿠폰 삭제 다이얼로그의 제목"
+  },
   "deleteCouponContent": "정말로 이 쿠폰을 삭제하시겠습니까?",
+  "@deleteCouponContent": {
+    "description": "쿠폰 삭제 다이얼로그의 본문"
+  },
   "cameraUsageDescription": "이 앱은 쿠폰 등록을 위해 카메라 접근 권한이 필요합니다.",
+  "@cameraUsageDescription": {
+    "description": "카메라 권한 요청 설명"
+  },
   "photoLibraryUsageDescription": "이 앱은 쿠폰 이미지를 선택하기 위해 사진 라이브러리 접근 권한이 필요합니다.",
+  "@photoLibraryUsageDescription": {
+    "description": "사진 라이브러리 권한 요청 설명"
+  },
   "needPermission": "권한 필요",
+  "@needPermission": {
+    "description": "권한 필요 알림 제목"
+  },
   "goToSettings": "설정으로 이동",
-  "permissionDescription": "계속 사용하시려면 설정에서 권한을 허용해야 합니다."
+  "@goToSettings": {
+    "description": "설정 이동 버튼의 텍스트"
+  },
+  "permissionDescription": "계속 사용하시려면 설정에서 권한을 허용해야 합니다.",
+  "@permissionDescription": {
+    "description": "권한 허용 안내 메시지"
+  },
+  "couponDetailCode": "코드: {code}",
+  "@couponDetailCode": {
+    "description": "쿠폰 상세 코드 표시",
+    "placeholders": {
+      "code": {
+        "type": "String",
+        "example": "ABC123"
+      }
+    }
+  }
 }
