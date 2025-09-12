@@ -32,6 +32,10 @@ class CouponDetailScreen extends ConsumerWidget {
       );
     }
 
+    final labelStyle = Theme.of(
+      context,
+    ).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(loc.couponDetailTitle),
@@ -61,20 +65,20 @@ class CouponDetailScreen extends ConsumerWidget {
             children: [
               Center(
                 child: SizedBox(
-                  height: 180,
-                  width: 180,
+                  width: double.infinity,
+                  height: MediaQuery.of(context).size.width * 0.6,
                   child:
                       (coupon.imagePath != null &&
                               File(coupon.imagePath!).existsSync())
                           ? Image.file(
                             File(coupon.imagePath!),
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                           )
                           : Container(
                             color: Colors.grey[300],
-                            child: const Icon(
+                            child: Icon(
                               Icons.image,
-                              size: 80,
+                              size: MediaQuery.of(context).size.width * 0.2,
                               color: Colors.grey,
                             ),
                           ),
@@ -83,20 +87,92 @@ class CouponDetailScreen extends ConsumerWidget {
               const SizedBox(height: 24),
               Text(coupon.name, style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(height: 8),
-              if (coupon.code != null && coupon.code!.isNotEmpty)
-                Text(loc.couponDetailCode(coupon.code!)),
-              if (coupon.memo != null && coupon.memo!.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(loc.couponDetailMemo(coupon.memo!)),
-                ),
-              if (coupon.validDate != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(
-                    '유효기간: ${DateFormat('yyyy-MM-dd').format(coupon.validDate!)}',
+              Table(
+                columnWidths: const {
+                  0: FixedColumnWidth(140),
+                  1: FlexColumnWidth(),
+                },
+                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                children: [
+                  TableRow(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(color: Colors.grey.shade300),
+                      ),
+                    ),
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Text('Code', style: labelStyle),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            coupon.code != null && coupon.code!.isNotEmpty
+                                ? coupon.code!
+                                : "-",
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
+                  TableRow(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(color: Colors.grey.shade300),
+                      ),
+                    ),
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Text('Memo', style: labelStyle),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            coupon.memo != null && coupon.memo!.isNotEmpty
+                                ? coupon.memo!
+                                : "-",
+                            softWrap: true,
+                            maxLines: null,
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  TableRow(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(color: Colors.grey.shade300),
+                      ),
+                    ),
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Text('ValidDate', style: labelStyle),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            coupon.validDate != null
+                                ? DateFormat(
+                                  'yyyy-MM-dd',
+                                ).format(coupon.validDate!)
+                                : "-",
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ],
           ),
         ),
