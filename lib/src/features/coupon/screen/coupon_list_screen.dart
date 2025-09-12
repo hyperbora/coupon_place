@@ -24,7 +24,7 @@ class CouponListScreen extends ConsumerWidget {
     final coupons = ref.watch(couponListProvider(folderId));
 
     return Scaffold(
-      appBar: AppBar(title: Text(folderName)),
+      appBar: AppBar(title: Text(folderName), centerTitle: true),
       body: ListView.builder(
         itemCount: coupons.length,
         itemBuilder: (context, index) {

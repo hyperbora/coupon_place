@@ -27,7 +27,7 @@ class CouponDetailScreen extends ConsumerWidget {
 
     if (coupon == null) {
       return Scaffold(
-        appBar: AppBar(title: Text(loc.couponDetailTitle)),
+        appBar: AppBar(title: Text(loc.couponDetailTitle), centerTitle: true),
         body: const Center(child: Text('쿠폰을 찾을 수 없습니다.')),
       );
     }
@@ -51,6 +51,7 @@ class CouponDetailScreen extends ConsumerWidget {
             },
           ),
         ],
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Padding(
