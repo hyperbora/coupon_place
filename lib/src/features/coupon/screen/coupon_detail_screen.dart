@@ -70,9 +70,29 @@ class CouponDetailScreen extends ConsumerWidget {
                   child:
                       (coupon.imagePath != null &&
                               File(coupon.imagePath!).existsSync())
-                          ? Image.file(
-                            File(coupon.imagePath!),
-                            fit: BoxFit.contain,
+                          ? GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder:
+                                    (context) => Dialog(
+                                      backgroundColor: Colors.transparent,
+                                      child: InteractiveViewer(
+                                        child: AspectRatio(
+                                          aspectRatio: 1,
+                                          child: Image.file(
+                                            File(coupon.imagePath!),
+                                            fit: BoxFit.contain,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                              );
+                            },
+                            child: Image.file(
+                              File(coupon.imagePath!),
+                              fit: BoxFit.contain,
+                            ),
                           )
                           : Container(
                             color: Colors.grey[300],
