@@ -103,7 +103,10 @@ class CouponDetailScreen extends ConsumerWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Text('Code', style: labelStyle),
+                        child: Text(
+                          loc.couponDetailCodeLabel,
+                          style: labelStyle,
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -127,7 +130,10 @@ class CouponDetailScreen extends ConsumerWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Text('Memo', style: labelStyle),
+                        child: Text(
+                          loc.couponDetailMemoLabel,
+                          style: labelStyle,
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -154,7 +160,10 @@ class CouponDetailScreen extends ConsumerWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Text('ValidDate', style: labelStyle),
+                        child: Text(
+                          loc.couponDetailValidDateLabel,
+                          style: labelStyle,
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),

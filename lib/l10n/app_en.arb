@@ -148,26 +148,6 @@
   "@permissionDescription": {
     "description": "Message prompting the user to allow permissions"
   },
-  "couponDetailCode": "Code: {code}",
-  "@couponDetailCode": {
-    "description": "Coupon code display format",
-    "placeholders": {
-      "code": {
-        "type": "String",
-        "example": "ABC123"
-      }
-    }
-  },
-  "couponDetailMemo": "Memo: {memo}",
-  "@couponDetailMemo": {
-    "description": "Coupon memo display format",
-    "placeholders": {
-      "memo": {
-        "type": "String",
-        "example": "This is a coupon memo."
-      }
-    }
-  },
   "couponDetailTitle": "Coupon Detail",
   "@couponDetailTitle": {
     "description": "Title for the coupon detail screen"
@@ -175,5 +155,17 @@
   "couponNotFound": "Coupon not found.",
   "@couponNotFound": {
     "description": "Message displayed when a coupon cannot be found"
+  },
+  "couponDetailCodeLabel": "Code",
+  "@couponDetailCodeLabel": {
+    "description": "Label for the coupon code in the detail view"
+  },
+  "couponDetailMemoLabel": "Memo",
+  "@couponDetailMemoLabel": {
+    "description": "Label for the memo in the coupon detail view"
+  },
+  "couponDetailValidDateLabel": "Valid Until",
+  "@couponDetailValidDateLabel": {
+    "description": "Label for the valid date in the coupon detail view"
   }
 }
