@@ -171,5 +171,9 @@
   "couponDetailTitle": "Coupon Detail",
   "@couponDetailTitle": {
     "description": "Title for the coupon detail screen"
+  },
+  "couponNotFound": "Coupon not found.",
+  "@couponNotFound": {
+    "description": "Message displayed when a coupon cannot be found"
   }
 }
