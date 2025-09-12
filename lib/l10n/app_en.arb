@@ -157,5 +157,19 @@
         "example": "ABC123"
       }
     }
+  },
+  "couponDetailMemo": "Memo: {memo}",
+  "@couponDetailMemo": {
+    "description": "Coupon memo display format",
+    "placeholders": {
+      "memo": {
+        "type": "String",
+        "example": "This is a coupon memo."
+      }
+    }
+  },
+  "couponDetailTitle": "Coupon Detail",
+  "@couponDetailTitle": {
+    "description": "Title for the coupon detail screen"
   }
 }

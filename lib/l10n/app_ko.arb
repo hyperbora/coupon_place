@@ -157,5 +157,19 @@
         "example": "ABC123"
       }
     }
+  },
+  "couponDetailMemo": "메모: {memo}",
+  "@couponDetailMemo": {
+    "description": "쿠폰 상세 메모 표시",
+    "placeholders": {
+      "memo": {
+        "type": "String",
+        "example": "쿠폰 메모입니다."
+      }
+    }
+  },
+  "couponDetailTitle": "쿠폰 상세",
+  "@couponDetailTitle": {
+    "description": "쿠폰 상세 화면의 제목"
   }
 }

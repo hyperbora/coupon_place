@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:io';
+import 'package:intl/intl.dart';
 import '../provider/coupon_list_provider.dart';
 import 'coupon_form_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CouponDetailScreen extends ConsumerWidget {
   final String folderId;
@@ -17,6 +19,7 @@ class CouponDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final coupons = ref.watch(couponListProvider(folderId));
+    final loc = AppLocalizations.of(context)!;
     final coupon =
         coupons.where((c) => c.id == couponId).isNotEmpty
             ? coupons.firstWhere((c) => c.id == couponId)
@@ -24,14 +27,14 @@ class CouponDetailScreen extends ConsumerWidget {
 
     if (coupon == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('쿠폰 상세')),
+        appBar: AppBar(title: Text(loc.couponDetailTitle)),
         body: const Center(child: Text('쿠폰을 찾을 수 없습니다.')),
       );
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('쿠폰 상세'),
+        title: Text(loc.couponDetailTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.edit),
@@ -80,16 +83,18 @@ class CouponDetailScreen extends ConsumerWidget {
               Text(coupon.name, style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(height: 8),
               if (coupon.code != null && coupon.code!.isNotEmpty)
-                Text('코드: ${coupon.code}'),
+                Text(loc.couponDetailCode(coupon.code!)),
               if (coupon.memo != null && coupon.memo!.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
-                  child: Text('메모: ${coupon.memo}'),
+                  child: Text(loc.couponDetailMemo(coupon.memo!)),
                 ),
               if (coupon.validDate != null)
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
-                  child: Text('유효기간: ${coupon.validDate}'),
+                  child: Text(
+                    '유효기간: ${DateFormat('yyyy-MM-dd').format(coupon.validDate!)}',
+                  ),
                 ),
             ],
           ),
