@@ -53,7 +53,7 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
     final Permission permission =
         source == ImageSource.camera ? Permission.camera : Permission.photos;
 
-    final status = await permission.request();
+    final status = await permission.status;
 
     if (status.isGranted) return true;
 
