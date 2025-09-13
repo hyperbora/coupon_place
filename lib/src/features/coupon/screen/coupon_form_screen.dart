@@ -57,7 +57,7 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
 
     if (status.isGranted) return true;
 
-    if (status.isPermanentlyDenied) {
+    if (status.isPermanentlyDenied || status.isDenied) {
       if (context.mounted) {
         _showPermissionDialog(context);
       }
@@ -163,18 +163,17 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
 
       if (source == null) return;
 
-      if (context.mounted) {
-        final granted = await _checkPermission(context, source);
-        if (!granted) {
-          return;
+      try {
+        final picker = ImagePicker();
+        final pickedFile = await picker.pickImage(source: source);
+
+        if (pickedFile != null) {
+          notifier.setImagePath(pickedFile.path);
         }
-      }
-
-      final picker = ImagePicker();
-      final pickedFile = await picker.pickImage(source: source);
-
-      if (pickedFile != null) {
-        notifier.setImagePath(pickedFile.path);
+      } catch (e) {
+        if (context.mounted) {
+          await _checkPermission(context, source);
+        }
       }
     }
 
