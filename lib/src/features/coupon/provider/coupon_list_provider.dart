@@ -1,4 +1,5 @@
 import 'package:coupon_place/src/infra/firebase/firestore_service.dart';
+import 'package:coupon_place/src/shared/utils/file_helper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../model/coupon.dart';
 
@@ -14,16 +15,30 @@ class CouponListNotifier extends StateNotifier<List<Coupon>> {
     state = await _firestoreService.getCouponsFromFirestore(folderId);
   }
 
-  void addCoupon(Coupon coupon) {
+  void addCoupon(Coupon coupon) async {
     state = [...state, coupon];
     _firestoreService.addCouponToFirestore(coupon);
   }
 
-  void updateCoupon(Coupon updated) {
+  void updateCoupon(Coupon updated) async {
+    final Coupon oldCoupon = state.firstWhere(
+      (coupon) => coupon.id == updated.id,
+    );
     state = [
       for (final coupon in state) coupon.id == updated.id ? updated : coupon,
     ];
-    _firestoreService.updateCouponInFirestore(updated);
+    try {
+      await _firestoreService.updateCouponInFirestore(updated);
+      if (oldCoupon.imagePath != null &&
+          oldCoupon.imagePath != updated.imagePath) {
+        FileHelper.deleteFile(oldCoupon.imagePath!);
+      }
+    } catch (e) {
+      state = [
+        for (final coupon in state)
+          coupon.id == oldCoupon.id ? oldCoupon : coupon,
+      ];
+    }
   }
 
   void removeCoupon(Coupon deleted) {
@@ -41,19 +56,33 @@ class AllCouponsNotifier extends StateNotifier<List<Coupon>> {
     state = await _firestoreService.getAllCouponsFromFirestore();
   }
 
-  void addCoupon(Coupon coupon) {
+  void addCoupon(Coupon coupon) async {
     state = [...state, coupon];
     _firestoreService.addCouponToFirestore(coupon);
   }
 
-  void updateCoupon(Coupon updated) {
+  void updateCoupon(Coupon updated) async {
+    final Coupon oldCoupon = state.firstWhere(
+      (coupon) => coupon.id == updated.id,
+    );
     state = [
       for (final coupon in state) coupon.id == updated.id ? updated : coupon,
     ];
-    _firestoreService.updateCouponInFirestore(updated);
+    try {
+      await _firestoreService.updateCouponInFirestore(updated);
+      if (oldCoupon.imagePath != null &&
+          oldCoupon.imagePath != updated.imagePath) {
+        FileHelper.deleteFile(oldCoupon.imagePath!);
+      }
+    } catch (e) {
+      state = [
+        for (final coupon in state)
+          coupon.id == oldCoupon.id ? oldCoupon : coupon,
+      ];
+    }
   }
 
-  void removeCoupon(Coupon deleted) {
+  void removeCoupon(Coupon deleted) async {
     _firestoreService.removeCoupon(deleted.id);
     state = state.where((coupon) => coupon.id != deleted.id).toList();
   }

@@ -17,6 +17,13 @@ class FileHelper {
     return savedFile.path;
   }
 
+  static void deleteFile(String filePath) {
+    final file = File(filePath);
+    if (file.existsSync()) {
+      file.deleteSync();
+    }
+  }
+
   static Future<bool> isInAppDir(String filePath) async {
     final appDir = await getApplicationDocumentsDirectory();
     return File(filePath).absolute.path.startsWith(appDir.path);
