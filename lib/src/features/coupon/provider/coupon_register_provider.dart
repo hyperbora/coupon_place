@@ -29,7 +29,7 @@ class CouponRegisterState {
     DateTime? validDate,
   }) {
     return CouponRegisterState(
-      imageFilePath: imageFilePath ?? this.imageFilePath,
+      imageFilePath: imageFilePath,
       name: name ?? this.name,
       code: code ?? this.code,
       memo: memo ?? this.memo,
