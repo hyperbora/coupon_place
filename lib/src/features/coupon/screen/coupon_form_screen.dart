@@ -280,63 +280,55 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: GestureDetector(
           onTap: pickImage,
-          child: AspectRatio(
-            aspectRatio: 16 / 9,
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey, width: 2),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Stack(
-                children: [
-                  imagePath != null && File(imagePath).existsSync()
-                      ? ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.file(
-                          File(imagePath),
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          height: double.infinity,
-                        ),
-                      )
-                      : Container(
-                        width: double.infinity,
-                        height: double.infinity,
-                        alignment: Alignment.center,
-                        child: Icon(
-                          Icons.image_outlined,
-                          color: Colors.grey,
-                          size: 80,
-                        ),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey, width: 2),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Stack(
+              children: [
+                imagePath != null && File(imagePath).existsSync()
+                    ? ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: SizedBox(
+                        child: Image.file(File(imagePath), fit: BoxFit.contain),
                       ),
-                  Positioned(
-                    top: 8,
-                    right: 8,
-                    child:
-                        imagePath != null
-                            ? GestureDetector(
-                              onTap: () {
-                                notifier.setImagePath(null);
-                                coupon = coupon?.copyWith(imagePath: null);
-                                setState(() {});
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.black45,
-                                  shape: BoxShape.circle,
-                                ),
-                                padding: const EdgeInsets.all(6),
-                                child: const Icon(
-                                  Icons.close,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
+                    )
+                    : Container(
+                      alignment: Alignment.center,
+                      child: Icon(
+                        Icons.image_outlined,
+                        color: Colors.grey,
+                        size: 80,
+                      ),
+                    ),
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child:
+                      imagePath != null
+                          ? GestureDetector(
+                            onTap: () {
+                              notifier.setImagePath(null);
+                              coupon = coupon?.copyWith(imagePath: null);
+                              setState(() {});
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.black45,
+                                shape: BoxShape.circle,
                               ),
-                            )
-                            : const SizedBox.shrink(),
-                  ),
-                ],
-              ),
+                              padding: const EdgeInsets.all(6),
+                              child: const Icon(
+                                Icons.close,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            ),
+                          )
+                          : const SizedBox.shrink(),
+                ),
+              ],
             ),
           ),
         ),
