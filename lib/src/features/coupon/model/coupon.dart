@@ -73,7 +73,6 @@ class Coupon {
   }
 
   Coupon copyWith({
-    String? id,
     String? name,
     String? code,
     String? memo,
@@ -83,12 +82,12 @@ class Coupon {
     bool? enableAlarm,
   }) {
     return Coupon(
-      id: this.id,
+      id: id,
       name: name ?? this.name,
       code: code ?? this.code,
       memo: memo ?? this.memo,
       validDate: validDate ?? this.validDate,
-      imagePath: imagePath ?? this.imagePath,
+      imagePath: imagePath,
       folderId: folderId ?? this.folderId,
       enableAlarm: enableAlarm ?? this.enableAlarm,
     );

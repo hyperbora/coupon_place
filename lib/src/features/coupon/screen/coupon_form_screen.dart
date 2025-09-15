@@ -275,6 +275,7 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
     }
 
     Widget buildImagePicker() {
+      final imagePath = state.imageFilePath ?? coupon?.imagePath;
       return GestureDetector(
         onTap: pickImage,
         child: SizedBox(
@@ -287,12 +288,11 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
             ),
             child: Stack(
               children: [
-                state.imageFilePath != null &&
-                        File(state.imageFilePath!).existsSync()
+                imagePath != null && File(imagePath).existsSync()
                     ? ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: Image.file(
-                        File(state.imageFilePath!),
+                        File(imagePath),
                         fit: BoxFit.cover,
                         width: double.infinity,
                         height: double.infinity,
@@ -312,9 +312,13 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
                   top: 8,
                   right: 8,
                   child:
-                      state.imageFilePath != null
+                      imagePath != null
                           ? GestureDetector(
-                            onTap: () => notifier.setImagePath(null),
+                            onTap: () {
+                              notifier.setImagePath(null);
+                              coupon = coupon?.copyWith(imagePath: null);
+                              setState(() {});
+                            },
                             child: Container(
                               decoration: BoxDecoration(
                                 color: Colors.black45,
