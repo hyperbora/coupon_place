@@ -3,7 +3,7 @@ import 'package:coupon_place/src/features/folder/provider/folder_provider.dart';
 import 'package:coupon_place/src/features/coupon/screen/coupon_form_screen.dart';
 import 'package:coupon_place/src/features/folder/screen/folder_form_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:coupon_place/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';

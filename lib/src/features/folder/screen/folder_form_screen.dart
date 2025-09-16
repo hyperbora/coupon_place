@@ -1,5 +1,5 @@
 import 'package:coupon_place/src/shared/widgets/box_container.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:coupon_place/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class FolderFormScreen extends StatefulWidget {

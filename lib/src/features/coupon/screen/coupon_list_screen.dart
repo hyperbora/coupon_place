@@ -6,7 +6,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
 import 'coupon_form_screen.dart';
 import '../provider/coupon_list_provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:coupon_place/l10n/app_localizations.dart';
 
 class CouponListScreen extends ConsumerWidget {
   final String folderId;
@@ -80,7 +80,7 @@ class CouponListScreen extends ConsumerWidget {
             builder:
                 (context) => FractionallySizedBox(
                   heightFactor: 0.9,
-                  child: const CouponFormScreen(),
+                  child: CouponFormScreen(folderId: folderId),
                 ),
           );
         },

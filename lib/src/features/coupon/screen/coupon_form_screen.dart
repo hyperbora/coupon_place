@@ -4,8 +4,8 @@ import 'package:coupon_place/src/features/coupon/provider/coupon_list_provider.d
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:coupon_place/l10n/app_localizations.dart';
 import 'package:coupon_place/src/features/coupon/provider/coupon_register_provider.dart';
 import 'package:coupon_place/src/features/folder/provider/folder_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -135,6 +135,8 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
           _nameController.text = foundCoupon.name;
           _codeController.text = foundCoupon.code ?? '';
           _memoController.text = foundCoupon.memo ?? '';
+        } else if (widget.folderId != null) {
+          notifier.setFolder(widget.folderId!);
         }
       });
       _initialized = true;
@@ -382,7 +384,7 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
             ),
             const SizedBox(height: 16),
             DropdownButtonFormField<String>(
-              value: state.folder,
+              value: state.folder ?? widget.folderId,
               items:
                   folders
                       .map(

@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:intl/intl.dart';
 import '../provider/coupon_list_provider.dart';
 import 'coupon_form_screen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:coupon_place/l10n/app_localizations.dart';
 
 class CouponDetailScreen extends ConsumerWidget {
   final String folderId;
