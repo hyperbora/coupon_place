@@ -52,6 +52,24 @@ class FolderNotifier extends StateNotifier<FolderState> {
     );
   }
 
+  void updateFolder(String id, {String? name, Color? color, IconData? icon}) {
+    final updatedFolders =
+        state.folders.map((folder) {
+          if (folder.id == id) {
+            final updatedFolder = Folder(
+              id: folder.id,
+              name: name ?? folder.name,
+              color: color ?? folder.color,
+              icon: icon ?? folder.icon,
+            );
+            firestoreService.addFolderToFirestore(updatedFolder);
+            return updatedFolder;
+          }
+          return folder;
+        }).toList();
+    state = state.copyWith(folders: updatedFolders);
+  }
+
   Future<void> removeFolder(String id) async {
     // 상태 갱신 (UI 먼저 반영)
     state = state.copyWith(

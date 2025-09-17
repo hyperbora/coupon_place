@@ -113,7 +113,36 @@ class MyCouponsScreen extends ConsumerWidget {
               motion: const ScrollMotion(),
               children: [
                 SlidableAction(
-                  onPressed: (context) {},
+                  onPressed: (context) {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(24),
+                        ),
+                      ),
+                      builder:
+                          (context) => FractionallySizedBox(
+                            heightFactor: 0.9,
+                            child: Center(
+                              child: FolderFormScreen(
+                                initialName: folder.name,
+                                initialColor: folder.color,
+                                initialIcon: folder.icon,
+                                onSubmit: (name, color, icon) {
+                                  folderNotifier.updateFolder(
+                                    folder.id,
+                                    name: name,
+                                    color: color,
+                                    icon: icon,
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                    );
+                  },
                   backgroundColor: const Color.fromRGBO(33, 150, 243, 1),
                   foregroundColor: Colors.white,
                   icon: Icons.edit,
