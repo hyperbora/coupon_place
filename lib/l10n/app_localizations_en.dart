@@ -136,4 +136,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get selectModeTooltip => 'Select Mode';
+
+  @override
+  String get deleteFolderTitle => 'Delete Folder';
+
+  @override
+  String get deleteFolderMessage => 'Are you sure you want to delete this folder?';
 }

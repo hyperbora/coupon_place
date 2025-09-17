@@ -171,5 +171,13 @@
   "selectModeTooltip": "선택 모드",
   "@selectModeTooltip": {
     "description": "선택 모드 버튼의 툴팁"
+  },
+  "deleteFolderTitle": "폴더 삭제",
+  "@deleteFolderTitle": {
+    "description": "폴더 삭제 다이얼로그의 제목"
+  },
+  "deleteFolderMessage": "정말로 이 폴더를 삭제하시겠습니까?",
+  "@deleteFolderMessage": {
+    "description": "폴더 삭제 다이얼로그의 본문"
   }
 }

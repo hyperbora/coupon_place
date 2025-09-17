@@ -136,4 +136,10 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get selectModeTooltip => '선택 모드';
+
+  @override
+  String get deleteFolderTitle => '폴더 삭제';
+
+  @override
+  String get deleteFolderMessage => '정말로 이 폴더를 삭제하시겠습니까?';
 }

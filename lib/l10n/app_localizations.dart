@@ -352,6 +352,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select Mode'**
   String get selectModeTooltip;
+
+  /// Title for the delete folder confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Folder'**
+  String get deleteFolderTitle;
+
+  /// Message for the delete folder confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this folder?'**
+  String get deleteFolderMessage;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -1,5 +1,6 @@
 import 'package:coupon_place/src/core/router/app_routes.dart';
 import 'package:coupon_place/src/features/folder/provider/folder_provider.dart';
+import 'package:coupon_place/src/shared/widgets/confirm_dialog.dart';
 import 'package:coupon_place/src/features/coupon/screen/coupon_form_screen.dart';
 import 'package:coupon_place/src/features/folder/screen/folder_form_screen.dart';
 import 'package:flutter/material.dart';
@@ -41,12 +42,19 @@ class MyCouponsScreen extends ConsumerWidget {
             IconButton(
               icon: const Icon(Icons.delete),
               onPressed: () {
-                final selected = ref.read(selectedFoldersProvider);
-                for (final id in selected) {
-                  folderNotifier.removeFolder(id);
-                }
-                ref.read(selectModeProvider.notifier).state = false;
-                ref.read(selectedFoldersProvider.notifier).state = {};
+                showConfirmDialog(
+                  context,
+                  title: loc.deleteFolderTitle,
+                  message: loc.deleteFolderMessage,
+                  onConfirm: () {
+                    final selected = ref.read(selectedFoldersProvider);
+                    for (final id in selected) {
+                      folderNotifier.removeFolder(id);
+                    }
+                    ref.read(selectModeProvider.notifier).state = false;
+                    ref.read(selectedFoldersProvider.notifier).state = {};
+                  },
+                );
               },
             ),
           ] else ...[
@@ -113,7 +121,12 @@ class MyCouponsScreen extends ConsumerWidget {
                 ),
                 SlidableAction(
                   onPressed: (context) {
-                    folderNotifier.removeFolder(folder.id);
+                    showConfirmDialog(
+                      context,
+                      title: loc.deleteFolderTitle,
+                      message: loc.deleteFolderMessage,
+                      onConfirm: () => folderNotifier.removeFolder(folder.id),
+                    );
                   },
                   backgroundColor: const Color.fromRGBO(244, 67, 54, 1),
                   foregroundColor: Colors.white,
