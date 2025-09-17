@@ -133,4 +133,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get couponDetailValidDateLabel => '유효기간';
+
+  @override
+  String get selectModeTooltip => '선택 모드';
 }

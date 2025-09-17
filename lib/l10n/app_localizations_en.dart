@@ -133,4 +133,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get couponDetailValidDateLabel => 'Valid Until';
+
+  @override
+  String get selectModeTooltip => 'Select Mode';
 }

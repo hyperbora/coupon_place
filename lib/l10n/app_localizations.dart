@@ -346,6 +346,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Valid Until'**
   String get couponDetailValidDateLabel;
+
+  /// Tooltip for the select mode button
+  ///
+  /// In en, this message translates to:
+  /// **'Select Mode'**
+  String get selectModeTooltip;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

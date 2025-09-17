@@ -167,5 +167,9 @@
   "couponDetailValidDateLabel": "유효기간",
   "@couponDetailValidDateLabel": {
     "description": "쿠폰 상세 화면의 유효기간 라벨"
+  },
+  "selectModeTooltip": "선택 모드",
+  "@selectModeTooltip": {
+    "description": "선택 모드 버튼의 툴팁"
   }
 }

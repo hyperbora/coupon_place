@@ -167,5 +167,9 @@
   "couponDetailValidDateLabel": "Valid Until",
   "@couponDetailValidDateLabel": {
     "description": "Label for the valid date in the coupon detail view"
+  },
+  "selectModeTooltip": "Select Mode",
+  "@selectModeTooltip": {
+    "description": "Tooltip for the select mode button"
   }
 }
