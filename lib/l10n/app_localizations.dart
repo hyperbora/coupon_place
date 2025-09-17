@@ -364,6 +364,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to delete this folder?'**
   String get deleteFolderMessage;
+
+  /// Label for enabling the alarm feature
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Alarm'**
+  String get enableAlarmLabel;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -200,6 +200,29 @@ class CouponDetailScreen extends ConsumerWidget {
                       ),
                     ],
                   ),
+                  TableRow(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(color: Colors.grey.shade300),
+                      ),
+                    ),
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Text(loc.enableAlarmLabel, style: labelStyle),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Switch.adaptive(
+                            value: coupon.enableAlarm,
+                            onChanged: null,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ],

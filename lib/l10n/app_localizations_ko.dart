@@ -142,4 +142,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get deleteFolderMessage => '정말로 이 폴더를 삭제하시겠습니까?';
+
+  @override
+  String get enableAlarmLabel => '알림 설정';
 }

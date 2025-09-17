@@ -142,4 +142,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deleteFolderMessage => 'Are you sure you want to delete this folder?';
+
+  @override
+  String get enableAlarmLabel => 'Enable Alarm';
 }

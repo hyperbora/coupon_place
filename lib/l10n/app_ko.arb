@@ -179,5 +179,9 @@
   "deleteFolderMessage": "정말로 이 폴더를 삭제하시겠습니까?",
   "@deleteFolderMessage": {
     "description": "폴더 삭제 다이얼로그의 본문"
+  },
+  "enableAlarmLabel": "알림 설정",
+  "@enableAlarmLabel": {
+    "description": "알림 설정 스위치의 라벨"
   }
 }

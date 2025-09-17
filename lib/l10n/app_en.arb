@@ -179,5 +179,9 @@
   "deleteFolderMessage": "Are you sure you want to delete this folder?",
   "@deleteFolderMessage": {
     "description": "Message for the delete folder confirmation dialog"
+  },
+  "enableAlarmLabel": "Enable Alarm",
+  "@enableAlarmLabel": {
+    "description": "Label for enabling the alarm feature"
   }
 }
