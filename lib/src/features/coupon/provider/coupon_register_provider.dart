@@ -20,7 +20,6 @@ class CouponRegisterState {
   });
 
   CouponRegisterState copyWith({
-    String? imageFilePath,
     String? name,
     String? code,
     String? memo,
@@ -38,13 +37,25 @@ class CouponRegisterState {
       validDate: validDate ?? this.validDate,
     );
   }
+
+  CouponRegisterState copyWithImagePath(String? imageFilePath) {
+    return CouponRegisterState(
+      imageFilePath: imageFilePath,
+      name: name,
+      code: code,
+      memo: memo,
+      folder: folder,
+      enableAlarm: enableAlarm,
+      validDate: validDate,
+    );
+  }
 }
 
 class CouponRegisterNotifier extends StateNotifier<CouponRegisterState> {
   CouponRegisterNotifier() : super(CouponRegisterState());
 
   void setImagePath(String? filePath) =>
-      state = state.copyWith(imageFilePath: filePath);
+      state = state.copyWithImagePath(filePath);
   void setName(String name) => state = state.copyWith(name: name);
   void setCode(String code) => state = state.copyWith(code: code);
   void setMemo(String memo) => state = state.copyWith(memo: memo);
