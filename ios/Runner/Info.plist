@@ -49,5 +49,12 @@
     <string>$(NSCameraUsageDescription)</string>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>$(NSPhotoLibraryUsageDescription)</string>
+    <key>UIBackgroundModes</key>
+    <array>
+      <string>fetch</string>
+      <string>remote-notification</string>
+    </array>
+    <key>NSUserNotificationUsageDescription</key>
+    <string>$(NSUserNotificationUsageDescription)</string>
   </dict>
 </plist>
