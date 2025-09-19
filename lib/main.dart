@@ -44,8 +44,6 @@ Future<void> initNotifications() async {
     initializationSettings,
     onDidReceiveNotificationResponse: (NotificationResponse response) {
       debugPrint("알림 클릭됨, payload: ${response.payload}");
-      print("알림 클릭됨, payload: ${response.payload}");
-      // TODO: 여기서 네비게이션 처리 (쿠폰 상세 화면 이동)
     },
   );
 
