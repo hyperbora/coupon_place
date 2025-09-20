@@ -183,5 +183,23 @@
   "enableAlarmLabel": "알림 설정",
   "@enableAlarmLabel": {
     "description": "알림 설정 스위치의 라벨"
+  },
+  "reminder": "쿠폰이 {days}일 후 만료됩니다.",
+  "@reminder": {
+    "description": "쿠폰 만료 알림 메시지",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "reminder_0d": "쿠폰이 오늘 만료됩니다!",
+  "@reminder_0d": {
+    "description": "쿠폰이 오늘 만료된다는 알림 메시지"
+  },
+  "couponExpireNotificationTitle": "쿠폰 만료 알림",
+  "@couponExpireNotificationTitle": {
+    "description": "쿠폰 만료 알림의 제목"
   }
 }

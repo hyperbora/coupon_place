@@ -370,6 +370,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enable Alarm'**
   String get enableAlarmLabel;
+
+  /// Notification message for coupon expiring in a certain number of days
+  ///
+  /// In en, this message translates to:
+  /// **'Your coupon will expire in {days} day(s).'**
+  String reminder(int days);
+
+  /// Notification message for coupon expiring today
+  ///
+  /// In en, this message translates to:
+  /// **'Your coupon expires today!'**
+  String get reminder_0d;
+
+  /// Title for the coupon expiration notification
+  ///
+  /// In en, this message translates to:
+  /// **'Coupon Expiration Reminder'**
+  String get couponExpireNotificationTitle;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

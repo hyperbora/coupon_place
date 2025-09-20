@@ -183,5 +183,23 @@
   "enableAlarmLabel": "Enable Alarm",
   "@enableAlarmLabel": {
     "description": "Label for enabling the alarm feature"
+  },
+  "reminder": "Your coupon will expire in {days} day(s).",
+  "@reminder": {
+    "description": "Notification message for coupon expiring in a certain number of days",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "reminder_0d": "Your coupon expires today!",
+  "@reminder_0d": {
+    "description": "Notification message for coupon expiring today"
+  },
+  "couponExpireNotificationTitle": "Coupon Expiration Reminder",
+  "@couponExpireNotificationTitle": {
+    "description": "Title for the coupon expiration notification"
   }
 }

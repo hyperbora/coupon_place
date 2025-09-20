@@ -145,4 +145,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get enableAlarmLabel => 'Enable Alarm';
+
+  @override
+  String reminder(int days) {
+    return 'Your coupon will expire in $days day(s).';
+  }
+
+  @override
+  String get reminder_0d => 'Your coupon expires today!';
+
+  @override
+  String get couponExpireNotificationTitle => 'Coupon Expiration Reminder';
 }

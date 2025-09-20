@@ -145,4 +145,15 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get enableAlarmLabel => '알림 설정';
+
+  @override
+  String reminder(int days) {
+    return '쿠폰이 $days일 후 만료됩니다.';
+  }
+
+  @override
+  String get reminder_0d => '쿠폰이 오늘 만료됩니다!';
+
+  @override
+  String get couponExpireNotificationTitle => '쿠폰 만료 알림';
 }
