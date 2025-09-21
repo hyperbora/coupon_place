@@ -8,8 +8,20 @@ import 'package:timezone/timezone.dart' as tz;
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
-String _getBasePayload(Folder folder, Coupon coupon) {
-  return '/coupon/${folder.id}/${coupon.id}';
+class BasePayload {
+  final Folder folder;
+  final Coupon coupon;
+
+  BasePayload({required this.folder, required this.coupon});
+
+  @override
+  String toString() {
+    return '/coupon/${folder.id}/${coupon.id}';
+  }
+}
+
+int _getNotificationId(BasePayload basePayload, ReminderConfig config) {
+  return '${basePayload.toString()}${config.key}'.hashCode;
 }
 
 Future<void> registerCouponNotifications({
@@ -22,7 +34,7 @@ Future<void> registerCouponNotifications({
   if (validDate == null) return;
   if (validDate.isBefore(DateTime.now())) return;
 
-  final basePayload = _getBasePayload(folder, coupon);
+  final basePayload = BasePayload(folder: folder, coupon: coupon);
 
   final reminders = configs ?? defaultReminderConfigs;
   for (final config in reminders) {
@@ -32,7 +44,7 @@ Future<void> registerCouponNotifications({
     );
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
-      '$basePayload${config.key}'.hashCode,
+      _getNotificationId(basePayload, config),
       loc.couponExpireNotificationTitle,
       config.labelGetter(loc),
       scheduledDate,
@@ -46,7 +58,7 @@ Future<void> registerCouponNotifications({
         ),
         iOS: DarwinNotificationDetails(),
       ),
-      payload: basePayload,
+      payload: basePayload.toString(),
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
     );
   }
@@ -57,13 +69,13 @@ Future<void> cancelCouponNotifications({
   required Coupon coupon,
   List<ReminderConfig>? configs,
 }) async {
-  final basePayload = _getBasePayload(folder, coupon);
+  final basePayload = BasePayload(folder: folder, coupon: coupon);
 
   final reminders = configs ?? defaultReminderConfigs;
 
   for (final config in reminders) {
     await flutterLocalNotificationsPlugin.cancel(
-      '$basePayload${config.key}'.hashCode,
+      _getNotificationId(basePayload, config),
     );
   }
 }

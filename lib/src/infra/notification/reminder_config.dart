@@ -23,9 +23,4 @@ final List<ReminderConfig> defaultReminderConfigs = List.unmodifiable([
     offset: Duration(days: 1),
     labelGetter: (loc) => loc.reminder(1),
   ),
-  ReminderConfig(
-    key: "0d",
-    offset: Duration(days: 0),
-    labelGetter: (loc) => loc.reminder_0d,
-  ),
 ]);
