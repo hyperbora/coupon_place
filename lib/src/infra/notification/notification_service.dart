@@ -1,6 +1,5 @@
 import 'package:coupon_place/l10n/app_localizations.dart';
 import 'package:coupon_place/src/features/coupon/model/coupon.dart';
-import 'package:coupon_place/src/features/folder/model/folder.dart';
 import 'package:coupon_place/src/infra/notification/reminder_config.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -9,14 +8,13 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 class BasePayload {
-  final Folder folder;
   final Coupon coupon;
 
-  BasePayload({required this.folder, required this.coupon});
+  BasePayload({required this.coupon});
 
   @override
   String toString() {
-    return '/coupon/${folder.id}/${coupon.id}';
+    return '/coupon/${coupon.folderId}/${coupon.id}';
   }
 }
 
@@ -25,7 +23,6 @@ int _getNotificationId(BasePayload basePayload, ReminderConfig config) {
 }
 
 Future<void> registerCouponNotifications({
-  required Folder folder,
   required Coupon coupon,
   required AppLocalizations loc,
   List<ReminderConfig>? configs,
@@ -34,7 +31,7 @@ Future<void> registerCouponNotifications({
   if (validDate == null) return;
   if (validDate.isBefore(DateTime.now())) return;
 
-  final basePayload = BasePayload(folder: folder, coupon: coupon);
+  final basePayload = BasePayload(coupon: coupon);
 
   final reminders = configs ?? defaultReminderConfigs;
   for (final config in reminders) {
@@ -65,11 +62,10 @@ Future<void> registerCouponNotifications({
 }
 
 Future<void> cancelCouponNotifications({
-  required Folder folder,
   required Coupon coupon,
   List<ReminderConfig>? configs,
 }) async {
-  final basePayload = BasePayload(folder: folder, coupon: coupon);
+  final basePayload = BasePayload(coupon: coupon);
 
   final reminders = configs ?? defaultReminderConfigs;
 
@@ -77,5 +73,29 @@ Future<void> cancelCouponNotifications({
     await flutterLocalNotificationsPlugin.cancel(
       _getNotificationId(basePayload, config),
     );
+  }
+}
+
+Future<void> rescheduleAllNotifications({
+  required List<Coupon> coupons,
+  required AppLocalizations loc,
+  List<ReminderConfig>? configs,
+}) async {
+  await flutterLocalNotificationsPlugin.cancelAll();
+
+  for (final coupon in coupons) {
+    if (coupon.enableAlarm == false) {
+      continue;
+    }
+
+    final validDate = coupon.validDate;
+
+    if (validDate != null && validDate.isAfter(DateTime.now())) {
+      await registerCouponNotifications(
+        coupon: coupon,
+        loc: loc,
+        configs: configs,
+      );
+    }
   }
 }
