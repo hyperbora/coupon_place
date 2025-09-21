@@ -27,6 +27,8 @@ Future<void> registerCouponNotifications({
   required AppLocalizations loc,
   List<ReminderConfig>? configs,
 }) async {
+  await cancelCouponNotifications(coupon: coupon, configs: configs);
+
   final validDate = coupon.validDate;
   if (validDate == null) return;
   if (validDate.isBefore(DateTime.now())) return;
@@ -39,6 +41,10 @@ Future<void> registerCouponNotifications({
       validDate.subtract(config.offset),
       tz.local,
     );
+
+    if (!scheduledDate.isAfter(DateTime.now())) {
+      continue;
+    }
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
       _getNotificationId(basePayload, config),
