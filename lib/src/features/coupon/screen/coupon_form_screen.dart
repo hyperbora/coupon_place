@@ -384,7 +384,7 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
             ),
             const SizedBox(height: 16),
             DropdownButtonFormField<String>(
-              value: state.folder ?? widget.folderId,
+              initialValue: state.folder ?? widget.folderId,
               items:
                   folders
                       .map(

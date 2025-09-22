@@ -2,8 +2,8 @@
 /// 예: firstReminderDays = 7 → 만료 7일 전 알림
 ///     secondReminderDays = 1 → 만료 1일 전 알림
 class UserReminderSetting {
-  final int firstReminderDays; // 1차 알림 (0 ~ 30)
-  final int secondReminderDays; // 2차 알림 (0 ~ 30)
+  final int? firstReminderDays; // 1차 알림 (0 ~ 30)
+  final int? secondReminderDays; // 2차 알림 (0 ~ 30)
 
   const UserReminderSetting({
     required this.firstReminderDays,
@@ -26,19 +26,40 @@ class UserReminderSetting {
 
   /// Map에서 불러오기
   factory UserReminderSetting.fromMap(Map<String, dynamic> map) {
+    final first =
+        map.containsKey('firstReminderDays')
+            ? map['firstReminderDays'] as int?
+            : null;
+    final second =
+        map.containsKey('secondReminderDays')
+            ? map['secondReminderDays'] as int?
+            : null;
+
+    // 키가 둘 다 없으면 기본 설정을 반환하도록 변경
+    if (!map.containsKey('firstReminderDays') &&
+        !map.containsKey('secondReminderDays')) {
+      return UserReminderSetting.defaults;
+    }
+
     return UserReminderSetting(
-      firstReminderDays: map['firstReminderDays'] as int? ?? 7,
-      secondReminderDays: map['secondReminderDays'] as int? ?? 1,
+      firstReminderDays: first,
+      secondReminderDays: second,
     );
   }
 
   UserReminderSetting copyWith({
     int? firstReminderDays,
     int? secondReminderDays,
+    bool firstReminderDaysIsSet = false,
+    bool secondReminderDaysIsSet = false,
   }) {
     return UserReminderSetting(
-      firstReminderDays: firstReminderDays ?? this.firstReminderDays,
-      secondReminderDays: secondReminderDays ?? this.secondReminderDays,
+      firstReminderDays:
+          firstReminderDaysIsSet ? firstReminderDays : this.firstReminderDays,
+      secondReminderDays:
+          secondReminderDaysIsSet
+              ? secondReminderDays
+              : this.secondReminderDays,
     );
   }
 }
