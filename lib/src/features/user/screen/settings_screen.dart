@@ -23,7 +23,7 @@ class SettingsScreen extends ConsumerWidget {
             children: [
               Text(loc.firstAlarmLabel),
               SizedBox(
-                width: 120, // Expanded 대신 고정 너비로 변경
+                width: 180, // Expanded 대신 고정 너비로 변경
                 child: DropdownButtonHideUnderline(
                   child: DropdownButtonFormField<int?>(
                     initialValue: reminderSetting.firstReminderDays,
@@ -61,7 +61,7 @@ class SettingsScreen extends ConsumerWidget {
             children: [
               Text(loc.secondAlarmLabel),
               SizedBox(
-                width: 120, // Expanded 대신 고정 너비로 변경
+                width: 180, // Expanded 대신 고정 너비로 변경
                 child: DropdownButtonHideUnderline(
                   child: DropdownButtonFormField<int?>(
                     initialValue: reminderSetting.secondReminderDays,
