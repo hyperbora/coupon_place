@@ -12,9 +12,6 @@ class SettingsScreen extends ConsumerWidget {
     final reminderSetting = ref.watch(userReminderSettingProvider);
     final notifier = ref.read(userReminderSettingProvider.notifier);
 
-    final firstEnabled = reminderSetting.firstReminderDays != null;
-    final secondEnabled = reminderSetting.secondReminderDays != null;
-
     return Scaffold(
       appBar: AppBar(title: Text(loc.settingsTitle), centerTitle: true),
       body: ListView(
@@ -31,47 +28,28 @@ class SettingsScreen extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text("1차 알림"),
-              Row(
-                children: [
-                  Switch(
-                    value: firstEnabled,
-                    onChanged: (value) {
-                      if (value) {
-                        notifier.updateFirst(7);
-                      } else {
-                        notifier.updateFirst(null);
-                      }
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  SizedBox(
-                    width: 80, // Expanded 대신 고정 너비로 변경
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButtonFormField<int>(
-                        initialValue:
-                            firstEnabled
-                                ? reminderSetting.firstReminderDays!
-                                : null, // initialValue → value로 변경
-                        items: List.generate(
-                          31,
-                          (i) => DropdownMenuItem(value: i, child: Text('$i')),
-                        ),
-                        onChanged:
-                            firstEnabled
-                                ? (value) {
-                                  if (value != null) {
-                                    notifier.updateFirst(value);
-                                  }
-                                }
-                                : null,
-                        decoration: const InputDecoration.collapsed(
-                          hintText: '',
-                        ),
-                        dropdownColor: Theme.of(context).canvasColor,
+              SizedBox(
+                width: 80, // Expanded 대신 고정 너비로 변경
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButtonFormField<int?>(
+                    initialValue: reminderSetting.firstReminderDays,
+                    items: [
+                      const DropdownMenuItem<int?>(
+                        value: null,
+                        child: Text('없음'),
                       ),
-                    ),
+                      ...List.generate(
+                        31,
+                        (i) => DropdownMenuItem(value: i, child: Text('$i')),
+                      ),
+                    ],
+                    onChanged: (value) {
+                      notifier.updateFirst(value);
+                    },
+                    decoration: const InputDecoration.collapsed(hintText: ''),
+                    dropdownColor: Theme.of(context).canvasColor,
                   ),
-                ],
+                ),
               ),
             ],
           ),
@@ -80,47 +58,28 @@ class SettingsScreen extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text("2차 알림"),
-              Row(
-                children: [
-                  Switch(
-                    value: secondEnabled,
-                    onChanged: (value) {
-                      if (value) {
-                        notifier.updateSecond(7);
-                      } else {
-                        notifier.updateSecond(null);
-                      }
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  SizedBox(
-                    width: 80, // Expanded 대신 고정 너비로 변경
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButtonFormField<int>(
-                        initialValue:
-                            secondEnabled
-                                ? reminderSetting.secondReminderDays!
-                                : null, // initialValue → value로 변경
-                        items: List.generate(
-                          31,
-                          (i) => DropdownMenuItem(value: i, child: Text('$i')),
-                        ),
-                        onChanged:
-                            secondEnabled
-                                ? (value) {
-                                  if (value != null) {
-                                    notifier.updateSecond(value);
-                                  }
-                                }
-                                : null,
-                        decoration: const InputDecoration.collapsed(
-                          hintText: '',
-                        ),
-                        dropdownColor: Theme.of(context).canvasColor,
+              SizedBox(
+                width: 80, // Expanded 대신 고정 너비로 변경
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButtonFormField<int?>(
+                    initialValue: reminderSetting.secondReminderDays,
+                    items: [
+                      const DropdownMenuItem<int?>(
+                        value: null,
+                        child: Text('없음'),
                       ),
-                    ),
+                      ...List.generate(
+                        31,
+                        (i) => DropdownMenuItem(value: i, child: Text('$i')),
+                      ),
+                    ],
+                    onChanged: (value) {
+                      notifier.updateSecond(value);
+                    },
+                    decoration: const InputDecoration.collapsed(hintText: ''),
+                    dropdownColor: Theme.of(context).canvasColor,
                   ),
-                ],
+                ),
               ),
             ],
           ),
