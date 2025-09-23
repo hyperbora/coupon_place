@@ -156,4 +156,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get couponExpireNotificationTitle => 'Coupon Expiration Reminder';
+
+  @override
+  String get firstAlarmLabel => 'Alarm';
+
+  @override
+  String get secondAlarmLabel => 'Second Alarm';
+
+  @override
+  String get noAlarmDropdownItem => 'None';
+
+  @override
+  String daysBeforeDropdownItem(int days) {
+    return '$days day(s) before';
+  }
+
+  @override
+  String get onTheDayDropdownItem => 'On the day';
 }

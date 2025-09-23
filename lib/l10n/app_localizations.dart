@@ -388,6 +388,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Coupon Expiration Reminder'**
   String get couponExpireNotificationTitle;
+
+  /// first alarm setting label
+  ///
+  /// In en, this message translates to:
+  /// **'Alarm'**
+  String get firstAlarmLabel;
+
+  /// second alarm setting label
+  ///
+  /// In en, this message translates to:
+  /// **'Second Alarm'**
+  String get secondAlarmLabel;
+
+  /// Label indicating no alarm is set
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get noAlarmDropdownItem;
+
+  /// Label indicating the number of days before an event
+  ///
+  /// In en, this message translates to:
+  /// **'{days} day(s) before'**
+  String daysBeforeDropdownItem(int days);
+
+  /// Label indicating the event occurs on the day itself
+  ///
+  /// In en, this message translates to:
+  /// **'On the day'**
+  String get onTheDayDropdownItem;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

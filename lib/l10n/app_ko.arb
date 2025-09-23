@@ -201,5 +201,31 @@
   "couponExpireNotificationTitle": "쿠폰 만료 알림",
   "@couponExpireNotificationTitle": {
     "description": "쿠폰 만료 알림의 제목"
+  },
+  "firstAlarmLabel": "알림",
+  "@firstAlarmLabel": {
+    "description": "첫 번째 알림 설정 라벨"
+  },
+  "secondAlarmLabel": "두 번째 알림",
+  "@secondAlarmLabel": {
+    "description": "두 번째 알림 설정 라벨"
+  },
+  "noAlarmDropdownItem": "없음",
+  "@noAlarmDropdownItem": {
+    "description": "알림 없음 옵션 라벨"
+  },
+  "daysBeforeDropdownItem": "{days}일 전",
+  "@daysBeforeDropdownItem": {
+    "description": "쿠폰 만료 알림 설정에서 'n일 전' 옵션 라벨",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "onTheDayDropdownItem": "당일",
+  "@onTheDayDropdownItem": {
+    "description": "쿠폰 만료 알림 설정에서 '당일' 옵션"
   }
 }

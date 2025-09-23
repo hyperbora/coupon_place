@@ -156,4 +156,21 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get couponExpireNotificationTitle => '쿠폰 만료 알림';
+
+  @override
+  String get firstAlarmLabel => '알림';
+
+  @override
+  String get secondAlarmLabel => '두 번째 알림';
+
+  @override
+  String get noAlarmDropdownItem => '없음';
+
+  @override
+  String daysBeforeDropdownItem(int days) {
+    return '$days일 전';
+  }
+
+  @override
+  String get onTheDayDropdownItem => '당일';
 }

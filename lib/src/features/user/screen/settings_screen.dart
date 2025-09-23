@@ -17,30 +17,31 @@ class SettingsScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         children: [
-          ListTile(
-            title: Text(
-              loc.settingsTitle,
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-          ),
           const SizedBox(height: 24),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text("1차 알림"),
+              Text(loc.firstAlarmLabel),
               SizedBox(
-                width: 80, // Expanded 대신 고정 너비로 변경
+                width: 120, // Expanded 대신 고정 너비로 변경
                 child: DropdownButtonHideUnderline(
                   child: DropdownButtonFormField<int?>(
                     initialValue: reminderSetting.firstReminderDays,
                     items: [
-                      const DropdownMenuItem<int?>(
+                      DropdownMenuItem<int?>(
                         value: null,
-                        child: Text('없음'),
+                        child: Text(loc.noAlarmDropdownItem),
                       ),
                       ...List.generate(
                         31,
-                        (i) => DropdownMenuItem(value: i, child: Text('$i')),
+                        (i) => DropdownMenuItem(
+                          value: i,
+                          child: Text(
+                            i == 0
+                                ? loc.onTheDayDropdownItem
+                                : loc.daysBeforeDropdownItem(i),
+                          ),
+                        ),
                       ),
                     ],
                     onChanged: (value) {
@@ -58,20 +59,27 @@ class SettingsScreen extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text("2차 알림"),
+              Text(loc.secondAlarmLabel),
               SizedBox(
-                width: 80, // Expanded 대신 고정 너비로 변경
+                width: 120, // Expanded 대신 고정 너비로 변경
                 child: DropdownButtonHideUnderline(
                   child: DropdownButtonFormField<int?>(
                     initialValue: reminderSetting.secondReminderDays,
                     items: [
-                      const DropdownMenuItem<int?>(
+                      DropdownMenuItem<int?>(
                         value: null,
-                        child: Text('없음'),
+                        child: Text(loc.noAlarmDropdownItem),
                       ),
                       ...List.generate(
                         31,
-                        (i) => DropdownMenuItem(value: i, child: Text('$i')),
+                        (i) => DropdownMenuItem(
+                          value: i,
+                          child: Text(
+                            i == 0
+                                ? loc.onTheDayDropdownItem
+                                : loc.daysBeforeDropdownItem(i),
+                          ),
+                        ),
                       ),
                     ],
                     onChanged: (value) {

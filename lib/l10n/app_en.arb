@@ -201,5 +201,31 @@
   "couponExpireNotificationTitle": "Coupon Expiration Reminder",
   "@couponExpireNotificationTitle": {
     "description": "Title for the coupon expiration notification"
+  },
+  "firstAlarmLabel": "Alarm",
+  "@firstAlarmLabel": {
+    "description": "first alarm setting label"
+  },
+  "secondAlarmLabel": "Second Alarm",
+  "@secondAlarmLabel": {
+    "description": "second alarm setting label"
+  },
+  "noAlarmDropdownItem": "None",
+  "@noAlarmDropdownItem": {
+    "description": "Label indicating no alarm is set"
+  },
+  "daysBeforeDropdownItem": "{days} day(s) before",
+  "@daysBeforeDropdownItem": {
+    "description": "Label indicating the number of days before an event",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "onTheDayDropdownItem": "On the day",
+  "@onTheDayDropdownItem": {
+    "description": "Label indicating the event occurs on the day itself"
   }
 }
