@@ -50,16 +50,10 @@ class UserReminderSetting {
   UserReminderSetting copyWith({
     int? firstReminderDays,
     int? secondReminderDays,
-    bool firstReminderDaysIsSet = false,
-    bool secondReminderDaysIsSet = false,
   }) {
     return UserReminderSetting(
-      firstReminderDays:
-          firstReminderDaysIsSet ? firstReminderDays : this.firstReminderDays,
-      secondReminderDays:
-          secondReminderDaysIsSet
-              ? secondReminderDays
-              : this.secondReminderDays,
+      firstReminderDays: firstReminderDays ?? this.firstReminderDays,
+      secondReminderDays: secondReminderDays ?? this.secondReminderDays,
     );
   }
 }
