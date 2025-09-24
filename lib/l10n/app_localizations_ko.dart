@@ -173,4 +173,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get onTheDayDropdownItem => '당일';
+
+  @override
+  String get settingsReminderTitle => '만료 알림';
 }

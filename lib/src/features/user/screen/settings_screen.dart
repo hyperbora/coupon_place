@@ -12,21 +12,38 @@ class SettingsScreen extends ConsumerWidget {
     final reminderSetting = ref.watch(userReminderSettingProvider);
     final notifier = ref.read(userReminderSettingProvider.notifier);
 
-    return Scaffold(
-      appBar: AppBar(title: Text(loc.settingsTitle), centerTitle: true),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-        children: [
-          const SizedBox(height: 24),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    Widget alarmRow({
+      required String label,
+      required int? value,
+      required ValueChanged<int?> onChanged,
+      required Color color,
+      required IconData icon,
+    }) {
+      return Card(
+        elevation: 2,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+          child: Row(
             children: [
-              Text(loc.firstAlarmLabel),
+              CircleAvatar(
+                backgroundColor: color.withValues(alpha: 0.15),
+                child: Icon(icon, color: color),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Text(
+                  label,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              ),
               SizedBox(
-                width: 180, // Expanded 대신 고정 너비로 변경
+                width: 140,
                 child: DropdownButtonHideUnderline(
                   child: DropdownButtonFormField<int?>(
-                    initialValue: reminderSetting.firstReminderDays,
+                    isExpanded: true,
+                    initialValue: value,
                     items: [
                       DropdownMenuItem<int?>(
                         value: null,
@@ -44,54 +61,61 @@ class SettingsScreen extends ConsumerWidget {
                         ),
                       ),
                     ],
-                    onChanged: (value) {
-                      notifier.updateFirst(value);
-                    },
-                    decoration: const InputDecoration.collapsed(hintText: ''),
-                    dropdownColor: Theme.of(context).canvasColor,
-                    menuMaxHeight: 5 * 48,
+                    onChanged: onChanged,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor:
+                          Theme.of(context).colorScheme.surfaceContainerHighest,
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                    dropdownColor: Theme.of(context).colorScheme.surface,
+                    menuMaxHeight: 5 * kMinInteractiveDimension,
                   ),
                 ),
               ),
             ],
           ),
+        ),
+      );
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(loc.settingsTitle),
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: Theme.of(context).colorScheme.surface,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+        children: [
+          Text(
+            loc.settingsReminderTitle,
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(loc.secondAlarmLabel),
-              SizedBox(
-                width: 180, // Expanded 대신 고정 너비로 변경
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButtonFormField<int?>(
-                    initialValue: reminderSetting.secondReminderDays,
-                    items: [
-                      DropdownMenuItem<int?>(
-                        value: null,
-                        child: Text(loc.noAlarmDropdownItem),
-                      ),
-                      ...List.generate(
-                        31,
-                        (i) => DropdownMenuItem(
-                          value: i,
-                          child: Text(
-                            i == 0
-                                ? loc.onTheDayDropdownItem
-                                : loc.daysBeforeDropdownItem(i),
-                          ),
-                        ),
-                      ),
-                    ],
-                    onChanged: (value) {
-                      notifier.updateSecond(value);
-                    },
-                    decoration: const InputDecoration.collapsed(hintText: ''),
-                    dropdownColor: Theme.of(context).canvasColor,
-                    menuMaxHeight: 5 * 48,
-                  ),
-                ),
-              ),
-            ],
+          alarmRow(
+            label: loc.firstAlarmLabel,
+            value: reminderSetting.firstReminderDays,
+            onChanged: notifier.updateFirst,
+            color: Colors.deepPurple,
+            icon: Icons.notifications_active_rounded,
+          ),
+          alarmRow(
+            label: loc.secondAlarmLabel,
+            value: reminderSetting.secondReminderDays,
+            onChanged: notifier.updateSecond,
+            color: Colors.orange,
+            icon: Icons.notifications_none_rounded,
           ),
         ],
       ),

@@ -227,5 +227,9 @@
   "onTheDayDropdownItem": "On the day",
   "@onTheDayDropdownItem": {
     "description": "Label indicating the event occurs on the day itself"
+  },
+  "settingsReminderTitle": "Expiration Reminder",
+  "@settingsReminderTitle": {
+    "description": "Title for the coupon expiration reminder section in settings screen"
   }
 }

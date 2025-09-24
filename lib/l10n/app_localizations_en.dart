@@ -173,4 +173,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onTheDayDropdownItem => 'On the day';
+
+  @override
+  String get settingsReminderTitle => 'Expiration Reminder';
 }

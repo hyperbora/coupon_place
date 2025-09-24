@@ -418,6 +418,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'On the day'**
   String get onTheDayDropdownItem;
+
+  /// Title for the coupon expiration reminder section in settings screen
+  ///
+  /// In en, this message translates to:
+  /// **'Expiration Reminder'**
+  String get settingsReminderTitle;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

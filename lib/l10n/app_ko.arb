@@ -227,5 +227,9 @@
   "onTheDayDropdownItem": "당일",
   "@onTheDayDropdownItem": {
     "description": "쿠폰 만료 알림 설정에서 '당일' 옵션"
+  },
+  "settingsReminderTitle": "만료 알림",
+  "@settingsReminderTitle": {
+    "description": "설정 화면의 쿠폰 만료 알림 섹션 제목"
   }
 }
