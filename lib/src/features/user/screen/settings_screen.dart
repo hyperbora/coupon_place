@@ -96,26 +96,51 @@ class SettingsScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
         children: [
+          // 섹션 제목을 카드 바깥에 배치
           Text(
             loc.settingsReminderTitle,
             style: Theme.of(
               context,
-            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 16),
-          alarmRow(
-            label: loc.firstAlarmLabel,
-            value: reminderSetting.firstReminderDays,
-            onChanged: notifier.updateFirst,
-            color: Colors.deepPurple,
-            icon: Icons.notifications_active_rounded,
-          ),
-          alarmRow(
-            label: loc.secondAlarmLabel,
-            value: reminderSetting.secondReminderDays,
-            onChanged: notifier.updateSecond,
-            color: Colors.orange,
-            icon: Icons.notifications_none_rounded,
+          const SizedBox(height: 8),
+          Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.03),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+              border: Border.all(
+                color: Theme.of(context).colorScheme.outlineVariant,
+                width: 1.5,
+              ),
+            ),
+            padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                alarmRow(
+                  label: loc.firstAlarmLabel,
+                  value: reminderSetting.firstReminderDays,
+                  onChanged: notifier.updateFirst,
+                  color: Colors.deepPurple,
+                  icon: Icons.notifications_active_rounded,
+                ),
+                Divider(height: 1, thickness: 1, color: Colors.grey[300]),
+                alarmRow(
+                  label: loc.secondAlarmLabel,
+                  value: reminderSetting.secondReminderDays,
+                  onChanged: notifier.updateSecond,
+                  color: Colors.orange,
+                  icon: Icons.notifications_none_rounded,
+                ),
+              ],
+            ),
           ),
         ],
       ),
