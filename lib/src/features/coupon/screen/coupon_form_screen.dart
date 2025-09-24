@@ -251,11 +251,11 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
               if (widget.couponId == null) {
                 ref
                     .read(couponListProvider(state.folder!).notifier)
-                    .addCoupon(newCoupon);
+                    .addCoupon(newCoupon, loc);
               } else {
                 ref
                     .read(couponListProvider(state.folder!).notifier)
-                    .updateCoupon(newCoupon);
+                    .updateCoupon(newCoupon, loc);
               }
               notifier.reset();
 

@@ -37,9 +37,15 @@ Future<void> registerCouponNotifications({
 
   final reminders = configs ?? defaultReminderConfigs;
   for (final config in reminders) {
-    final scheduledDate = tz.TZDateTime.from(
-      validDate.subtract(config.offset),
+    final scheduledDateRaw = validDate.subtract(config.offset);
+    final scheduledDate = tz.TZDateTime(
       tz.local,
+      scheduledDateRaw.year,
+      scheduledDateRaw.month,
+      scheduledDateRaw.day,
+      9,
+      0,
+      0,
     );
 
     if (!scheduledDate.isAfter(DateTime.now())) {
