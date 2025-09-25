@@ -16,37 +16,6 @@ class UserReminderSetting {
     secondReminderDays: 1,
   );
 
-  /// Map 변환 (저장용, 예: Firestore/SharedPreferences)
-  Map<String, dynamic> toMap() {
-    return {
-      'firstReminderDays': firstReminderDays,
-      'secondReminderDays': secondReminderDays,
-    };
-  }
-
-  /// Map에서 불러오기
-  factory UserReminderSetting.fromMap(Map<String, dynamic> map) {
-    final first =
-        map.containsKey('firstReminderDays')
-            ? map['firstReminderDays'] as int?
-            : null;
-    final second =
-        map.containsKey('secondReminderDays')
-            ? map['secondReminderDays'] as int?
-            : null;
-
-    // 키가 둘 다 없으면 기본 설정을 반환하도록 변경
-    if (!map.containsKey('firstReminderDays') &&
-        !map.containsKey('secondReminderDays')) {
-      return UserReminderSetting.defaults;
-    }
-
-    return UserReminderSetting(
-      firstReminderDays: first,
-      secondReminderDays: second,
-    );
-  }
-
   UserReminderSetting copyWith({
     int? firstReminderDays,
     int? secondReminderDays,

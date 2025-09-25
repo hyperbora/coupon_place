@@ -1,8 +1,10 @@
 import 'package:coupon_place/l10n/app_localizations.dart';
 import 'package:coupon_place/src/features/user/model/user_reminder_setting.dart';
 
+enum ReminderType { first, second }
+
 class ReminderConfig {
-  final String key;
+  final ReminderType key;
   final Duration offset;
   final String Function(AppLocalizations loc) labelGetter;
 
@@ -15,12 +17,12 @@ class ReminderConfig {
 
 final List<ReminderConfig> defaultReminderConfigs = List.unmodifiable([
   ReminderConfig(
-    key: "first",
+    key: ReminderType.first,
     offset: Duration(days: 7),
     labelGetter: (loc) => loc.reminder(7),
   ),
   ReminderConfig(
-    key: "second",
+    key: ReminderType.second,
     offset: Duration(days: 1),
     labelGetter: (loc) => loc.reminder(1),
   ),
@@ -31,7 +33,7 @@ List<ReminderConfig> buildReminderConfigs(UserReminderSetting setting) {
   if (setting.firstReminderDays != null) {
     configs.add(
       ReminderConfig(
-        key: "first",
+        key: ReminderType.first,
         offset: Duration(days: setting.firstReminderDays!),
         labelGetter:
             (loc) =>
@@ -44,7 +46,7 @@ List<ReminderConfig> buildReminderConfigs(UserReminderSetting setting) {
   if (setting.secondReminderDays != null) {
     configs.add(
       ReminderConfig(
-        key: "second",
+        key: ReminderType.second,
         offset: Duration(days: setting.secondReminderDays!),
         labelGetter:
             (loc) =>

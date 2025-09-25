@@ -18,16 +18,16 @@ class BasePayload {
   }
 }
 
-int _getNotificationId(BasePayload basePayload, ReminderConfig config) {
-  return '${basePayload.toString()}${config.key}'.hashCode;
+int _getNotificationId(BasePayload basePayload, ReminderType key) {
+  return '${basePayload.toString()}${key.name}'.hashCode;
 }
 
 Future<void> registerCouponNotifications({
   required Coupon coupon,
   required AppLocalizations loc,
-  List<ReminderConfig>? configs,
+  required List<ReminderConfig> configs,
 }) async {
-  await cancelCouponNotifications(coupon: coupon, configs: configs);
+  await cancelCouponNotifications(coupon: coupon);
 
   final validDate = coupon.validDate;
   if (validDate == null) return;
@@ -35,8 +35,7 @@ Future<void> registerCouponNotifications({
 
   final basePayload = BasePayload(coupon: coupon);
 
-  final reminders = configs ?? defaultReminderConfigs;
-  for (final config in reminders) {
+  for (final config in configs) {
     final scheduledDateRaw = validDate.subtract(config.offset);
     final scheduledDate = tz.TZDateTime(
       tz.local,
@@ -53,7 +52,7 @@ Future<void> registerCouponNotifications({
     }
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
-      _getNotificationId(basePayload, config),
+      _getNotificationId(basePayload, config.key),
       loc.couponExpireNotificationTitle,
       config.labelGetter(loc),
       scheduledDate,
@@ -73,17 +72,12 @@ Future<void> registerCouponNotifications({
   }
 }
 
-Future<void> cancelCouponNotifications({
-  required Coupon coupon,
-  List<ReminderConfig>? configs,
-}) async {
+Future<void> cancelCouponNotifications({required Coupon coupon}) async {
   final basePayload = BasePayload(coupon: coupon);
 
-  final reminders = configs ?? defaultReminderConfigs;
-
-  for (final config in reminders) {
+  for (final key in ReminderType.values) {
     await flutterLocalNotificationsPlugin.cancel(
-      _getNotificationId(basePayload, config),
+      _getNotificationId(basePayload, key),
     );
   }
 }
@@ -91,7 +85,7 @@ Future<void> cancelCouponNotifications({
 Future<void> rescheduleAllNotifications({
   required List<Coupon> coupons,
   required AppLocalizations loc,
-  List<ReminderConfig>? configs,
+  required List<ReminderConfig> configs,
 }) async {
   await flutterLocalNotificationsPlugin.cancelAll();
 
