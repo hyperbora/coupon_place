@@ -127,7 +127,9 @@ class SettingsScreen extends ConsumerWidget {
                 alarmRow(
                   label: loc.firstAlarmLabel,
                   value: reminderSetting.firstReminderDays,
-                  onChanged: notifier.updateFirst,
+                  onChanged: (int? days) async {
+                    await notifier.updateFirst(days, loc);
+                  },
                   color: Colors.deepPurple,
                   icon: Icons.notifications_active_rounded,
                 ),
@@ -135,7 +137,9 @@ class SettingsScreen extends ConsumerWidget {
                 alarmRow(
                   label: loc.secondAlarmLabel,
                   value: reminderSetting.secondReminderDays,
-                  onChanged: notifier.updateSecond,
+                  onChanged: (int? days) async {
+                    await notifier.updateSecond(days, loc);
+                  },
                   color: Colors.orange,
                   icon: Icons.notifications_none_rounded,
                 ),

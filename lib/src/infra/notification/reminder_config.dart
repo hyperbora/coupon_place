@@ -15,12 +15,12 @@ class ReminderConfig {
 
 final List<ReminderConfig> defaultReminderConfigs = List.unmodifiable([
   ReminderConfig(
-    key: "7d",
+    key: "first",
     offset: Duration(days: 7),
     labelGetter: (loc) => loc.reminder(7),
   ),
   ReminderConfig(
-    key: "1d",
+    key: "second",
     offset: Duration(days: 1),
     labelGetter: (loc) => loc.reminder(1),
   ),
