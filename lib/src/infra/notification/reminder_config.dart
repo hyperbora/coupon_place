@@ -15,19 +15,6 @@ class ReminderConfig {
   });
 }
 
-final List<ReminderConfig> defaultReminderConfigs = List.unmodifiable([
-  ReminderConfig(
-    key: ReminderType.first,
-    offset: Duration(days: 7),
-    labelGetter: (loc) => loc.reminder(7),
-  ),
-  ReminderConfig(
-    key: ReminderType.second,
-    offset: Duration(days: 1),
-    labelGetter: (loc) => loc.reminder(1),
-  ),
-]);
-
 List<ReminderConfig> buildReminderConfigs(UserReminderSetting setting) {
   final configs = <ReminderConfig>[];
   if (setting.firstReminderDays != null) {
