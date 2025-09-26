@@ -1,10 +1,12 @@
 import 'package:coupon_place/firebase_options.dart';
 import 'package:coupon_place/src/app.dart';
+import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -15,6 +17,9 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await signInAnonymously();
   await initNotifications();
+  await Hive.initFlutter();
+  // Hive.registerAdapter(CouponAdapter());
+  await Hive.openBox<Coupon>('coupons');
   runApp(const ProviderScope(child: MyApp()));
 }
 
