@@ -1,6 +1,7 @@
 import 'package:coupon_place/firebase_options.dart';
 import 'package:coupon_place/src/app.dart';
 import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
+import 'package:coupon_place/src/features/folder/model/folder_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +19,10 @@ void main() async {
   await signInAnonymously();
   await initNotifications();
   await Hive.initFlutter();
-  // Hive.registerAdapter(CouponAdapter());
+  Hive.registerAdapter(CouponAdapter());
   await Hive.openBox<Coupon>('coupons');
+  Hive.registerAdapter(FolderAdapter());
+  await Hive.openBox<Folder>('folders');
   runApp(const ProviderScope(child: MyApp()));
 }
 
