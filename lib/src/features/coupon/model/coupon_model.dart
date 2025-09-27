@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:uuid/uuid.dart';
 
 part 'coupon_model.g.dart';
 
@@ -38,4 +39,47 @@ class Coupon extends HiveObject {
     required this.folderId,
     this.enableAlarm = false,
   });
+
+  factory Coupon.create({
+    required String name,
+    String? code,
+    String? memo,
+    DateTime? validDate,
+    String? imagePath,
+    required String folderId,
+    bool enableAlarm = true,
+  }) {
+    return Coupon(
+      id: const Uuid().v4(),
+      name: name,
+      code: code,
+      memo: memo,
+      validDate: validDate,
+      imagePath: imagePath,
+      folderId: folderId,
+      enableAlarm: enableAlarm,
+    );
+  }
+
+  Coupon copyWith({
+    String? id,
+    String? name,
+    String? code,
+    String? memo,
+    DateTime? validDate,
+    String? imagePath,
+    String? folderId,
+    bool? enableAlarm,
+  }) {
+    return Coupon(
+      id: this.id,
+      name: name ?? this.name,
+      code: code ?? this.code,
+      memo: memo ?? this.memo,
+      validDate: validDate ?? this.validDate,
+      imagePath: imagePath ?? this.imagePath,
+      folderId: folderId ?? this.folderId,
+      enableAlarm: enableAlarm ?? this.enableAlarm,
+    );
+  }
 }

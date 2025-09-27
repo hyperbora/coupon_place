@@ -1,5 +1,5 @@
 import 'package:coupon_place/l10n/app_localizations.dart';
-import 'package:coupon_place/src/features/coupon/model/coupon.dart';
+import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
 import 'package:coupon_place/src/infra/notification/reminder_config.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;

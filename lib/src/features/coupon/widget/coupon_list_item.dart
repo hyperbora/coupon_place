@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:coupon_place/src/features/coupon/model/coupon.dart';
+import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

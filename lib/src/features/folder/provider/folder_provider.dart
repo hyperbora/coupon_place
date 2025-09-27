@@ -1,5 +1,6 @@
-import 'package:coupon_place/src/features/folder/model/folder.dart';
-import 'package:coupon_place/src/infra/firebase/firestore_service.dart';
+import 'package:coupon_place/src/features/folder/model/folder_model.dart';
+import 'package:coupon_place/src/infra/local_db/folder_local_db.dart';
+import 'package:coupon_place/src/infra/local_db/coupon_local_db.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
@@ -15,17 +16,17 @@ class FolderState {
   }
 }
 
-final firestoreService = FirestoreService();
-
 class FolderNotifier extends StateNotifier<FolderState> {
   FolderNotifier() : super(FolderState()) {
     _loadFolders();
   }
 
+  final FolderLocalDb _folderDb = FolderLocalDb();
+  final CouponLocalDb _couponDb = CouponLocalDb();
   final _uuid = const Uuid();
 
   Future<void> _loadFolders() async {
-    final folders = await firestoreService.getFoldersFromFirestore();
+    final folders = await _folderDb.getAll();
     state = state.copyWith(folders: folders);
   }
 
@@ -37,7 +38,7 @@ class FolderNotifier extends StateNotifier<FolderState> {
       icon: icon,
     );
     state = state.copyWith(folders: [...state.folders, newFolder]);
-    firestoreService.addFolderToFirestore(newFolder);
+    _folderDb.add(newFolder);
   }
 
   void editFolder(String id, String name, Color color, IconData icon) {
@@ -62,7 +63,7 @@ class FolderNotifier extends StateNotifier<FolderState> {
               color: color ?? folder.color,
               icon: icon ?? folder.icon,
             );
-            firestoreService.addFolderToFirestore(updatedFolder);
+            _folderDb.update(updatedFolder);
             return updatedFolder;
           }
           return folder;
@@ -77,10 +78,13 @@ class FolderNotifier extends StateNotifier<FolderState> {
     );
 
     // 해당 폴더의 쿠폰 가져오기
-    final coupons = await firestoreService.getCouponsFromFirestore(id);
+    final coupons =
+        (await _couponDb.getAll())
+            .where((coupon) => coupon.folderId == id)
+            .toList();
 
-    // Firestore에서 폴더 및 쿠폰 삭제
-    await firestoreService.removeFolder(id);
+    // 로컬 DB에서 폴더 삭제
+    await _folderDb.delete(id);
 
     // 쿠폰 이미지 파일 삭제
     for (final coupon in coupons) {
