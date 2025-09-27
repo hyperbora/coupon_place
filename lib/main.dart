@@ -20,8 +20,8 @@ void main() async {
   await initNotifications();
   await Hive.initFlutter();
   Hive.registerAdapter(CouponAdapter());
-  await Hive.openBox<Coupon>('coupons');
   Hive.registerAdapter(FolderAdapter());
+  await Hive.openBox<Coupon>('coupons');
   await Hive.openBox<Folder>('folders');
   runApp(const ProviderScope(child: MyApp()));
 }
