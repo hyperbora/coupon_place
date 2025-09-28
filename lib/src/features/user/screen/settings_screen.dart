@@ -1,3 +1,4 @@
+import 'package:coupon_place/src/shared/widgets/card_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:coupon_place/l10n/app_localizations.dart';
@@ -20,9 +21,8 @@ class SettingsScreen extends ConsumerWidget {
       required IconData icon,
     }) {
       return Card(
-        elevation: 2,
+        elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        margin: const EdgeInsets.symmetric(vertical: 8),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
           child: Row(
@@ -93,10 +93,10 @@ class SettingsScreen extends ConsumerWidget {
         elevation: 0,
         backgroundColor: Theme.of(context).colorScheme.surface,
       ),
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainerHigh,
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
         children: [
-          // 섹션 제목을 카드 바깥에 배치
           Text(
             loc.settingsReminderTitle,
             style: Theme.of(
@@ -106,21 +106,17 @@ class SettingsScreen extends ConsumerWidget {
           const SizedBox(height: 8),
           Container(
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surfaceContainerHighest,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.03),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
+                  color: Colors.white,
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: const Offset(0, 3),
                 ),
               ],
-              border: Border.all(
-                color: Theme.of(context).colorScheme.outlineVariant,
-                width: 1.5,
-              ),
+              color: Colors.white,
             ),
-            padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -133,7 +129,7 @@ class SettingsScreen extends ConsumerWidget {
                   color: Colors.deepPurple,
                   icon: Icons.notifications_active_rounded,
                 ),
-                Divider(height: 1, thickness: 1, color: Colors.grey[300]),
+                Divider(height: 5, indent: 50, endIndent: 50),
                 alarmRow(
                   label: loc.secondAlarmLabel,
                   value: reminderSetting.secondReminderDays,
@@ -144,6 +140,19 @@ class SettingsScreen extends ConsumerWidget {
                   icon: Icons.notifications_none_rounded,
                 ),
               ],
+            ),
+          ),
+          const SizedBox(height: 8),
+          CardContainer(
+            child: TextButton(
+              onPressed: () {
+                // TODO: Implement delete all data functionality
+              },
+              child: Text(
+                "모든 데이터 삭제",
+                style: Theme.of(context).textTheme.bodyLarge,
+                textAlign: TextAlign.left,
+              ),
             ),
           ),
         ],
