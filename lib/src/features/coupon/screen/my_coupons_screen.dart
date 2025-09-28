@@ -128,8 +128,11 @@ class MyCouponsScreen extends ConsumerWidget {
                             child: Center(
                               child: FolderFormScreen(
                                 initialName: folder.name,
-                                initialColor: folder.color,
-                                initialIcon: folder.icon,
+                                initialColor: Color(folder.colorValue),
+                                initialIcon: IconData(
+                                  folder.iconCodePoint,
+                                  fontFamily: 'MaterialIcons',
+                                ),
                                 onSubmit: (name, color, icon) {
                                   folderNotifier.updateFolder(
                                     folder.id,
@@ -196,8 +199,14 @@ class MyCouponsScreen extends ConsumerWidget {
                                 },
                               ),
                             CircleAvatar(
-                              backgroundColor: folder.color,
-                              child: Icon(folder.icon, color: Colors.white),
+                              backgroundColor: Color(folder.colorValue),
+                              child: Icon(
+                                IconData(
+                                  folder.iconCodePoint,
+                                  fontFamily: 'MaterialIcons',
+                                ),
+                                color: Colors.white,
+                              ),
                             ),
                           ],
                         ),

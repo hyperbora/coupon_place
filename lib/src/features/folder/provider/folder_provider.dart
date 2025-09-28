@@ -34,8 +34,8 @@ class FolderNotifier extends StateNotifier<FolderState> {
     final newFolder = Folder(
       id: _uuid.v4(),
       name: name,
-      color: color,
-      icon: icon,
+      colorValue: color.toARGB32(),
+      iconCodePoint: icon.codePoint,
     );
     state = state.copyWith(folders: [...state.folders, newFolder]);
     _folderDb.add(newFolder);
@@ -46,7 +46,12 @@ class FolderNotifier extends StateNotifier<FolderState> {
       folders:
           state.folders.map((folder) {
             if (folder.id == id) {
-              return Folder(id: id, name: name, color: color, icon: icon);
+              return Folder(
+                id: id,
+                name: name,
+                colorValue: color.toARGB32(),
+                iconCodePoint: icon.codePoint,
+              );
             }
             return folder;
           }).toList(),
@@ -60,8 +65,8 @@ class FolderNotifier extends StateNotifier<FolderState> {
             final updatedFolder = Folder(
               id: folder.id,
               name: name ?? folder.name,
-              color: color ?? folder.color,
-              icon: icon ?? folder.icon,
+              colorValue: color?.toARGB32() ?? folder.colorValue,
+              iconCodePoint: icon?.codePoint ?? folder.iconCodePoint,
             );
             _folderDb.update(updatedFolder);
             return updatedFolder;

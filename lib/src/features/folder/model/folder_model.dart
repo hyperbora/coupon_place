@@ -1,5 +1,4 @@
 import 'package:hive/hive.dart';
-import 'package:flutter/material.dart';
 
 part 'folder_model.g.dart';
 
@@ -10,14 +9,14 @@ class Folder extends HiveObject {
   @HiveField(1)
   final String name;
   @HiveField(2)
-  final Color color;
+  final int colorValue;
   @HiveField(3)
-  final IconData icon;
+  final int iconCodePoint;
 
   Folder({
     required this.id,
     required this.name,
-    required this.color,
-    required this.icon,
+    required this.colorValue,
+    required this.iconCodePoint,
   });
 }

@@ -19,8 +19,8 @@ class FolderAdapter extends TypeAdapter<Folder> {
     return Folder(
       id: fields[0] as String,
       name: fields[1] as String,
-      color: fields[2] as Color,
-      icon: fields[3] as IconData,
+      colorValue: fields[2] as int,
+      iconCodePoint: fields[3] as int,
     );
   }
 
@@ -33,9 +33,9 @@ class FolderAdapter extends TypeAdapter<Folder> {
       ..writeByte(1)
       ..write(obj.name)
       ..writeByte(2)
-      ..write(obj.color)
+      ..write(obj.colorValue)
       ..writeByte(3)
-      ..write(obj.icon);
+      ..write(obj.iconCodePoint);
   }
 
   @override

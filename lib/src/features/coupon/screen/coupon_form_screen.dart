@@ -393,10 +393,13 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
                           child: Row(
                             children: [
                               CircleAvatar(
-                                backgroundColor: folder.color,
+                                backgroundColor: Color(folder.colorValue),
                                 radius: 10,
                                 child: Icon(
-                                  folder.icon,
+                                  IconData(
+                                    folder.iconCodePoint,
+                                    fontFamily: 'MaterialIcons',
+                                  ),
                                   color: Colors.white,
                                   size: 14,
                                 ),
