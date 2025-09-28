@@ -182,46 +182,52 @@ class MyCouponsScreen extends ConsumerWidget {
                       );
                       return IgnorePointer(
                         ignoring: isOpen,
-                        child: Row(
-                          children: [
-                            if (isSelectMode)
-                              Checkbox(
-                                value: selectedFolders.contains(folder.id),
-                                onChanged: (checked) {
-                                  final notifier = ref.read(
-                                    selectedFoldersProvider.notifier,
-                                  );
-                                  final current = Set<String>.from(
-                                    notifier.state,
-                                  );
-                                  if (checked == true) {
-                                    current.add(folder.id);
-                                  } else {
-                                    current.remove(folder.id);
-                                  }
-                                  notifier.state = current;
-                                },
-                              ),
-                            Expanded(
-                              child: CardContainer(
-                                label: folder.name,
-                                icon: IconData(
-                                  folder.iconCodePoint,
-                                  fontFamily: 'MaterialIcons',
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 0,
+                          ),
+                          child: Row(
+                            children: [
+                              if (isSelectMode)
+                                Checkbox(
+                                  value: selectedFolders.contains(folder.id),
+                                  onChanged: (checked) {
+                                    final notifier = ref.read(
+                                      selectedFoldersProvider.notifier,
+                                    );
+                                    final current = Set<String>.from(
+                                      notifier.state,
+                                    );
+                                    if (checked == true) {
+                                      current.add(folder.id);
+                                    } else {
+                                      current.remove(folder.id);
+                                    }
+                                    notifier.state = current;
+                                  },
                                 ),
-                                color: Color(folder.colorValue),
-                                onTap: () {
-                                  context.push(
-                                    AppRoutes.folderDetail.replaceFirst(
-                                      ':folderId',
-                                      folder.id,
-                                    ),
-                                    extra: folder.name,
-                                  );
-                                },
+                              Expanded(
+                                child: CardContainer(
+                                  label: folder.name,
+                                  icon: IconData(
+                                    folder.iconCodePoint,
+                                    fontFamily: 'MaterialIcons',
+                                  ),
+                                  color: Color(folder.colorValue),
+                                  onTap: () {
+                                    context.push(
+                                      AppRoutes.folderDetail.replaceFirst(
+                                        ':folderId',
+                                        folder.id,
+                                      ),
+                                      extra: folder.name,
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       );
                     },
