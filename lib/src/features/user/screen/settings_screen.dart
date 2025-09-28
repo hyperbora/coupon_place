@@ -144,16 +144,10 @@ class SettingsScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 8),
           CardContainer(
-            child: TextButton(
-              onPressed: () {
-                // TODO: Implement delete all data functionality
-              },
-              child: Text(
-                "모든 데이터 삭제",
-                style: Theme.of(context).textTheme.bodyLarge,
-                textAlign: TextAlign.left,
-              ),
-            ),
+            label: loc.settingsDataManagementTitle,
+            icon: Icons.storage_rounded,
+            color: Colors.blue,
+            onPressed: () {},
           ),
         ],
       ),

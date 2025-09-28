@@ -424,6 +424,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Expiration Reminder'**
   String get settingsReminderTitle;
+
+  /// Title for the data management section in settings screen
+  ///
+  /// In en, this message translates to:
+  /// **'Data Management'**
+  String get settingsDataManagementTitle;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

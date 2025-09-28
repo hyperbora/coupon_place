@@ -231,5 +231,9 @@
   "settingsReminderTitle": "Expiration Reminder",
   "@settingsReminderTitle": {
     "description": "Title for the coupon expiration reminder section in settings screen"
+  },
+  "settingsDataManagementTitle": "Data Management",
+  "@settingsDataManagementTitle": {
+    "description": "Title for the data management section in settings screen"
   }
 }

@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 
 class CardContainer extends StatelessWidget {
-  final Widget child;
+  final String label;
+  final IconData icon;
+  final Color color;
+  final Function()? onPressed;
 
-  const CardContainer({super.key, required this.child});
+  const CardContainer({
+    super.key,
+    required this.label,
+    required this.icon,
+    required this.color,
+    this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +22,24 @@ class CardContainer extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 8),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-        child: child,
+        child: GestureDetector(
+          onTap: onPressed,
+          child: Row(
+            children: [
+              CircleAvatar(
+                backgroundColor: color.withValues(alpha: 0.15),
+                child: Icon(icon, color: color),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Text(
+                  label,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

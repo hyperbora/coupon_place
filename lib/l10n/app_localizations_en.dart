@@ -176,4 +176,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsReminderTitle => 'Expiration Reminder';
+
+  @override
+  String get settingsDataManagementTitle => 'Data Management';
 }

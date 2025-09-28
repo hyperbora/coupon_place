@@ -176,4 +176,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get settingsReminderTitle => '만료 알림';
+
+  @override
+  String get settingsDataManagementTitle => '데이터 관리';
 }
