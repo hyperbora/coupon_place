@@ -147,7 +147,7 @@ class SettingsScreen extends ConsumerWidget {
             label: loc.settingsDataManagementTitle,
             icon: Icons.storage_rounded,
             color: Colors.blue,
-            onPressed: () {},
+            onTap: () {},
           ),
         ],
       ),
