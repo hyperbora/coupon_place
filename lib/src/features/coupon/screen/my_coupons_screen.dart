@@ -1,5 +1,6 @@
 import 'package:coupon_place/src/core/router/app_routes.dart';
 import 'package:coupon_place/src/features/folder/provider/folder_provider.dart';
+import 'package:coupon_place/src/shared/widgets/card_container.dart';
 import 'package:coupon_place/src/shared/widgets/confirm_dialog.dart';
 import 'package:coupon_place/src/features/coupon/screen/coupon_form_screen.dart';
 import 'package:coupon_place/src/features/folder/screen/folder_form_screen.dart';
@@ -174,52 +175,49 @@ class MyCouponsScreen extends ConsumerWidget {
                   valueListenable: slidable!.actionPaneType,
                   builder: (context, actionPaneType, child) {
                     final isOpen = actionPaneType != ActionPaneType.none;
+                    final selectedFolders = ref.watch(selectedFoldersProvider);
                     return IgnorePointer(
                       ignoring: isOpen,
-                      child: ListTile(
-                        leading: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            if (ref.watch(selectModeProvider))
-                              Checkbox(
-                                value: ref
-                                    .watch(selectedFoldersProvider)
-                                    .contains(folder.id),
-                                onChanged: (checked) {
-                                  final selected = ref.read(
-                                    selectedFoldersProvider.notifier,
-                                  );
-                                  final current = {...selected.state};
-                                  if (checked == true) {
-                                    current.add(folder.id);
-                                  } else {
-                                    current.remove(folder.id);
-                                  }
-                                  selected.state = current;
-                                },
-                              ),
-                            CircleAvatar(
-                              backgroundColor: Color(folder.colorValue),
-                              child: Icon(
-                                IconData(
-                                  folder.iconCodePoint,
-                                  fontFamily: 'MaterialIcons',
-                                ),
-                                color: Colors.white,
-                              ),
+                      child: Row(
+                        children: [
+                          if (isSelectMode)
+                            Checkbox(
+                              value: selectedFolders.contains(folder.id),
+                              onChanged: (checked) {
+                                final notifier = ref.read(
+                                  selectedFoldersProvider.notifier,
+                                );
+                                final current = Set<String>.from(
+                                  notifier.state,
+                                );
+                                if (checked == true) {
+                                  current.add(folder.id);
+                                } else {
+                                  current.remove(folder.id);
+                                }
+                                notifier.state = current;
+                              },
                             ),
-                          ],
-                        ),
-                        title: Text(folder.name),
-                        onTap: () {
-                          context.push(
-                            AppRoutes.folderDetail.replaceFirst(
-                              ':folderId',
-                              folder.id,
+                          Expanded(
+                            child: CardContainer(
+                              label: folder.name,
+                              icon: IconData(
+                                folder.iconCodePoint,
+                                fontFamily: 'MaterialIcons',
+                              ),
+                              color: Color(folder.colorValue),
+                              onTap: () {
+                                context.push(
+                                  AppRoutes.folderDetail.replaceFirst(
+                                    ':folderId',
+                                    folder.id,
+                                  ),
+                                  extra: folder.name,
+                                );
+                              },
                             ),
-                            extra: folder.name,
-                          );
-                        },
+                          ),
+                        ],
                       ),
                     );
                   },
