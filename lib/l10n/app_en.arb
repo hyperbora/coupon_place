@@ -235,5 +235,9 @@
   "settingsDataManagementTitle": "Data Management",
   "@settingsDataManagementTitle": {
     "description": "Title for the data management section in settings screen"
+  },
+  "noCouponsDescription": "No coupons yet.\nTap the + button to add one.",
+  "@noCouponsDescription": {
+    "description": "Message displayed when there are no coupons available"
   }
 }

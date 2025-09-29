@@ -430,6 +430,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Data Management'**
   String get settingsDataManagementTitle;
+
+  /// Message displayed when there are no coupons available
+  ///
+  /// In en, this message translates to:
+  /// **'No coupons yet.\nTap the + button to add one.'**
+  String get noCouponsDescription;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -179,4 +179,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get settingsDataManagementTitle => '데이터 관리';
+
+  @override
+  String get noCouponsDescription => '아직 쿠폰이 없어요.\n+ 버튼을 눌러 추가해 보세요.';
 }

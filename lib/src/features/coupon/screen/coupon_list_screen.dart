@@ -91,89 +91,111 @@ class _CouponListScreenState extends ConsumerState<CouponListScreen> {
             ),
         ],
       ),
-      body: ListView.builder(
-        itemCount: coupons.length,
-        itemBuilder: (context, index) {
-          final coupon = coupons[index];
-          final isSelected = selectedCoupons.contains(coupon.id);
+      body:
+          coupons.isEmpty
+              ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.card_giftcard,
+                      size: 64,
+                      color: Colors.grey,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      loc.noCouponsDescription,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                  ],
+                ),
+              )
+              : ListView.builder(
+                itemCount: coupons.length,
+                itemBuilder: (context, index) {
+                  final coupon = coupons[index];
+                  final isSelected = selectedCoupons.contains(coupon.id);
 
-          return GestureDetector(
-            onLongPress: () {
-              setState(() {
-                if (isSelected) {
-                  selectedCoupons.remove(coupon.id);
-                } else {
-                  selectedCoupons.add(coupon.id);
-                }
-              });
-            },
-            child: Row(
-              children: [
-                if (isSelectionMode)
-                  Checkbox(
-                    value: isSelected,
-                    onChanged: (bool? checked) {
+                  return GestureDetector(
+                    onLongPress: () {
                       setState(() {
-                        if (checked == true) {
-                          selectedCoupons.add(coupon.id);
-                        } else {
+                        if (isSelected) {
                           selectedCoupons.remove(coupon.id);
+                        } else {
+                          selectedCoupons.add(coupon.id);
                         }
                       });
                     },
-                  ),
-                Expanded(
-                  child: Slidable(
-                    key: ValueKey(coupon.id),
-                    endActionPane:
-                        isSelectionMode
-                            ? null // 선택 모드에서는 슬라이드 액션 비활성화
-                            : ActionPane(
-                              motion: const ScrollMotion(),
-                              children: [
-                                SlidableAction(
-                                  onPressed: (context) {
-                                    context.push(
-                                      '/coupon/${coupon.folderId}/${coupon.id}/edit',
-                                    );
-                                  },
-                                  backgroundColor: Colors.blue,
-                                  foregroundColor: Colors.white,
-                                  icon: Icons.edit,
-                                  label: loc.edit,
-                                ),
-                                SlidableAction(
-                                  onPressed: (context) async {
-                                    showConfirmDialog(
-                                      context,
-                                      title: loc.deleteCouponTitle,
-                                      message: loc.deleteCouponContent,
-                                      onConfirm: () {
-                                        ref
-                                            .read(
-                                              couponListProvider(
-                                                widget.folderId,
-                                              ).notifier,
-                                            )
-                                            .removeCoupon(coupon);
-                                      },
-                                    );
-                                  },
-                                  backgroundColor: Colors.red,
-                                  foregroundColor: Colors.white,
-                                  icon: Icons.delete,
-                                  label: loc.delete,
-                                ),
-                              ],
-                            ),
-                    child: CouponListItem(coupon: coupon),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
+                    child: Row(
+                      children: [
+                        if (isSelectionMode)
+                          Checkbox(
+                            value: isSelected,
+                            onChanged: (bool? checked) {
+                              setState(() {
+                                if (checked == true) {
+                                  selectedCoupons.add(coupon.id);
+                                } else {
+                                  selectedCoupons.remove(coupon.id);
+                                }
+                              });
+                            },
+                          ),
+                        Expanded(
+                          child: Slidable(
+                            key: ValueKey(coupon.id),
+                            endActionPane:
+                                isSelectionMode
+                                    ? null // 선택 모드에서는 슬라이드 액션 비활성화
+                                    : ActionPane(
+                                      motion: const ScrollMotion(),
+                                      children: [
+                                        SlidableAction(
+                                          onPressed: (context) {
+                                            context.push(
+                                              '/coupon/${coupon.folderId}/${coupon.id}/edit',
+                                            );
+                                          },
+                                          backgroundColor: Colors.blue,
+                                          foregroundColor: Colors.white,
+                                          icon: Icons.edit,
+                                          label: loc.edit,
+                                        ),
+                                        SlidableAction(
+                                          onPressed: (context) async {
+                                            showConfirmDialog(
+                                              context,
+                                              title: loc.deleteCouponTitle,
+                                              message: loc.deleteCouponContent,
+                                              onConfirm: () {
+                                                ref
+                                                    .read(
+                                                      couponListProvider(
+                                                        widget.folderId,
+                                                      ).notifier,
+                                                    )
+                                                    .removeCoupon(coupon);
+                                              },
+                                            );
+                                          },
+                                          backgroundColor: Colors.red,
+                                          foregroundColor: Colors.white,
+                                          icon: Icons.delete,
+                                          label: loc.delete,
+                                        ),
+                                      ],
+                                    ),
+                            child: CouponListItem(coupon: coupon),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(

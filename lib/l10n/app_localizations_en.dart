@@ -179,4 +179,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsDataManagementTitle => 'Data Management';
+
+  @override
+  String get noCouponsDescription => 'No coupons yet.\nTap the + button to add one.';
 }

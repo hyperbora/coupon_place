@@ -235,5 +235,9 @@
   "settingsDataManagementTitle": "데이터 관리",
   "@settingsDataManagementTitle": {
     "description": "설정 화면의 데이터 관리 섹션 제목"
+  },
+  "noCouponsDescription": "아직 쿠폰이 없어요.\n+ 버튼을 눌러 추가해 보세요.",
+  "@noCouponsDescription": {
+    "description": "쿠폰이 없을 때 표시되는 안내 메시지"
   }
 }
