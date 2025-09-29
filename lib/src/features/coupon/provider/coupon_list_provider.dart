@@ -1,6 +1,6 @@
 import 'package:coupon_place/l10n/app_localizations.dart';
 import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
-import 'package:coupon_place/src/features/user/provider/user_reminder_setting_provider.dart';
+import 'package:coupon_place/src/features/settings/provider/user_reminder_setting_provider.dart';
 import 'package:coupon_place/src/infra/local_db/coupon_local_db.dart';
 import 'package:coupon_place/src/infra/notification/notification_service.dart';
 import 'package:coupon_place/src/infra/notification/reminder_config.dart';

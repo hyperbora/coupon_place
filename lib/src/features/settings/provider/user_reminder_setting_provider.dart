@@ -1,6 +1,6 @@
 import 'package:coupon_place/src/features/coupon/provider/coupon_list_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:coupon_place/src/features/user/model/user_reminder_setting.dart';
+import 'package:coupon_place/src/features/settings/model/user_reminder_setting.dart';
 import 'package:coupon_place/src/infra/notification/user_reminder_repository.dart';
 import 'package:coupon_place/src/infra/notification/notification_service.dart';
 import 'package:coupon_place/src/infra/notification/reminder_config.dart';

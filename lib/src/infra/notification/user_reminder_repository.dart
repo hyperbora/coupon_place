@@ -1,5 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:coupon_place/src/features/user/model/user_reminder_setting.dart';
+import 'package:coupon_place/src/features/settings/model/user_reminder_setting.dart';
 
 class UserReminderRepository {
   static const _firstKey = 'reminder_first_days';
