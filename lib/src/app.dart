@@ -3,6 +3,7 @@ import 'package:coupon_place/src/features/coupon/screen/coupon_form_screen.dart'
 import 'package:coupon_place/src/features/coupon/screen/coupon_list_screen.dart';
 import 'package:coupon_place/src/features/coupon/screen/coupon_detail_screen.dart';
 import 'package:coupon_place/src/features/main_tab/main_tab_screen.dart';
+import 'package:coupon_place/src/features/settings/screen/data_management_screen.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -56,6 +57,10 @@ class MyApp extends StatelessWidget {
               },
             ),
           ],
+        ),
+        GoRoute(
+          path: AppRoutes.dataManagementSettings,
+          builder: (context, state) => const DataManagementScreen(),
         ),
       ],
     );

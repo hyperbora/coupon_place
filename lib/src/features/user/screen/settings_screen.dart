@@ -1,8 +1,10 @@
+import 'package:coupon_place/src/core/router/app_routes.dart';
 import 'package:coupon_place/src/shared/widgets/card_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:coupon_place/l10n/app_localizations.dart';
 import 'package:coupon_place/src/features/user/provider/user_reminder_setting_provider.dart';
+import 'package:go_router/go_router.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -147,7 +149,9 @@ class SettingsScreen extends ConsumerWidget {
             label: loc.settingsDataManagementTitle,
             icon: Icons.storage_rounded,
             color: Colors.blue,
-            onTap: () {},
+            onTap: () {
+              context.push(AppRoutes.dataManagementSettings);
+            },
           ),
         ],
       ),
