@@ -1,10 +1,11 @@
+import 'package:coupon_place/src/infra/prefs/shared_preferences_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:coupon_place/src/features/settings/model/user_reminder_setting.dart';
 
 class UserReminderRepository {
-  static const _firstKey = 'reminder_first_days';
-  static const _secondKey = 'reminder_second_days';
-  static const _initializedKey = 'reminder_initialized';
+  static const _firstKey = SharedPreferencesKeys.reminderFirstDaysKey;
+  static const _secondKey = SharedPreferencesKeys.reminderSecondDaysKey;
+  static const _initializedKey = SharedPreferencesKeys.reminderInitializedKey;
 
   Future<UserReminderSetting> load() async {
     final prefs = await SharedPreferences.getInstance();
