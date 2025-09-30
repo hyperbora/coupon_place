@@ -255,5 +255,9 @@
   "deleteAllDataDialogMessage": "이 작업을 수행하면 모든 쿠폰과 폴더가 영구적으로 삭제됩니다. 복구할 수 없습니다.",
   "@deleteAllDataDialogMessage": {
     "description": "모든 데이터 삭제 다이얼로그의 본문"
+  },
+  "allDataDeletedMessage": "모든 데이터가 삭제되었습니다.",
+  "@allDataDeletedMessage": {
+    "description": "모든 데이터가 삭제된 후 표시되는 메시지"
   }
 }

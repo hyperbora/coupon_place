@@ -255,5 +255,9 @@
   "deleteAllDataDialogMessage": "This will permanently delete all your coupons and folders. This action cannot be undone.",
   "@deleteAllDataDialogMessage": {
     "description": "Message for the delete all data confirmation dialog"
+  },
+  "allDataDeletedMessage": "All data has been deleted.",
+  "@allDataDeletedMessage": {
+    "description": "Message displayed after all data has been successfully deleted"
   }
 }

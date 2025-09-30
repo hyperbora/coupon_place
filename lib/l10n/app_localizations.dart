@@ -460,6 +460,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This will permanently delete all your coupons and folders. This action cannot be undone.'**
   String get deleteAllDataDialogMessage;
+
+  /// Message displayed after all data has been successfully deleted
+  ///
+  /// In en, this message translates to:
+  /// **'All data has been deleted.'**
+  String get allDataDeletedMessage;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -28,6 +28,11 @@ class DataManagementScreen extends ConsumerWidget {
                 onConfirm: () async {
                   await ref.read(allCouponsProvider.notifier).clearAll();
                   await ref.read(folderProvider.notifier).clearAll();
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(loc.allDataDeletedMessage)),
+                    );
+                  }
                 },
               );
             },
