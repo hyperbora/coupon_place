@@ -448,6 +448,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Clear All Data'**
   String get clearAllDataLabel;
+
+  /// Title for the delete all data confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Delete All Data?'**
+  String get deleteAllDataDialogTitle;
+
+  /// Message for the delete all data confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'This will permanently delete all your coupons and folders. This action cannot be undone.'**
+  String get deleteAllDataDialogMessage;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

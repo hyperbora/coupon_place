@@ -1,10 +1,10 @@
 import 'package:coupon_place/src/features/folder/model/folder_model.dart';
 import 'package:coupon_place/src/infra/local_db/folder_local_db.dart';
 import 'package:coupon_place/src/infra/local_db/coupon_local_db.dart';
+import 'package:coupon_place/src/shared/utils/file_helper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
-import 'dart:io';
 
 class FolderState {
   final List<Folder> folders;
@@ -93,13 +93,18 @@ class FolderNotifier extends StateNotifier<FolderState> {
 
     // 쿠폰 이미지 파일 삭제
     for (final coupon in coupons) {
-      if (coupon.imagePath != null && coupon.imagePath!.isNotEmpty) {
-        final file = File(coupon.imagePath!);
-        if (await file.exists()) {
-          await file.delete();
-        }
+      if (coupon.imagePath != null) {
+        FileHelper.deleteFile(coupon.imagePath!);
       }
     }
+  }
+
+  Future<void> clearAll() async {
+    // Hive 또는 Local DB 전체 삭제
+    for (final folder in state.folders) {
+      await _folderDb.delete(folder.id);
+    }
+    state = FolderState();
   }
 }
 

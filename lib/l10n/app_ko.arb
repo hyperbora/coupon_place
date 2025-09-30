@@ -247,5 +247,13 @@
   "clearAllDataLabel": "모든 데이터 삭제",
   "@clearAllDataLabel": {
     "description": "모든 데이터 삭제 버튼의 텍스트"
+  },
+  "deleteAllDataDialogTitle": "모든 데이터 삭제",
+  "@deleteAllDataDialogTitle": {
+    "description": "모든 데이터 삭제 다이얼로그의 제목"
+  },
+  "deleteAllDataDialogMessage": "이 작업을 수행하면 모든 쿠폰과 폴더가 영구적으로 삭제됩니다. 복구할 수 없습니다.",
+  "@deleteAllDataDialogMessage": {
+    "description": "모든 데이터 삭제 다이얼로그의 본문"
   }
 }

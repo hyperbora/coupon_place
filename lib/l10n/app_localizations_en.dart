@@ -188,4 +188,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get clearAllDataLabel => 'Clear All Data';
+
+  @override
+  String get deleteAllDataDialogTitle => 'Delete All Data?';
+
+  @override
+  String get deleteAllDataDialogMessage => 'This will permanently delete all your coupons and folders. This action cannot be undone.';
 }

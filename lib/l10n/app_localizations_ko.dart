@@ -188,4 +188,10 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get clearAllDataLabel => '모든 데이터 삭제';
+
+  @override
+  String get deleteAllDataDialogTitle => '모든 데이터 삭제';
+
+  @override
+  String get deleteAllDataDialogMessage => '이 작업을 수행하면 모든 쿠폰과 폴더가 영구적으로 삭제됩니다. 복구할 수 없습니다.';
 }

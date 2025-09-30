@@ -247,5 +247,13 @@
   "clearAllDataLabel": "Clear All Data",
   "@clearAllDataLabel": {
     "description": "Label for the button to clear all data"
+  },
+  "deleteAllDataDialogTitle": "Delete All Data?",
+  "@deleteAllDataDialogTitle": {
+    "description": "Title for the delete all data confirmation dialog"
+  },
+  "deleteAllDataDialogMessage": "This will permanently delete all your coupons and folders. This action cannot be undone.",
+  "@deleteAllDataDialogMessage": {
+    "description": "Message for the delete all data confirmation dialog"
   }
 }
