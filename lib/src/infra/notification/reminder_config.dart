@@ -1,5 +1,5 @@
 import 'package:coupon_place/l10n/app_localizations.dart';
-import 'package:coupon_place/src/features/user/model/user_reminder_setting.dart';
+import 'package:coupon_place/src/features/settings/model/user_reminder_setting.dart';
 
 enum ReminderType { first, second }
 
