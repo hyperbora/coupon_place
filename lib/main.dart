@@ -40,7 +40,11 @@ Future<void> initNotifications() async {
   await flutterLocalNotificationsPlugin.initialize(
     initializationSettings,
     onDidReceiveNotificationResponse: (NotificationResponse response) {
-      debugPrint("알림 클릭됨, payload: ${response.payload}");
+      final payload = response.payload;
+      if (payload == null) {
+        return;
+      }
+      appRouter.go(payload);
     },
   );
 

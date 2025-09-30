@@ -10,61 +10,61 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:coupon_place/l10n/app_localizations.dart';
 
+final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
+
+final appRouter = GoRouter(
+  navigatorKey: _rootNavigatorKey,
+  routes: [
+    GoRoute(
+      path: AppRoutes.mainTab,
+      builder: (context, state) => const MainTabScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.folderDetail,
+      builder: (context, state) {
+        final folderId = state.pathParameters['folderId'];
+        final folderName = state.extra as String? ?? '';
+        return CouponListScreen(folderId: folderId!, folderName: folderName);
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.couponFormNew,
+      builder: (context, state) => CouponFormScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.couponDetail,
+      builder: (context, state) {
+        final folderId = state.pathParameters['folderId']!;
+        final couponId = state.pathParameters['couponId']!;
+        return CouponDetailScreen(folderId: folderId, couponId: couponId);
+      },
+      routes: [
+        GoRoute(
+          path: 'edit',
+          builder: (context, state) {
+            final folderId = state.pathParameters['folderId']!;
+            final couponId = state.pathParameters['couponId']!;
+            return CouponFormScreen(
+              folderId: folderId,
+              couponId: couponId,
+              key: ValueKey(couponId),
+            );
+          },
+        ),
+      ],
+    ),
+    GoRoute(
+      path: AppRoutes.dataManagementSettings,
+      builder: (context, state) => const DataManagementScreen(),
+    ),
+  ],
+);
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final router = GoRouter(
-      routes: [
-        GoRoute(
-          path: AppRoutes.mainTab,
-          builder: (context, state) => const MainTabScreen(),
-        ),
-        GoRoute(
-          path: AppRoutes.folderDetail,
-          builder: (context, state) {
-            final folderId = state.pathParameters['folderId'];
-            final folderName = state.extra as String? ?? '';
-            return CouponListScreen(
-              folderId: folderId!,
-              folderName: folderName,
-            );
-          },
-        ),
-        GoRoute(
-          path: AppRoutes.couponFormNew,
-          builder: (context, state) => CouponFormScreen(),
-        ),
-        GoRoute(
-          path: AppRoutes.couponDetail,
-          builder: (context, state) {
-            final folderId = state.pathParameters['folderId']!;
-            final couponId = state.pathParameters['couponId']!;
-            return CouponDetailScreen(folderId: folderId, couponId: couponId);
-          },
-          routes: [
-            GoRoute(
-              path: 'edit',
-              builder: (context, state) {
-                final folderId = state.pathParameters['folderId']!;
-                final couponId = state.pathParameters['couponId']!;
-                return CouponFormScreen(
-                  folderId: folderId,
-                  couponId: couponId,
-                  key: ValueKey(couponId),
-                );
-              },
-            ),
-          ],
-        ),
-        GoRoute(
-          path: AppRoutes.dataManagementSettings,
-          builder: (context, state) => const DataManagementScreen(),
-        ),
-      ],
-    );
-
     return MaterialApp.router(
       title: 'Coupon Place',
       theme: FlexThemeData.light(
@@ -78,7 +78,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       themeMode: ThemeMode.light,
-      routerConfig: router,
+      routerConfig: appRouter,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
