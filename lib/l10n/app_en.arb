@@ -239,5 +239,13 @@
   "noCouponsDescription": "No coupons yet.\nTap the + button to add one.",
   "@noCouponsDescription": {
     "description": "Message displayed when there are no coupons available"
+  },
+  "dataManagementTitle": "Data Management",
+  "@dataManagementTitle": {
+    "description": "Title for the data management screen"
+  },
+  "clearAllDataLabel": "Clear All Data",
+  "@clearAllDataLabel": {
+    "description": "Label for the button to clear all data"
   }
 }

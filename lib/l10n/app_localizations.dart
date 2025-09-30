@@ -436,6 +436,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No coupons yet.\nTap the + button to add one.'**
   String get noCouponsDescription;
+
+  /// Title for the data management screen
+  ///
+  /// In en, this message translates to:
+  /// **'Data Management'**
+  String get dataManagementTitle;
+
+  /// Label for the button to clear all data
+  ///
+  /// In en, this message translates to:
+  /// **'Clear All Data'**
+  String get clearAllDataLabel;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -239,5 +239,13 @@
   "noCouponsDescription": "아직 쿠폰이 없어요.\n+ 버튼을 눌러 추가해 보세요.",
   "@noCouponsDescription": {
     "description": "쿠폰이 없을 때 표시되는 안내 메시지"
+  },
+  "dataManagementTitle": "데이터 관리",
+  "@dataManagementTitle": {
+    "description": "데이터 관리 화면의 제목"
+  },
+  "clearAllDataLabel": "모든 데이터 삭제",
+  "@clearAllDataLabel": {
+    "description": "모든 데이터 삭제 버튼의 텍스트"
   }
 }

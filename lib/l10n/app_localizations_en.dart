@@ -182,4 +182,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noCouponsDescription => 'No coupons yet.\nTap the + button to add one.';
+
+  @override
+  String get dataManagementTitle => 'Data Management';
+
+  @override
+  String get clearAllDataLabel => 'Clear All Data';
 }
