@@ -82,4 +82,17 @@ class Coupon extends HiveObject {
       enableAlarm: enableAlarm ?? this.enableAlarm,
     );
   }
+
+  Coupon withImagePath(String? imagePath) {
+    return Coupon(
+      id: id,
+      name: name,
+      code: code,
+      memo: memo,
+      validDate: validDate,
+      imagePath: imagePath,
+      folderId: folderId,
+      enableAlarm: enableAlarm,
+    );
+  }
 }

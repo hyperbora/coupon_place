@@ -276,6 +276,12 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
       );
     }
 
+    bool _imageExists(String? path) {
+      if (path == null) return false;
+      final file = File(path);
+      return file.existsSync();
+    }
+
     Widget buildImagePicker() {
       final imagePath = state.imageFilePath ?? coupon?.imagePath;
       return Padding(
@@ -289,11 +295,14 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
             ),
             child: Stack(
               children: [
-                imagePath != null && File(imagePath).existsSync()
+                _imageExists(imagePath)
                     ? ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: SizedBox(
-                        child: Image.file(File(imagePath), fit: BoxFit.contain),
+                        child: Image.file(
+                          File(imagePath!),
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     )
                     : Container(
@@ -308,11 +317,11 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
                   top: 8,
                   right: 8,
                   child:
-                      imagePath != null
+                      _imageExists(imagePath)
                           ? GestureDetector(
                             onTap: () {
                               notifier.setImagePath(null);
-                              coupon = coupon?.copyWith(imagePath: null);
+                              coupon = coupon?.withImagePath(null);
                               setState(() {});
                             },
                             child: Container(

@@ -13,6 +13,12 @@ class FileHelper {
       await folderDir.create(recursive: true);
     }
     final savedPath = p.join(folderDir.path, fileName);
+    if (originPath == savedPath) {
+      return originPath;
+    }
+    if (!File(originPath).existsSync()) {
+      return '';
+    }
     final savedFile = await File(originPath).copy(savedPath);
     return savedFile.path;
   }
