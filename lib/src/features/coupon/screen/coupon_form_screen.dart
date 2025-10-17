@@ -1,6 +1,7 @@
 import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
 import 'package:coupon_place/src/shared/utils/file_helper.dart';
 import 'package:coupon_place/src/features/coupon/provider/coupon_list_provider.dart';
+import 'package:coupon_place/src/shared/utils/icon_mapping.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -276,7 +277,7 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
       );
     }
 
-    bool _imageExists(String? path) {
+    bool imageExists(String? path) {
       if (path == null) return false;
       final file = File(path);
       return file.existsSync();
@@ -295,7 +296,7 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
             ),
             child: Stack(
               children: [
-                _imageExists(imagePath)
+                imageExists(imagePath)
                     ? ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: SizedBox(
@@ -317,7 +318,7 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
                   top: 8,
                   right: 8,
                   child:
-                      _imageExists(imagePath)
+                      imageExists(imagePath)
                           ? GestureDetector(
                             onTap: () {
                               notifier.setImagePath(null);
@@ -405,10 +406,7 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
                                 backgroundColor: Color(folder.colorValue),
                                 radius: 10,
                                 child: Icon(
-                                  IconData(
-                                    folder.iconCodePoint,
-                                    fontFamily: 'MaterialIcons',
-                                  ),
+                                  iconMapping[folder.iconCodePoint],
                                   color: Colors.white,
                                   size: 14,
                                 ),

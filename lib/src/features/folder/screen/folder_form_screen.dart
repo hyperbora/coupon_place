@@ -1,3 +1,4 @@
+import 'package:coupon_place/src/shared/utils/icon_mapping.dart';
 import 'package:coupon_place/src/shared/widgets/box_container.dart';
 import 'package:coupon_place/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -30,44 +31,6 @@ class _FolderFormScreenState extends State<FolderFormScreen> {
     15,
     (i) => Colors.primaries[i % Colors.primaries.length],
   );
-  final List<IconData> _iconOptions = [
-    Icons.list,
-    Icons.star,
-    Icons.coffee,
-    Icons.shopping_cart,
-    Icons.movie,
-    Icons.fastfood,
-    Icons.card_giftcard,
-    Icons.local_offer,
-    Icons.pets,
-    Icons.sports_esports,
-    Icons.bookmark,
-    Icons.favorite,
-    Icons.directions_car,
-    Icons.home,
-    Icons.school,
-    Icons.flight,
-    Icons.music_note,
-    Icons.restaurant,
-    Icons.local_cafe,
-    Icons.local_florist,
-    Icons.local_mall,
-    Icons.local_play,
-    Icons.local_pizza,
-    Icons.local_taxi,
-    Icons.beach_access,
-    Icons.cake,
-    Icons.child_friendly,
-    Icons.directions_bike,
-    Icons.directions_bus,
-    Icons.directions_run,
-    Icons.directions_walk,
-    Icons.emoji_emotions,
-    Icons.emoji_food_beverage,
-    Icons.emoji_nature,
-    Icons.emoji_objects,
-    Icons.emoji_transportation,
-  ];
 
   @override
   void initState() {
@@ -177,7 +140,7 @@ class _FolderFormScreenState extends State<FolderFormScreen> {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             children:
-                _iconOptions.map((icon) {
+                iconOptions.map((icon) {
                   return IconButton(
                     onPressed: () => setState(() => _selectedIcon = icon),
                     icon: Icon(

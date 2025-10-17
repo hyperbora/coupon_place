@@ -1,5 +1,6 @@
 import 'package:coupon_place/src/core/router/app_routes.dart';
 import 'package:coupon_place/src/features/folder/provider/folder_provider.dart';
+import 'package:coupon_place/src/shared/utils/icon_mapping.dart';
 import 'package:coupon_place/src/shared/widgets/card_container.dart';
 import 'package:coupon_place/src/shared/widgets/confirm_dialog.dart';
 import 'package:coupon_place/src/features/coupon/screen/coupon_form_screen.dart';
@@ -132,10 +133,8 @@ class MyCouponsScreen extends ConsumerWidget {
                                 child: FolderFormScreen(
                                   initialName: folder.name,
                                   initialColor: Color(folder.colorValue),
-                                  initialIcon: IconData(
-                                    folder.iconCodePoint,
-                                    fontFamily: 'MaterialIcons',
-                                  ),
+                                  initialIcon:
+                                      iconMapping[folder.iconCodePoint],
                                   onSubmit: (name, color, icon) {
                                     folderNotifier.updateFolder(
                                       folder.id,
@@ -210,10 +209,9 @@ class MyCouponsScreen extends ConsumerWidget {
                               Expanded(
                                 child: CardContainer(
                                   label: folder.name,
-                                  icon: IconData(
-                                    folder.iconCodePoint,
-                                    fontFamily: 'MaterialIcons',
-                                  ),
+                                  icon:
+                                      iconMapping[folder.iconCodePoint] ??
+                                      Icons.folder,
                                   color: Color(folder.colorValue),
                                   onTap: () {
                                     context.push(
