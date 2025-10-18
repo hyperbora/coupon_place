@@ -466,6 +466,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'All data has been deleted.'**
   String get allDataDeletedMessage;
+
+  /// Label for the button to mark a coupon as used
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as Used'**
+  String get markAsUsedButton;
+
+  /// Label for the button to cancel the used status of a coupon
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel Use'**
+  String get cancelUseButton;
+
+  /// Message displayed after a coupon has been marked as used
+  ///
+  /// In en, this message translates to:
+  /// **'Marked as used ✅'**
+  String get couponMarkedAsUsedMessage;
+
+  /// Message displayed after the use of a coupon has been cancelled
+  ///
+  /// In en, this message translates to:
+  /// **'Use cancelled ❎'**
+  String get couponUseCancelledMessage;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

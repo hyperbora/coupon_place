@@ -25,13 +25,14 @@ class CouponAdapter extends TypeAdapter<Coupon> {
       imagePath: fields[5] as String?,
       folderId: fields[6] as String,
       enableAlarm: fields[7] as bool,
+      isUsed: fields[8] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Coupon obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -47,7 +48,9 @@ class CouponAdapter extends TypeAdapter<Coupon> {
       ..writeByte(6)
       ..write(obj.folderId)
       ..writeByte(7)
-      ..write(obj.enableAlarm);
+      ..write(obj.enableAlarm)
+      ..writeByte(8)
+      ..write(obj.isUsed);
   }
 
   @override

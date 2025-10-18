@@ -197,4 +197,16 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get allDataDeletedMessage => '모든 데이터가 삭제되었습니다.';
+
+  @override
+  String get markAsUsedButton => '사용 완료';
+
+  @override
+  String get cancelUseButton => '사용 취소';
+
+  @override
+  String get couponMarkedAsUsedMessage => '사용 완료되었습니다 ✅';
+
+  @override
+  String get couponUseCancelledMessage => '사용 취소되었습니다 ❎';
 }

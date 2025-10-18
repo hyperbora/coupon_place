@@ -29,6 +29,9 @@ class Coupon extends HiveObject {
   @HiveField(7)
   final bool enableAlarm;
 
+  @HiveField(8)
+  final bool isUsed;
+
   Coupon({
     required this.id,
     required this.name,
@@ -38,6 +41,7 @@ class Coupon extends HiveObject {
     this.imagePath,
     required this.folderId,
     this.enableAlarm = false,
+    this.isUsed = false,
   });
 
   factory Coupon.create({
@@ -48,6 +52,7 @@ class Coupon extends HiveObject {
     String? imagePath,
     required String folderId,
     bool enableAlarm = true,
+    bool isUsed = false,
   }) {
     return Coupon(
       id: const Uuid().v4(),
@@ -58,6 +63,7 @@ class Coupon extends HiveObject {
       imagePath: imagePath,
       folderId: folderId,
       enableAlarm: enableAlarm,
+      isUsed: isUsed,
     );
   }
 
@@ -70,6 +76,7 @@ class Coupon extends HiveObject {
     String? imagePath,
     String? folderId,
     bool? enableAlarm,
+    bool? isUsed,
   }) {
     return Coupon(
       id: this.id,
@@ -80,6 +87,7 @@ class Coupon extends HiveObject {
       imagePath: imagePath ?? this.imagePath,
       folderId: folderId ?? this.folderId,
       enableAlarm: enableAlarm ?? this.enableAlarm,
+      isUsed: isUsed ?? this.isUsed,
     );
   }
 
@@ -93,6 +101,7 @@ class Coupon extends HiveObject {
       imagePath: imagePath,
       folderId: folderId,
       enableAlarm: enableAlarm,
+      isUsed: isUsed,
     );
   }
 }

@@ -259,5 +259,21 @@
   "allDataDeletedMessage": "All data has been deleted.",
   "@allDataDeletedMessage": {
     "description": "Message displayed after all data has been successfully deleted"
+  },
+  "markAsUsedButton": "Mark as Used",
+  "@markAsUsedButton": {
+    "description": "Label for the button to mark a coupon as used"
+  },
+  "cancelUseButton": "Cancel Use",
+  "@cancelUseButton": {
+    "description": "Label for the button to cancel the used status of a coupon"
+  },
+  "couponMarkedAsUsedMessage": "Marked as used ✅",
+  "@couponMarkedAsUsedMessage": {
+    "description": "Message displayed after a coupon has been marked as used"
+  },
+  "couponUseCancelledMessage": "Use cancelled ❎",
+  "@couponUseCancelledMessage": {
+    "description": "Message displayed after the use of a coupon has been cancelled"
   }
 }

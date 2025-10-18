@@ -24,13 +24,7 @@ class CouponListNotifier extends StateNotifier<List<Coupon>> {
   void addCoupon(Coupon coupon, AppLocalizations loc) async {
     state = [...state, coupon];
     await _couponLocalDb.add(coupon);
-    final userReminderSetting = ref.read(userReminderSettingProvider);
-    final configs = buildReminderConfigs(userReminderSetting);
-    await registerCouponNotifications(
-      coupon: coupon,
-      loc: loc,
-      configs: configs,
-    );
+    await _registerCouponNotifications(ref: ref, coupon: coupon, loc: loc);
   }
 
   void updateCoupon(Coupon updated, AppLocalizations loc) async {
@@ -46,13 +40,7 @@ class CouponListNotifier extends StateNotifier<List<Coupon>> {
           oldCoupon.imagePath != updated.imagePath) {
         FileHelper.deleteFile(oldCoupon.imagePath!);
       }
-      final userReminderSetting = ref.read(userReminderSettingProvider);
-      final configs = buildReminderConfigs(userReminderSetting);
-      await registerCouponNotifications(
-        coupon: updated,
-        loc: loc,
-        configs: configs,
-      );
+      await _registerCouponNotifications(ref: ref, coupon: updated, loc: loc);
     } catch (e) {
       state = [
         for (final coupon in state)
@@ -69,6 +57,17 @@ class CouponListNotifier extends StateNotifier<List<Coupon>> {
     }
     state = state.where((coupon) => coupon.id != deleted.id).toList();
   }
+
+  Future<void> toggleUsed(Coupon coupon, AppLocalizations loc) async {
+    final isUsed = !coupon.isUsed;
+    await cancelCouponNotifications(coupon: coupon);
+    if (!isUsed) {
+      await _registerCouponNotifications(ref: ref, coupon: coupon, loc: loc);
+    }
+    final updated = coupon.copyWith(isUsed: isUsed);
+    state = [for (final c in state) c.id == updated.id ? updated : c];
+    await _couponLocalDb.update(updated);
+  }
 }
 
 class AllCouponsNotifier extends StateNotifier<List<Coupon>> {
@@ -84,13 +83,7 @@ class AllCouponsNotifier extends StateNotifier<List<Coupon>> {
   void addCoupon(Coupon coupon, AppLocalizations loc) async {
     state = [...state, coupon];
     await _couponLocalDb.add(coupon);
-    final userReminderSetting = ref.read(userReminderSettingProvider);
-    final configs = buildReminderConfigs(userReminderSetting);
-    await registerCouponNotifications(
-      coupon: coupon,
-      loc: loc,
-      configs: configs,
-    );
+    await _registerCouponNotifications(ref: ref, coupon: coupon, loc: loc);
   }
 
   void updateCoupon(Coupon updated, AppLocalizations loc) async {
@@ -106,13 +99,7 @@ class AllCouponsNotifier extends StateNotifier<List<Coupon>> {
           oldCoupon.imagePath != updated.imagePath) {
         FileHelper.deleteFile(oldCoupon.imagePath!);
       }
-      final userReminderSetting = ref.read(userReminderSettingProvider);
-      final configs = buildReminderConfigs(userReminderSetting);
-      await registerCouponNotifications(
-        coupon: updated,
-        loc: loc,
-        configs: configs,
-      );
+      await _registerCouponNotifications(ref: ref, coupon: updated, loc: loc);
     } catch (e) {
       state = [
         for (final coupon in state)
@@ -140,6 +127,27 @@ class AllCouponsNotifier extends StateNotifier<List<Coupon>> {
     }
     state = [];
   }
+
+  Future<void> toggleUsed(Coupon coupon, AppLocalizations loc) async {
+    final isUsed = !coupon.isUsed;
+    await cancelCouponNotifications(coupon: coupon);
+    if (!isUsed) {
+      await _registerCouponNotifications(ref: ref, coupon: coupon, loc: loc);
+    }
+    final updated = coupon.copyWith(isUsed: isUsed);
+    state = [for (final c in state) c.id == updated.id ? updated : c];
+    await _couponLocalDb.update(updated);
+  }
+}
+
+Future<void> _registerCouponNotifications({
+  required Ref ref,
+  required Coupon coupon,
+  required AppLocalizations loc,
+}) async {
+  final userReminderSetting = ref.read(userReminderSettingProvider);
+  final configs = buildReminderConfigs(userReminderSetting);
+  await registerCouponNotifications(coupon: coupon, loc: loc, configs: configs);
 }
 
 final couponListProvider =

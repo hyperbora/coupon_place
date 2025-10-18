@@ -11,27 +11,42 @@ class CouponListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading:
-          (coupon.imagePath != null && File(coupon.imagePath!).existsSync())
-              ? ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.file(
-                  File(coupon.imagePath!),
-                  width: 48,
-                  height: 48,
-                  fit: BoxFit.cover,
+    final bool isUsed = coupon.isUsed;
+    final textColor = isUsed ? Colors.grey : null;
+    final decoration =
+        isUsed ? TextDecoration.lineThrough : TextDecoration.none;
+
+    return Container(
+      color: isUsed ? Colors.grey[200] : null,
+      child: ListTile(
+        leading:
+            (coupon.imagePath != null && File(coupon.imagePath!).existsSync())
+                ? ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.file(
+                    File(coupon.imagePath!),
+                    width: 48,
+                    height: 48,
+                    fit: BoxFit.cover,
+                  ),
+                )
+                : CircleAvatar(
+                  backgroundColor: Colors.grey[200],
+                  child: Icon(Icons.image, color: Colors.grey[600]),
                 ),
-              )
-              : CircleAvatar(
-                backgroundColor: Colors.grey[200],
-                child: Icon(Icons.image_not_supported, color: Colors.grey[600]),
-              ),
-      title: Text(coupon.name),
-      subtitle: Text(coupon.code ?? ''),
-      onTap: () {
-        context.push('/coupon/${coupon.folderId}/${coupon.id}');
-      },
+        title: Text(
+          coupon.name,
+          style: TextStyle(color: textColor, decoration: decoration),
+        ),
+        subtitle: Text(
+          coupon.code ?? '',
+          style: TextStyle(color: textColor, decoration: decoration),
+        ),
+        trailing: isUsed ? Icon(Icons.check, color: Colors.grey) : null,
+        onTap: () {
+          context.push('/coupon/${coupon.folderId}/${coupon.id}');
+        },
+      ),
     );
   }
 }

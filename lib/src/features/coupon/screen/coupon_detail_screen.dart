@@ -1,3 +1,6 @@
+import 'package:coupon_place/src/app.dart';
+import 'package:coupon_place/src/core/router/app_routes.dart';
+import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:io';
@@ -15,6 +18,30 @@ class CouponDetailScreen extends ConsumerWidget {
     required this.folderId,
     required this.couponId,
   });
+
+  Icon toggleUsedIcon(Coupon coupon) {
+    if (coupon.isUsed) {
+      return const Icon(Icons.undo_rounded, color: Colors.red);
+    } else {
+      return const Icon(Icons.check_circle, color: Colors.green);
+    }
+  }
+
+  Text toggleUsedText(Coupon coupon, AppLocalizations loc) {
+    if (coupon.isUsed) {
+      return Text(loc.cancelUseButton);
+    } else {
+      return Text(loc.markAsUsedButton);
+    }
+  }
+
+  Text snackBarContent(bool nextUsedState, AppLocalizations loc) {
+    if (nextUsedState) {
+      return Text(loc.couponMarkedAsUsedMessage);
+    } else {
+      return Text(loc.couponUseCancelledMessage);
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -224,6 +251,37 @@ class CouponDetailScreen extends ConsumerWidget {
                     ],
                   ),
                 ],
+              ),
+              const SizedBox(height: 32),
+              Center(
+                child: ElevatedButton.icon(
+                  icon: toggleUsedIcon(coupon),
+                  label: toggleUsedText(coupon, loc),
+                  onPressed: () async {
+                    final nextUsedState = !coupon.isUsed;
+                    await ref
+                        .read(couponListProvider(folderId).notifier)
+                        .toggleUsed(coupon, loc);
+
+                    if (!context.mounted) {
+                      return;
+                    }
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: snackBarContent(nextUsedState, loc),
+                        behavior: SnackBarBehavior.floating,
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
+
+                    if (Navigator.canPop(context)) {
+                      Navigator.pop(context);
+                    } else {
+                      appRouter.go(AppRoutes.mainTab);
+                    }
+                  },
+                ),
               ),
             ],
           ),
