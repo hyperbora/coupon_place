@@ -1,1 +1,4 @@
 "CFBundleDisplayName" = "쿠폰플레이스";
+"NSCameraUsageDescription" = "이 앱은 쿠폰 등록을 위해 카메라 접근 권한이 필요합니다.";
+"NSPhotoLibraryUsageDescription" = "이 앱은 쿠폰 이미지를 선택하기 위해 사진 라이브러리 접근 권한이 필요합니다.";
+"NSUserNotificationUsageDescription" = "이 앱은 쿠폰 만료 알림을 위해 알림 권한이 필요합니다.";
