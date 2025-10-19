@@ -60,8 +60,9 @@ class CouponListNotifier extends StateNotifier<List<Coupon>> {
 
   Future<void> toggleUsed(Coupon coupon, AppLocalizations loc) async {
     final isUsed = !coupon.isUsed;
-    await cancelCouponNotifications(coupon: coupon);
-    if (!isUsed) {
+    if (isUsed) {
+      await cancelCouponNotifications(coupon: coupon);
+    } else {
       await _registerCouponNotifications(ref: ref, coupon: coupon, loc: loc);
     }
     final updated = coupon.copyWith(isUsed: isUsed);
@@ -130,8 +131,9 @@ class AllCouponsNotifier extends StateNotifier<List<Coupon>> {
 
   Future<void> toggleUsed(Coupon coupon, AppLocalizations loc) async {
     final isUsed = !coupon.isUsed;
-    await cancelCouponNotifications(coupon: coupon);
-    if (!isUsed) {
+    if (isUsed) {
+      await cancelCouponNotifications(coupon: coupon);
+    } else {
       await _registerCouponNotifications(ref: ref, coupon: coupon, loc: loc);
     }
     final updated = coupon.copyWith(isUsed: isUsed);

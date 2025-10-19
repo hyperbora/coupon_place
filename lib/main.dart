@@ -1,4 +1,5 @@
 import 'package:coupon_place/src/app.dart';
+import 'package:coupon_place/src/core/router/app_router.dart';
 import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
 import 'package:coupon_place/src/features/folder/model/folder_model.dart';
 import 'package:coupon_place/src/features/folder/provider/folder_provider.dart';
@@ -51,6 +52,18 @@ Future<void> initNotifications() async {
       appRouter.go(payload);
     },
   );
+
+  final NotificationAppLaunchDetails? details =
+      await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+
+  if (details?.didNotificationLaunchApp ?? false) {
+    final payload = details!.notificationResponse?.payload;
+    if (payload != null) {
+      Future.delayed(const Duration(milliseconds: 500), () {
+        appRouter.go(payload);
+      });
+    }
+  }
 
   tz.initializeTimeZones();
 }

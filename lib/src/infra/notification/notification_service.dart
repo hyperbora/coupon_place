@@ -1,11 +1,9 @@
 import 'package:coupon_place/l10n/app_localizations.dart';
+import 'package:coupon_place/main.dart';
 import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
 import 'package:coupon_place/src/infra/notification/reminder_config.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
-
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
 
 class BasePayload {
   final Coupon coupon;
@@ -36,18 +34,17 @@ Future<void> registerCouponNotifications({
   final basePayload = BasePayload(coupon: coupon);
 
   for (final config in configs) {
-    final scheduledDateRaw = validDate.subtract(config.offset);
+    final now = tz.TZDateTime.now(tz.local);
+    final targetDate = validDate.subtract(config.offset);
     final scheduledDate = tz.TZDateTime(
       tz.local,
-      scheduledDateRaw.year,
-      scheduledDateRaw.month,
-      scheduledDateRaw.day,
+      targetDate.year,
+      targetDate.month,
+      targetDate.day,
       9,
-      0,
-      0,
     );
 
-    if (!scheduledDate.isAfter(DateTime.now())) {
+    if (!scheduledDate.isAfter(now)) {
       continue;
     }
 
@@ -93,10 +90,17 @@ Future<void> rescheduleAllNotifications({
     if (coupon.enableAlarm == false) {
       continue;
     }
+    if (coupon.isUsed) {
+      continue;
+    }
 
     final validDate = coupon.validDate;
 
-    if (validDate != null && validDate.isAfter(DateTime.now())) {
+    if (validDate == null) {
+      continue;
+    }
+
+    if (validDate.isAfter(DateTime.now())) {
       await registerCouponNotifications(
         coupon: coupon,
         loc: loc,

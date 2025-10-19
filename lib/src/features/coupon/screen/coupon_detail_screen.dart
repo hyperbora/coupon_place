@@ -1,4 +1,4 @@
-import 'package:coupon_place/src/app.dart';
+import 'package:coupon_place/src/core/router/app_router.dart';
 import 'package:coupon_place/src/core/router/app_routes.dart';
 import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
 import 'package:flutter/material.dart';

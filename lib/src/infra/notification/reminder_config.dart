@@ -37,9 +37,9 @@ List<ReminderConfig> buildReminderConfigs(UserReminderSetting setting) {
         offset: Duration(days: setting.secondReminderDays!),
         labelGetter:
             (loc) =>
-                setting.firstReminderDays == 0
+                setting.secondReminderDays == 0
                     ? loc.reminder_0d
-                    : loc.reminder(setting.firstReminderDays!),
+                    : loc.reminder(setting.secondReminderDays!),
       ),
     );
   }
