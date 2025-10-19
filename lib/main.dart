@@ -1,19 +1,13 @@
 import 'package:coupon_place/src/app.dart';
-import 'package:coupon_place/src/core/router/app_router.dart';
-import 'package:coupon_place/src/core/router/app_routes.dart';
 import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
 import 'package:coupon_place/src/features/folder/model/folder_model.dart';
 import 'package:coupon_place/src/features/folder/provider/folder_provider.dart';
+import 'package:coupon_place/src/infra/notification/notification_service.dart';
 import 'package:coupon_place/src/infra/prefs/shared_preferences_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:timezone/data/latest.dart' as tz;
-
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,56 +19,6 @@ void main() async {
   await Hive.openBox<Folder>('folders');
   await addDefaultFolderIfPossible();
   runApp(const ProviderScope(child: MyApp()));
-}
-
-Future<void> initNotifications() async {
-  const AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('@mipmap/ic_launcher');
-
-  const DarwinInitializationSettings initializationSettingsDarwin =
-      DarwinInitializationSettings(
-        requestAlertPermission: true,
-        requestBadgePermission: true,
-        requestSoundPermission: true,
-      );
-
-  const InitializationSettings initializationSettings = InitializationSettings(
-    android: initializationSettingsAndroid,
-    iOS: initializationSettingsDarwin,
-  );
-
-  await flutterLocalNotificationsPlugin.initialize(
-    initializationSettings,
-    onDidReceiveNotificationResponse: (NotificationResponse response) {
-      final payload = response.payload;
-      if (payload == null) {
-        return;
-      }
-      Future.delayed(const Duration(milliseconds: 500), () {
-        appRouter.go(AppRoutes.mainTab);
-        Future.delayed(const Duration(milliseconds: 100), () {
-          appRouter.push(payload);
-        });
-      });
-    },
-  );
-
-  final NotificationAppLaunchDetails? details =
-      await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
-
-  if (details?.didNotificationLaunchApp ?? false) {
-    final payload = details!.notificationResponse?.payload;
-    if (payload != null) {
-      Future.delayed(const Duration(milliseconds: 500), () {
-        appRouter.go(AppRoutes.mainTab);
-        Future.delayed(const Duration(milliseconds: 100), () {
-          appRouter.push(payload);
-        });
-      });
-    }
-  }
-
-  tz.initializeTimeZones();
 }
 
 Future<void> addDefaultFolderIfPossible() async {
