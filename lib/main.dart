@@ -1,5 +1,6 @@
 import 'package:coupon_place/src/app.dart';
 import 'package:coupon_place/src/core/router/app_router.dart';
+import 'package:coupon_place/src/core/router/app_routes.dart';
 import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
 import 'package:coupon_place/src/features/folder/model/folder_model.dart';
 import 'package:coupon_place/src/features/folder/provider/folder_provider.dart';
@@ -49,7 +50,12 @@ Future<void> initNotifications() async {
       if (payload == null) {
         return;
       }
-      appRouter.go(payload);
+      Future.delayed(const Duration(milliseconds: 500), () {
+        appRouter.go(AppRoutes.mainTab);
+        Future.delayed(const Duration(milliseconds: 100), () {
+          appRouter.push(payload);
+        });
+      });
     },
   );
 
@@ -60,7 +66,10 @@ Future<void> initNotifications() async {
     final payload = details!.notificationResponse?.payload;
     if (payload != null) {
       Future.delayed(const Duration(milliseconds: 500), () {
-        appRouter.go(payload);
+        appRouter.go(AppRoutes.mainTab);
+        Future.delayed(const Duration(milliseconds: 100), () {
+          appRouter.push(payload);
+        });
       });
     }
   }
