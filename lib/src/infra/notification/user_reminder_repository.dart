@@ -5,20 +5,9 @@ import 'package:coupon_place/src/features/settings/model/user_reminder_setting.d
 class UserReminderRepository {
   static const _firstKey = SharedPreferencesKeys.reminderFirstDaysKey;
   static const _secondKey = SharedPreferencesKeys.reminderSecondDaysKey;
-  static const _initializedKey = SharedPreferencesKeys.reminderInitializedKey;
 
   Future<UserReminderSetting> load() async {
     final prefs = await SharedPreferences.getInstance();
-    final initialized = prefs.getBool(_initializedKey) ?? false;
-    if (!initialized) {
-      final defaultSetting = UserReminderSetting(
-        firstReminderDays: 7,
-        secondReminderDays: 1,
-      );
-      await save(defaultSetting);
-      await prefs.setBool(_initializedKey, true);
-      return defaultSetting;
-    }
     final first = prefs.getInt(_firstKey);
     final second = prefs.getInt(_secondKey);
     return UserReminderSetting(

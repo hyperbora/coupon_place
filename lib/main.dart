@@ -4,6 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
-  await AppInitializer.initAll();
+  await AppInitializer.initializeApp();
   runApp(const ProviderScope(child: MyApp()));
 }
