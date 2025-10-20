@@ -7,20 +7,24 @@ import 'package:coupon_place/src/infra/notification/reminder_config.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
-class BasePayload {
-  final Coupon coupon;
-
-  BasePayload({required this.coupon});
-
-  @override
-  String toString() {
-    return '/coupon/${coupon.folderId}/${coupon.id}';
-  }
-}
-
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
+/// 알림에 포함되는 쿠폰 정보
+class BasePayload {
+  final String folderId;
+  final String couponId;
+
+  BasePayload({required this.folderId, required this.couponId});
+
+  factory BasePayload.fromCoupon(Coupon coupon) {
+    return BasePayload(folderId: coupon.folderId, couponId: coupon.id);
+  }
+
+  String toPayload() => '/coupon/$folderId/$couponId';
+}
+
+/// 초기화
 Future<void> initNotifications() async {
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -40,41 +44,43 @@ Future<void> initNotifications() async {
   await flutterLocalNotificationsPlugin.initialize(
     initializationSettings,
     onDidReceiveNotificationResponse: (NotificationResponse response) {
-      final payload = response.payload;
-      if (payload == null) {
-        return;
-      }
-      Future.delayed(const Duration(milliseconds: 500), () {
-        appRouter.go(AppRoutes.mainTab);
-        Future.delayed(const Duration(milliseconds: 100), () {
-          appRouter.push(payload);
-        });
-      });
+      _handleNotificationPayload(response.payload);
     },
   );
 
+  // 앱이 알림을 통해 실행된 경우
   final NotificationAppLaunchDetails? details =
       await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
 
   if (details?.didNotificationLaunchApp ?? false) {
-    final payload = details!.notificationResponse?.payload;
-    if (payload != null) {
-      Future.delayed(const Duration(milliseconds: 500), () {
-        appRouter.go(AppRoutes.mainTab);
-        Future.delayed(const Duration(milliseconds: 100), () {
-          appRouter.push(payload);
-        });
-      });
-    }
+    _handleNotificationPayload(details!.notificationResponse?.payload);
   }
 
   tz.initializeTimeZones();
 }
 
-int _getNotificationId(BasePayload basePayload, ReminderType key) {
-  return '${basePayload.toString()}${key.name}'.hashCode;
+/// 알림 클릭 시 처리 로직
+Future<void> _handleNotificationPayload(String? payload) async {
+  if (payload == null) return;
+
+  await Future.delayed(const Duration(milliseconds: 500));
+
+  // 홈에서 바로 진입한 경우 대비
+  if (!appRouter.canPop()) {
+    appRouter.go(AppRoutes.mainTab);
+    await Future.delayed(const Duration(milliseconds: 100));
+  }
+
+  appRouter.push(payload);
 }
 
+/// 고정 해시 기반 ID 생성
+int _getNotificationId(BasePayload basePayload, ReminderType key) {
+  final input = '${basePayload.folderId}-${basePayload.couponId}-${key.name}';
+  return input.hashCode & 0x7FFFFFFF;
+}
+
+/// 쿠폰별 알림 등록
 Future<void> registerCouponNotifications({
   required Coupon coupon,
   required AppLocalizations loc,
@@ -83,10 +89,9 @@ Future<void> registerCouponNotifications({
   await cancelCouponNotifications(coupon: coupon);
 
   final validDate = coupon.validDate;
-  if (validDate == null) return;
-  if (validDate.isBefore(DateTime.now())) return;
+  if (validDate == null || validDate.isBefore(DateTime.now())) return;
 
-  final basePayload = BasePayload(coupon: coupon);
+  final basePayload = BasePayload.fromCoupon(coupon);
 
   for (final config in configs) {
     final now = tz.TZDateTime.now(tz.local);
@@ -99,9 +104,7 @@ Future<void> registerCouponNotifications({
       9,
     );
 
-    if (!scheduledDate.isAfter(now)) {
-      continue;
-    }
+    if (!scheduledDate.isAfter(now)) continue;
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
       _getNotificationId(basePayload, config.key),
@@ -111,21 +114,22 @@ Future<void> registerCouponNotifications({
       const NotificationDetails(
         android: AndroidNotificationDetails(
           'coupon_channel',
-          'coupon_expiration_notifications',
-          channelDescription: 'Coupon expiration notifications',
+          'Coupon Expiration Notifications',
+          channelDescription: 'Notifications for upcoming coupon expirations',
           importance: Importance.max,
           priority: Priority.high,
         ),
         iOS: DarwinNotificationDetails(),
       ),
-      payload: basePayload.toString(),
+      payload: basePayload.toPayload(),
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
     );
   }
 }
 
+/// 특정 쿠폰의 알림 취소
 Future<void> cancelCouponNotifications({required Coupon coupon}) async {
-  final basePayload = BasePayload(coupon: coupon);
+  final basePayload = BasePayload.fromCoupon(coupon);
 
   for (final key in ReminderType.values) {
     await flutterLocalNotificationsPlugin.cancel(
@@ -134,33 +138,22 @@ Future<void> cancelCouponNotifications({required Coupon coupon}) async {
   }
 }
 
+/// 모든 쿠폰 알림 재등록
 Future<void> rescheduleAllNotifications({
   required List<Coupon> coupons,
   required AppLocalizations loc,
   required List<ReminderConfig> configs,
 }) async {
-  await flutterLocalNotificationsPlugin.cancelAll();
-
   for (final coupon in coupons) {
-    if (coupon.enableAlarm == false) {
-      continue;
-    }
-    if (coupon.isUsed) {
-      continue;
-    }
-
+    if (!coupon.enableAlarm || coupon.isUsed) continue;
     final validDate = coupon.validDate;
+    if (validDate == null || validDate.isBefore(DateTime.now())) continue;
 
-    if (validDate == null) {
-      continue;
-    }
-
-    if (validDate.isAfter(DateTime.now())) {
-      await registerCouponNotifications(
-        coupon: coupon,
-        loc: loc,
-        configs: configs,
-      );
-    }
+    await cancelCouponNotifications(coupon: coupon);
+    await registerCouponNotifications(
+      coupon: coupon,
+      loc: loc,
+      configs: configs,
+    );
   }
 }
