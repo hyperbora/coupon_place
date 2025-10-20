@@ -1,3 +1,0 @@
-NSCameraUsageDescription = "This app needs camera access to register coupons.";
-NSPhotoLibraryUsageDescription = "This app needs photo library access to select coupon images.";
-NSUserNotificationUsageDescription = "This app requires notification permission to send reminders about coupon expirations.";
