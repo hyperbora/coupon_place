@@ -209,4 +209,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get couponUseCancelledMessage => 'Use cancelled ❎';
+
+  @override
+  String get reminderTimeLabel => 'Reminder Time';
+
+  @override
+  String get selectTimePlaceholder => 'Select Time';
 }

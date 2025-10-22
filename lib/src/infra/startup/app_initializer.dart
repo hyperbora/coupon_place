@@ -65,6 +65,8 @@ class AppInitializer {
     final defaultSetting = UserReminderSetting(
       firstReminderDays: 7,
       secondReminderDays: 1,
+      reminderHour: 9,
+      reminderMinute: 0,
     );
 
     final userReminderRepository = UserReminderRepository();

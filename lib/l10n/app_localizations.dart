@@ -490,6 +490,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Use cancelled ❎'**
   String get couponUseCancelledMessage;
+
+  /// Label for setting the reminder time
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder Time'**
+  String get reminderTimeLabel;
+
+  /// Placeholder text for selecting a time
+  ///
+  /// In en, this message translates to:
+  /// **'Select Time'**
+  String get selectTimePlaceholder;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

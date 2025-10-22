@@ -104,7 +104,8 @@ Future<void> registerCouponNotifications({
       targetDate.year,
       targetDate.month,
       targetDate.day,
-      9,
+      config.hour,
+      config.minute,
     );
 
     if (!scheduledDate.isAfter(now)) continue;

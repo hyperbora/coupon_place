@@ -6,11 +6,15 @@ enum ReminderType { first, second }
 class ReminderConfig {
   final ReminderType key;
   final Duration offset;
+  final int hour;
+  final int minute;
   final String Function(AppLocalizations loc) labelGetter;
 
   const ReminderConfig({
     required this.key,
     required this.offset,
+    required this.hour,
+    required this.minute,
     required this.labelGetter,
   });
 }
@@ -22,6 +26,8 @@ List<ReminderConfig> buildReminderConfigs(UserReminderSetting setting) {
       ReminderConfig(
         key: ReminderType.first,
         offset: Duration(days: setting.firstReminderDays!),
+        hour: setting.reminderHour ?? 9,
+        minute: setting.reminderMinute ?? 0,
         labelGetter:
             (loc) =>
                 setting.firstReminderDays == 0
@@ -35,6 +41,8 @@ List<ReminderConfig> buildReminderConfigs(UserReminderSetting setting) {
       ReminderConfig(
         key: ReminderType.second,
         offset: Duration(days: setting.secondReminderDays!),
+        hour: setting.reminderHour ?? 9,
+        minute: setting.reminderMinute ?? 0,
         labelGetter:
             (loc) =>
                 setting.secondReminderDays == 0

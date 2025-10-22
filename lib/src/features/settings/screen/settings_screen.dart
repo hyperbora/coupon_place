@@ -26,7 +26,7 @@ class SettingsScreen extends ConsumerWidget {
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
           child: Row(
             children: [
               CircleAvatar(
@@ -88,6 +88,60 @@ class SettingsScreen extends ConsumerWidget {
       );
     }
 
+    Widget reminderTimeRow() {
+      return Card(
+        elevation: 0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: ListTile(
+          leading: CircleAvatar(
+            backgroundColor: Colors.teal.withValues(alpha: 0.15),
+            child: Icon(Icons.access_time_rounded, color: Colors.teal),
+          ),
+          title: Text(
+            loc.reminderTimeLabel,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                (reminderSetting.reminderHour != null &&
+                        reminderSetting.reminderMinute != null)
+                    ? MaterialLocalizations.of(context).formatTimeOfDay(
+                      TimeOfDay(
+                        hour: reminderSetting.reminderHour!,
+                        minute: reminderSetting.reminderMinute!,
+                      ),
+                    )
+                    : loc.selectTimePlaceholder,
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              const SizedBox(width: 8),
+              const Icon(Icons.edit, size: 18, color: Colors.grey),
+            ],
+          ),
+          onTap: () async {
+            final now = TimeOfDay.now();
+            final initialTime =
+                reminderSetting.reminderHour != null &&
+                        reminderSetting.reminderMinute != null
+                    ? TimeOfDay(
+                      hour: reminderSetting.reminderHour!,
+                      minute: reminderSetting.reminderMinute!,
+                    )
+                    : now;
+            final picked = await showTimePicker(
+              context: context,
+              initialTime: initialTime,
+            );
+            if (picked != null) {
+              await notifier.updateTime(picked.hour, picked.minute, loc);
+            }
+          },
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(loc.settingsTitle),
@@ -141,6 +195,8 @@ class SettingsScreen extends ConsumerWidget {
                   color: Colors.orange,
                   icon: Icons.notifications_none_rounded,
                 ),
+                Divider(height: 5, indent: 50, endIndent: 50),
+                reminderTimeRow(),
               ],
             ),
           ),

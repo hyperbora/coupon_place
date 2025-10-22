@@ -275,5 +275,13 @@
   "couponUseCancelledMessage": "사용 취소되었습니다 ❎",
   "@couponUseCancelledMessage": {
     "description": "쿠폰 사용이 취소된 후 표시되는 메시지"
+  },
+  "reminderTimeLabel": "알림 시간",
+  "@reminderTimeLabel": {
+    "description": "알림 시간 설정 라벨"
+  },
+  "selectTimePlaceholder": "시간 선택",
+  "@selectTimePlaceholder": {
+    "description": "시간 선택 플레이스홀더"
   }
 }

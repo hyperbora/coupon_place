@@ -209,4 +209,10 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get couponUseCancelledMessage => '사용 취소되었습니다 ❎';
+
+  @override
+  String get reminderTimeLabel => '알림 시간';
+
+  @override
+  String get selectTimePlaceholder => '시간 선택';
 }

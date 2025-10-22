@@ -275,5 +275,13 @@
   "couponUseCancelledMessage": "Use cancelled ❎",
   "@couponUseCancelledMessage": {
     "description": "Message displayed after the use of a coupon has been cancelled"
+  },
+  "reminderTimeLabel": "Reminder Time",
+  "@reminderTimeLabel": {
+    "description": "Label for setting the reminder time"
+  },
+  "selectTimePlaceholder": "Select Time",
+  "@selectTimePlaceholder": {
+    "description": "Placeholder text for selecting a time"
   }
 }

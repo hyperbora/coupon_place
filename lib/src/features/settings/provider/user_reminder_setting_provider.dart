@@ -36,6 +36,12 @@ class UserReminderSettingNotifier extends StateNotifier<UserReminderSetting> {
     await _reschedule(loc);
   }
 
+  Future<void> updateTime(int hour, int minute, AppLocalizations loc) async {
+    state = state.copyWith(reminderHour: hour, reminderMinute: minute);
+    await repository.save(state);
+    await _reschedule(loc);
+  }
+
   Future<void> _reschedule(AppLocalizations loc) async {
     final coupons = ref.read(allCouponsProvider);
     final configs = buildReminderConfigs(state);
