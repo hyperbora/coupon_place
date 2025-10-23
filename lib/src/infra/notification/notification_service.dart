@@ -1,6 +1,7 @@
 import 'package:coupon_place/src/core/router/app_router.dart';
 import 'package:coupon_place/src/core/router/app_routes.dart';
 import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:coupon_place/l10n/app_localizations.dart';
 import 'package:coupon_place/src/infra/notification/reminder_config.dart';
@@ -92,12 +93,15 @@ Future<void> registerCouponNotifications({
   await cancelCouponNotifications(coupon: coupon);
 
   final validDate = coupon.validDate;
-  if (validDate == null || validDate.isBefore(DateTime.now())) return;
+  if (validDate == null) return;
+
+  if (coupon.isUsed) return;
+
+  if (coupon.enableAlarm == false) return;
 
   final basePayload = BasePayload.fromCoupon(coupon);
 
   for (final config in configs) {
-    final now = tz.TZDateTime.now(tz.local);
     final targetDate = validDate.subtract(config.offset);
     final scheduledDate = tz.TZDateTime(
       tz.local,
@@ -108,7 +112,16 @@ Future<void> registerCouponNotifications({
       config.minute,
     );
 
-    if (!scheduledDate.isAfter(now)) continue;
+    final now = tz.TZDateTime.now(tz.local);
+    final nowDateOnly = tz.TZDateTime(tz.local, now.year, now.month, now.day);
+    final scheduledDateOnly = tz.TZDateTime(
+      tz.local,
+      scheduledDate.year,
+      scheduledDate.month,
+      scheduledDate.day,
+    );
+
+    if (scheduledDateOnly.isBefore(nowDateOnly)) continue;
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
       _getNotificationId(basePayload, config.key),
@@ -150,8 +163,6 @@ Future<void> rescheduleAllNotifications({
 }) async {
   for (final coupon in coupons) {
     if (!coupon.enableAlarm || coupon.isUsed) continue;
-    final validDate = coupon.validDate;
-    if (validDate == null || validDate.isBefore(DateTime.now())) continue;
 
     await cancelCouponNotifications(coupon: coupon);
     await registerCouponNotifications(
