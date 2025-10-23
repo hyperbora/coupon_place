@@ -1,7 +1,6 @@
 import 'package:coupon_place/src/core/router/app_router.dart';
 import 'package:coupon_place/src/core/router/app_routes.dart';
 import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:coupon_place/l10n/app_localizations.dart';
 import 'package:coupon_place/src/infra/notification/reminder_config.dart';
@@ -113,15 +112,8 @@ Future<void> registerCouponNotifications({
     );
 
     final now = tz.TZDateTime.now(tz.local);
-    final nowDateOnly = tz.TZDateTime(tz.local, now.year, now.month, now.day);
-    final scheduledDateOnly = tz.TZDateTime(
-      tz.local,
-      scheduledDate.year,
-      scheduledDate.month,
-      scheduledDate.day,
-    );
 
-    if (scheduledDateOnly.isBefore(nowDateOnly)) continue;
+    if (scheduledDate.isBefore(now)) continue;
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
       _getNotificationId(basePayload, config.key),
