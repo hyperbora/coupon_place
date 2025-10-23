@@ -260,20 +260,20 @@
   "@allDataDeletedMessage": {
     "description": "Message displayed after all data has been successfully deleted"
   },
-  "markAsUsedButton": "Mark as Used",
-  "@markAsUsedButton": {
+  "markAsUsedLabel": "Mark as used",
+  "@markAsUsedLabel": {
     "description": "Label for the button to mark a coupon as used"
   },
-  "cancelUseButton": "Cancel Use",
-  "@cancelUseButton": {
+  "restoreUseLabel": "Cancel used status",
+  "@restoreUseLabel": {
     "description": "Label for the button to cancel the used status of a coupon"
   },
-  "couponMarkedAsUsedMessage": "Marked as used ✅",
-  "@couponMarkedAsUsedMessage": {
+  "couponUseMarkedMessage": "Coupon marked as used",
+  "@couponUseMarkedMessage": {
     "description": "Message displayed after a coupon has been marked as used"
   },
-  "couponUseCancelledMessage": "Use cancelled ❎",
-  "@couponUseCancelledMessage": {
+  "couponUseRestoredMessage": "Coupon marked as unused",
+  "@couponUseRestoredMessage": {
     "description": "Message displayed after the use of a coupon has been cancelled"
   },
   "reminderTimeLabel": "Reminder Time",

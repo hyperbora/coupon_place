@@ -470,26 +470,26 @@ abstract class AppLocalizations {
   /// Label for the button to mark a coupon as used
   ///
   /// In en, this message translates to:
-  /// **'Mark as Used'**
-  String get markAsUsedButton;
+  /// **'Mark as used'**
+  String get markAsUsedLabel;
 
   /// Label for the button to cancel the used status of a coupon
   ///
   /// In en, this message translates to:
-  /// **'Cancel Use'**
-  String get cancelUseButton;
+  /// **'Cancel used status'**
+  String get restoreUseLabel;
 
   /// Message displayed after a coupon has been marked as used
   ///
   /// In en, this message translates to:
-  /// **'Marked as used ✅'**
-  String get couponMarkedAsUsedMessage;
+  /// **'Coupon marked as used'**
+  String get couponUseMarkedMessage;
 
   /// Message displayed after the use of a coupon has been cancelled
   ///
   /// In en, this message translates to:
-  /// **'Use cancelled ❎'**
-  String get couponUseCancelledMessage;
+  /// **'Coupon marked as unused'**
+  String get couponUseRestoredMessage;
 
   /// Label for setting the reminder time
   ///

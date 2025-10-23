@@ -29,17 +29,17 @@ class CouponDetailScreen extends ConsumerWidget {
 
   Text toggleUsedText(Coupon coupon, AppLocalizations loc) {
     if (coupon.isUsed) {
-      return Text(loc.cancelUseButton);
+      return Text(loc.restoreUseLabel);
     } else {
-      return Text(loc.markAsUsedButton);
+      return Text(loc.markAsUsedLabel);
     }
   }
 
   Text snackBarContent(bool nextUsedState, AppLocalizations loc) {
     if (nextUsedState) {
-      return Text(loc.couponMarkedAsUsedMessage);
+      return Text(loc.couponUseMarkedMessage);
     } else {
-      return Text(loc.couponUseCancelledMessage);
+      return Text(loc.couponUseRestoredMessage);
     }
   }
 

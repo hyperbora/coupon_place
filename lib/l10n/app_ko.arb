@@ -260,21 +260,21 @@
   "@allDataDeletedMessage": {
     "description": "모든 데이터가 삭제된 후 표시되는 메시지"
   },
-  "markAsUsedButton": "사용 완료",
-  "@markAsUsedButton": {
+  "markAsUsedLabel": "사용 완료",
+  "@markAsUsedLabel": {
     "description": "쿠폰을 사용 완료로 표시하는 버튼의 텍스트"
   },
-  "cancelUseButton": "사용 취소",
-  "@cancelUseButton": {
-    "description": "쿠폰 사용을 취소하는 버튼의 텍스트"
+  "restoreUseLabel": "다시 사용하기",
+  "@restoreUseLabel": {
+    "description": "쿠폰을 다시 사용 가능하게 하는 버튼의 텍스트"
   },
-  "couponMarkedAsUsedMessage": "사용 완료되었습니다 ✅",
-  "@couponMarkedAsUsedMessage": {
+  "couponUseMarkedMessage": "쿠폰을 사용 완료로 표시했어요.",
+  "@couponUseMarkedMessage": {
     "description": "쿠폰이 사용 완료로 표시된 후 표시되는 메시지"
   },
-  "couponUseCancelledMessage": "사용 취소되었습니다 ❎",
-  "@couponUseCancelledMessage": {
-    "description": "쿠폰 사용이 취소된 후 표시되는 메시지"
+  "couponUseRestoredMessage": "쿠폰을 다시 사용할 수 있어요.",
+  "@couponUseRestoredMessage": {
+    "description": "쿠폰 사용이 복구된 후 표시되는 메시지"
   },
   "reminderTimeLabel": "알림 시간",
   "@reminderTimeLabel": {

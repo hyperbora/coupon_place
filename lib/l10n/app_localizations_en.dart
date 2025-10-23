@@ -199,16 +199,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get allDataDeletedMessage => 'All data has been deleted.';
 
   @override
-  String get markAsUsedButton => 'Mark as Used';
+  String get markAsUsedLabel => 'Mark as used';
 
   @override
-  String get cancelUseButton => 'Cancel Use';
+  String get restoreUseLabel => 'Cancel used status';
 
   @override
-  String get couponMarkedAsUsedMessage => 'Marked as used ✅';
+  String get couponUseMarkedMessage => 'Coupon marked as used';
 
   @override
-  String get couponUseCancelledMessage => 'Use cancelled ❎';
+  String get couponUseRestoredMessage => 'Coupon marked as unused';
 
   @override
   String get reminderTimeLabel => 'Reminder Time';
