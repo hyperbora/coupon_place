@@ -107,8 +107,13 @@ class FolderListScreen extends ConsumerWidget {
       ),
       body: Container(
         color: Colors.grey[200],
-        child: ListView.builder(
+        child: ReorderableListView.builder(
           itemCount: folders.length,
+          onReorder: (oldIndex, newIndex) {
+            ref
+                .read(folderProvider.notifier)
+                .reorderFolders(oldIndex, newIndex);
+          },
           itemBuilder: (context, index) {
             final folder = folders[index];
             return Slidable(

@@ -27,6 +27,7 @@ class FolderNotifier extends StateNotifier<FolderState> {
 
   Future<void> _loadFolders() async {
     final folders = await _folderDb.getAll();
+    folders.sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
     state = state.copyWith(folders: folders);
   }
 
@@ -36,6 +37,7 @@ class FolderNotifier extends StateNotifier<FolderState> {
       name: name,
       colorValue: color.toARGB32(),
       iconCodePoint: icon.codePoint,
+      order: state.folders.length, // assign order
     );
     state = state.copyWith(folders: [...state.folders, newFolder]);
     _folderDb.add(newFolder);
@@ -105,6 +107,25 @@ class FolderNotifier extends StateNotifier<FolderState> {
       await _folderDb.delete(folder.id);
     }
     state = FolderState();
+  }
+
+  Future<void> reorderFolders(int oldIndex, int newIndex) async {
+    if (newIndex > oldIndex) newIndex -= 1;
+    final updatedFolders = [...state.folders];
+    final folder = updatedFolders.removeAt(oldIndex);
+    updatedFolders.insert(newIndex, folder);
+
+    // update order in memory
+    for (int i = 0; i < updatedFolders.length; i++) {
+      updatedFolders[i] = updatedFolders[i].copyWith(order: i);
+    }
+
+    // persist changes
+    for (final folder in updatedFolders) {
+      _folderDb.update(folder);
+    }
+
+    state = state.copyWith(folders: updatedFolders);
   }
 }
 

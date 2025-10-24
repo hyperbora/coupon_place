@@ -21,13 +21,14 @@ class FolderAdapter extends TypeAdapter<Folder> {
       name: fields[1] as String,
       colorValue: fields[2] as int,
       iconCodePoint: fields[3] as int,
+      order: fields[4] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Folder obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -35,7 +36,9 @@ class FolderAdapter extends TypeAdapter<Folder> {
       ..writeByte(2)
       ..write(obj.colorValue)
       ..writeByte(3)
-      ..write(obj.iconCodePoint);
+      ..write(obj.iconCodePoint)
+      ..writeByte(4)
+      ..write(obj.order);
   }
 
   @override

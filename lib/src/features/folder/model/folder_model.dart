@@ -12,11 +12,30 @@ class Folder extends HiveObject {
   final int colorValue;
   @HiveField(3)
   final int iconCodePoint;
+  @HiveField(4)
+  final int? order;
 
   Folder({
     required this.id,
     required this.name,
     required this.colorValue,
     required this.iconCodePoint,
+    this.order,
   });
+
+  Folder copyWith({
+    String? id,
+    String? name,
+    int? colorValue,
+    int? iconCodePoint,
+    int? order,
+  }) {
+    return Folder(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      colorValue: colorValue ?? this.colorValue,
+      iconCodePoint: iconCodePoint ?? this.iconCodePoint,
+      order: order ?? this.order,
+    );
+  }
 }
