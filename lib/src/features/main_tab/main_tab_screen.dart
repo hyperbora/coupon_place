@@ -1,4 +1,4 @@
-import 'package:coupon_place/src/features/coupon/screen/my_coupons_screen.dart';
+import 'package:coupon_place/src/features/coupon/screen/folder_list_screen.dart';
 import 'package:coupon_place/src/features/settings/screen/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:coupon_place/l10n/app_localizations.dart';
