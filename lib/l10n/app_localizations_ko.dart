@@ -215,4 +215,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get selectTimePlaceholder => '시간 선택';
+
+  @override
+  String get editFolderTooltip => '폴더 편집';
 }

@@ -283,5 +283,9 @@
   "selectTimePlaceholder": "시간 선택",
   "@selectTimePlaceholder": {
     "description": "시간 선택 플레이스홀더"
+  },
+  "editFolderTooltip": "폴더 편집",
+  "@editFolderTooltip": {
+    "description": "폴더 편집 버튼의 툴팁"
   }
 }

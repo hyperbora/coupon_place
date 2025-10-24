@@ -1,4 +1,5 @@
 import 'package:coupon_place/src/core/router/app_routes.dart';
+import 'package:coupon_place/src/features/folder/model/folder_model.dart';
 import 'package:coupon_place/src/features/folder/provider/folder_provider.dart';
 import 'package:coupon_place/src/shared/utils/icon_mapping.dart';
 import 'package:coupon_place/src/shared/widgets/card_container.dart';
@@ -18,6 +19,33 @@ enum FolderMenuAction { add, select }
 
 class FolderListScreen extends ConsumerWidget {
   const FolderListScreen({super.key});
+
+  void _showFolderForm(
+    BuildContext context,
+    Folder? folder,
+    Function(String name, Color color, IconData icon) onSubmit,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder:
+          (context) => FractionallySizedBox(
+            heightFactor: 0.9,
+            child: Center(
+              child: FolderFormScreen(
+                initialName: folder?.name,
+                initialColor: folder != null ? Color(folder.colorValue) : null,
+                initialIcon:
+                    folder != null ? iconMapping[folder.iconCodePoint] : null,
+                onSubmit: onSubmit,
+              ),
+            ),
+          ),
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -64,26 +92,9 @@ class FolderListScreen extends ConsumerWidget {
               icon: const Icon(Icons.more_vert_outlined),
               onSelected: (value) {
                 if (value == FolderMenuAction.add) {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(24),
-                      ),
-                    ),
-                    builder:
-                        (context) => FractionallySizedBox(
-                          heightFactor: 0.9,
-                          child: Center(
-                            child: FolderFormScreen(
-                              onSubmit: (name, color, icon) {
-                                folderNotifier.addFolder(name, color, icon);
-                              },
-                            ),
-                          ),
-                        ),
-                  );
+                  _showFolderForm(context, null, (name, color, icon) {
+                    folderNotifier.addFolder(name, color, icon);
+                  });
                 } else if (value == FolderMenuAction.select) {
                   final current = ref.read(selectModeProvider);
                   ref.read(selectModeProvider.notifier).state = !current;
@@ -123,35 +134,14 @@ class FolderListScreen extends ConsumerWidget {
                 children: [
                   SlidableAction(
                     onPressed: (context) {
-                      showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(24),
-                          ),
-                        ),
-                        builder:
-                            (context) => FractionallySizedBox(
-                              heightFactor: 0.9,
-                              child: Center(
-                                child: FolderFormScreen(
-                                  initialName: folder.name,
-                                  initialColor: Color(folder.colorValue),
-                                  initialIcon:
-                                      iconMapping[folder.iconCodePoint],
-                                  onSubmit: (name, color, icon) {
-                                    folderNotifier.updateFolder(
-                                      folder.id,
-                                      name: name,
-                                      color: color,
-                                      icon: icon,
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                      );
+                      _showFolderForm(context, folder, (name, color, icon) {
+                        folderNotifier.updateFolder(
+                          folder.id,
+                          name: name,
+                          color: color,
+                          icon: icon,
+                        );
+                      });
                     },
                     backgroundColor: const Color.fromRGBO(33, 150, 243, 1),
                     foregroundColor: Colors.white,
@@ -184,6 +174,8 @@ class FolderListScreen extends ConsumerWidget {
                       final selectedFolders = ref.watch(
                         selectedFoldersProvider,
                       );
+                      final isSelectMode = ref.watch(selectModeProvider);
+
                       return IgnorePointer(
                         ignoring: isOpen,
                         child: Padding(
@@ -218,17 +210,54 @@ class FolderListScreen extends ConsumerWidget {
                                       iconMapping[folder.iconCodePoint] ??
                                       Icons.folder,
                                   color: Color(folder.colorValue),
-                                  onTap: () {
-                                    context.push(
-                                      AppRoutes.folderDetail.replaceFirst(
-                                        ':folderId',
-                                        folder.id,
-                                      ),
-                                      extra: folder.name,
-                                    );
-                                  },
+                                  onTap:
+                                      isSelectMode
+                                          ? null
+                                          : () {
+                                            context.push(
+                                              AppRoutes.folderDetail
+                                                  .replaceFirst(
+                                                    ':folderId',
+                                                    folder.id,
+                                                  ),
+                                              extra: folder.name,
+                                            );
+                                          },
                                 ),
                               ),
+                              if (isSelectMode) ...[
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.info_outline,
+                                    color: Colors.blueGrey,
+                                  ),
+                                  tooltip: loc.editFolderTooltip,
+                                  onPressed: () {
+                                    _showFolderForm(context, folder, (
+                                      name,
+                                      color,
+                                      icon,
+                                    ) {
+                                      folderNotifier.updateFolder(
+                                        folder.id,
+                                        name: name,
+                                        color: color,
+                                        icon: icon,
+                                      );
+                                    });
+                                  },
+                                ),
+                                ReorderableDragStartListener(
+                                  index: index,
+                                  child: const Padding(
+                                    padding: EdgeInsets.only(left: 8.0),
+                                    child: Icon(
+                                      Icons.drag_handle,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ],
                           ),
                         ),

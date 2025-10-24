@@ -283,5 +283,9 @@
   "selectTimePlaceholder": "Select Time",
   "@selectTimePlaceholder": {
     "description": "Placeholder text for selecting a time"
+  },
+  "editFolderTooltip": "Edit Folder",
+  "@editFolderTooltip": {
+    "description": "Tooltip for the edit folder button"
   }
 }

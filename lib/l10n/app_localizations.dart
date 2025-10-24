@@ -502,6 +502,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select Time'**
   String get selectTimePlaceholder;
+
+  /// Tooltip for the edit folder button
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Folder'**
+  String get editFolderTooltip;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

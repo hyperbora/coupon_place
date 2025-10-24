@@ -215,4 +215,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get selectTimePlaceholder => 'Select Time';
+
+  @override
+  String get editFolderTooltip => 'Edit Folder';
 }
