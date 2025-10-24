@@ -16,8 +16,8 @@ final selectedFoldersProvider = StateProvider<Set<String>>((ref) => {});
 
 enum FolderMenuAction { add, select }
 
-class MyCouponsScreen extends ConsumerWidget {
-  const MyCouponsScreen({super.key});
+class FolderListScreen extends ConsumerWidget {
+  const FolderListScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

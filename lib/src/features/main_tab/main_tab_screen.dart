@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:coupon_place/l10n/app_localizations.dart';
 
 final List<Widget> myTabItems = [
-  const MyCouponsScreen(),
+  const FolderListScreen(),
   const SettingsScreen(),
 ];
 
