@@ -87,7 +87,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get folderAdd => '폴더 등록';
 
   @override
-  String get folderSelect => '폴더 선택';
+  String get folderManage => '폴더 관리';
 
   @override
   String get folderNameHint => '폴더 이름';

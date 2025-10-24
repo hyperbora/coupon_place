@@ -104,9 +104,9 @@
   "@folderAdd": {
     "description": "폴더 추가 버튼의 텍스트"
   },
-  "folderSelect": "폴더 선택",
-  "@folderSelect": {
-    "description": "폴더 선택 버튼의 텍스트"
+  "folderManage": "폴더 관리",
+  "@folderManage": {
+    "description": "폴더 관리 버튼의 텍스트"
   },
   "folderNameHint": "폴더 이름",
   "@folderNameHint": {

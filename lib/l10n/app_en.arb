@@ -104,9 +104,9 @@
   "@folderAdd": {
     "description": "Label for adding a new folder"
   },
-  "folderSelect": "Select Folder",
-  "@folderSelect": {
-    "description": "Label for selecting a folder"
+  "folderManage": "Manage Folders",
+  "@folderManage": {
+    "description": "Label for managing folders"
   },
   "folderNameHint": "Folder Name",
   "@folderNameHint": {

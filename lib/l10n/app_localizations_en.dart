@@ -87,7 +87,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get folderAdd => 'Add Folder';
 
   @override
-  String get folderSelect => 'Select Folder';
+  String get folderManage => 'Manage Folders';
 
   @override
   String get folderNameHint => 'Folder Name';

@@ -251,11 +251,11 @@ abstract class AppLocalizations {
   /// **'Add Folder'**
   String get folderAdd;
 
-  /// Label for selecting a folder
+  /// Label for managing folders
   ///
   /// In en, this message translates to:
-  /// **'Select Folder'**
-  String get folderSelect;
+  /// **'Manage Folders'**
+  String get folderManage;
 
   /// Hint text for entering a folder name
   ///

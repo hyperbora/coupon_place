@@ -12,10 +12,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-final selectModeProvider = StateProvider<bool>((ref) => false);
+final manageModeProvider = StateProvider<bool>((ref) => false);
 final selectedFoldersProvider = StateProvider<Set<String>>((ref) => {});
 
-enum FolderMenuAction { add, select }
+enum FolderMenuAction { add, manage }
 
 class FolderListScreen extends ConsumerWidget {
   const FolderListScreen({super.key});
@@ -52,20 +52,20 @@ class FolderListScreen extends ConsumerWidget {
     final loc = AppLocalizations.of(context)!;
     final folders = ref.watch(folderProvider).folders;
     final folderNotifier = ref.read(folderProvider.notifier);
-    final isSelectMode = ref.watch(selectModeProvider);
+    final isManageMode = ref.watch(manageModeProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          ref.watch(selectModeProvider) ? loc.folderSelect : loc.myCouponsTitle,
+          ref.watch(manageModeProvider) ? loc.folderManage : loc.myCouponsTitle,
         ),
         centerTitle: true,
         actions: [
-          if (isSelectMode) ...[
+          if (isManageMode) ...[
             IconButton(
               icon: const Icon(Icons.check_sharp, color: Colors.green),
               onPressed: () {
-                ref.read(selectModeProvider.notifier).state = false;
+                ref.read(manageModeProvider.notifier).state = false;
                 ref.read(selectedFoldersProvider.notifier).state = {};
               },
             ),
@@ -81,7 +81,7 @@ class FolderListScreen extends ConsumerWidget {
                     for (final id in selected) {
                       folderNotifier.removeFolder(id);
                     }
-                    ref.read(selectModeProvider.notifier).state = false;
+                    ref.read(manageModeProvider.notifier).state = false;
                     ref.read(selectedFoldersProvider.notifier).state = {};
                   },
                 );
@@ -95,9 +95,9 @@ class FolderListScreen extends ConsumerWidget {
                   _showFolderForm(context, null, (name, color, icon) {
                     folderNotifier.addFolder(name, color, icon);
                   });
-                } else if (value == FolderMenuAction.select) {
-                  final current = ref.read(selectModeProvider);
-                  ref.read(selectModeProvider.notifier).state = !current;
+                } else if (value == FolderMenuAction.manage) {
+                  final current = ref.read(manageModeProvider);
+                  ref.read(manageModeProvider.notifier).state = !current;
                   ref.read(selectedFoldersProvider.notifier).state = {};
                 }
               },
@@ -108,8 +108,8 @@ class FolderListScreen extends ConsumerWidget {
                       child: Text(loc.folderAdd),
                     ),
                     PopupMenuItem(
-                      value: FolderMenuAction.select,
-                      child: Text(loc.folderSelect),
+                      value: FolderMenuAction.manage,
+                      child: Text(loc.folderManage),
                     ),
                   ],
             ),
@@ -174,7 +174,9 @@ class FolderListScreen extends ConsumerWidget {
                       final selectedFolders = ref.watch(
                         selectedFoldersProvider,
                       );
-                      final isSelectMode = ref.watch(selectModeProvider);
+                      final isManageModeInListItem = ref.watch(
+                        manageModeProvider,
+                      );
 
                       return IgnorePointer(
                         ignoring: isOpen,
@@ -185,7 +187,7 @@ class FolderListScreen extends ConsumerWidget {
                           ),
                           child: Row(
                             children: [
-                              if (isSelectMode)
+                              if (isManageModeInListItem)
                                 Checkbox(
                                   value: selectedFolders.contains(folder.id),
                                   onChanged: (checked) {
@@ -211,7 +213,7 @@ class FolderListScreen extends ConsumerWidget {
                                       Icons.folder,
                                   color: Color(folder.colorValue),
                                   onTap:
-                                      isSelectMode
+                                      isManageModeInListItem
                                           ? null
                                           : () {
                                             context.push(
@@ -225,7 +227,7 @@ class FolderListScreen extends ConsumerWidget {
                                           },
                                 ),
                               ),
-                              if (isSelectMode) ...[
+                              if (isManageModeInListItem) ...[
                                 IconButton(
                                   icon: const Icon(
                                     Icons.info_outline,
