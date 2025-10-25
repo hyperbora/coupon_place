@@ -118,158 +118,148 @@ class FolderListScreen extends ConsumerWidget {
       ),
       body: Container(
         color: Colors.grey[200],
-        child: ReorderableListView.builder(
-          itemCount: folders.length,
-          onReorder: (oldIndex, newIndex) {
-            ref
-                .read(folderProvider.notifier)
-                .reorderFolders(oldIndex, newIndex);
-          },
-          itemBuilder: (context, index) {
-            final folder = folders[index];
-            return Slidable(
-              key: ValueKey(folder.id),
-              endActionPane: ActionPane(
-                motion: const ScrollMotion(),
-                children: [
-                  SlidableAction(
-                    onPressed: (context) {
-                      _showFolderForm(context, folder, (name, color, icon) {
-                        folderNotifier.updateFolder(
-                          folder.id,
-                          name: name,
-                          color: color,
-                          icon: icon,
+        child: SlidableAutoCloseBehavior(
+          child: ReorderableListView.builder(
+            itemCount: folders.length,
+            onReorder: (oldIndex, newIndex) {
+              ref
+                  .read(folderProvider.notifier)
+                  .reorderFolders(oldIndex, newIndex);
+            },
+            itemBuilder: (context, index) {
+              final folder = folders[index];
+              return Slidable(
+                key: ValueKey(folder.id),
+                endActionPane: ActionPane(
+                  motion: const ScrollMotion(),
+                  children: [
+                    SlidableAction(
+                      onPressed: (context) {
+                        _showFolderForm(context, folder, (name, color, icon) {
+                          folderNotifier.updateFolder(
+                            folder.id,
+                            name: name,
+                            color: color,
+                            icon: icon,
+                          );
+                        });
+                      },
+                      backgroundColor: const Color.fromRGBO(33, 150, 243, 1),
+                      foregroundColor: Colors.white,
+                      icon: Icons.edit,
+                      label: loc.edit,
+                    ),
+                    SlidableAction(
+                      onPressed: (context) {
+                        showConfirmDialog(
+                          context,
+                          title: loc.deleteFolderTitle,
+                          message: loc.deleteFolderMessage,
+                          onConfirm:
+                              () => folderNotifier.removeFolder(folder.id),
                         );
-                      });
-                    },
-                    backgroundColor: const Color.fromRGBO(33, 150, 243, 1),
-                    foregroundColor: Colors.white,
-                    icon: Icons.edit,
-                    label: loc.edit,
-                  ),
-                  SlidableAction(
-                    onPressed: (context) {
-                      showConfirmDialog(
-                        context,
-                        title: loc.deleteFolderTitle,
-                        message: loc.deleteFolderMessage,
-                        onConfirm: () => folderNotifier.removeFolder(folder.id),
-                      );
-                    },
-                    backgroundColor: const Color.fromRGBO(244, 67, 54, 1),
-                    foregroundColor: Colors.white,
-                    icon: Icons.delete,
-                    label: loc.delete,
-                  ),
-                ],
-              ),
-              child: Builder(
-                builder: (context) {
-                  final slidable = Slidable.of(context);
-                  return ValueListenableBuilder<ActionPaneType>(
-                    valueListenable: slidable!.actionPaneType,
-                    builder: (context, actionPaneType, child) {
-                      final isOpen = actionPaneType != ActionPaneType.none;
-                      final selectedFolders = ref.watch(
-                        selectedFoldersProvider,
-                      );
-                      final isManageModeInListItem = ref.watch(
-                        manageModeProvider,
-                      );
+                      },
+                      backgroundColor: const Color.fromRGBO(244, 67, 54, 1),
+                      foregroundColor: Colors.white,
+                      icon: Icons.delete,
+                      label: loc.delete,
+                    ),
+                  ],
+                ),
+                child: Builder(
+                  builder: (context) {
+                    final selectedFolders = ref.watch(selectedFoldersProvider);
+                    final isManageModeInListItem = ref.watch(
+                      manageModeProvider,
+                    );
 
-                      return IgnorePointer(
-                        ignoring: isOpen,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 0,
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 0,
+                      ),
+                      child: Row(
+                        children: [
+                          if (isManageModeInListItem)
+                            Checkbox(
+                              value: selectedFolders.contains(folder.id),
+                              onChanged: (checked) {
+                                final notifier = ref.read(
+                                  selectedFoldersProvider.notifier,
+                                );
+                                final current = Set<String>.from(
+                                  notifier.state,
+                                );
+                                if (checked == true) {
+                                  current.add(folder.id);
+                                } else {
+                                  current.remove(folder.id);
+                                }
+                                notifier.state = current;
+                              },
+                            ),
+                          Expanded(
+                            child: CardContainer(
+                              label: folder.name,
+                              icon:
+                                  iconMapping[folder.iconCodePoint] ??
+                                  Icons.folder,
+                              color: Color(folder.colorValue),
+                              onTap:
+                                  isManageModeInListItem
+                                      ? null
+                                      : () {
+                                        context.push(
+                                          AppRoutes.folderDetail.replaceFirst(
+                                            ':folderId',
+                                            folder.id,
+                                          ),
+                                          extra: folder.name,
+                                        );
+                                      },
+                            ),
                           ),
-                          child: Row(
-                            children: [
-                              if (isManageModeInListItem)
-                                Checkbox(
-                                  value: selectedFolders.contains(folder.id),
-                                  onChanged: (checked) {
-                                    final notifier = ref.read(
-                                      selectedFoldersProvider.notifier,
-                                    );
-                                    final current = Set<String>.from(
-                                      notifier.state,
-                                    );
-                                    if (checked == true) {
-                                      current.add(folder.id);
-                                    } else {
-                                      current.remove(folder.id);
-                                    }
-                                    notifier.state = current;
-                                  },
-                                ),
-                              Expanded(
-                                child: CardContainer(
-                                  label: folder.name,
-                                  icon:
-                                      iconMapping[folder.iconCodePoint] ??
-                                      Icons.folder,
-                                  color: Color(folder.colorValue),
-                                  onTap:
-                                      isManageModeInListItem
-                                          ? null
-                                          : () {
-                                            context.push(
-                                              AppRoutes.folderDetail
-                                                  .replaceFirst(
-                                                    ':folderId',
-                                                    folder.id,
-                                                  ),
-                                              extra: folder.name,
-                                            );
-                                          },
+                          if (isManageModeInListItem) ...[
+                            IconButton(
+                              icon: const Icon(
+                                Icons.info_outline,
+                                color: Colors.blueGrey,
+                              ),
+                              tooltip: loc.editFolderTooltip,
+                              onPressed: () {
+                                _showFolderForm(context, folder, (
+                                  name,
+                                  color,
+                                  icon,
+                                ) {
+                                  folderNotifier.updateFolder(
+                                    folder.id,
+                                    name: name,
+                                    color: color,
+                                    icon: icon,
+                                  );
+                                });
+                              },
+                            ),
+                            ReorderableDragStartListener(
+                              index: index,
+                              child: const Padding(
+                                padding: EdgeInsets.only(left: 8.0),
+                                child: Icon(
+                                  Icons.drag_handle,
+                                  color: Colors.grey,
                                 ),
                               ),
-                              if (isManageModeInListItem) ...[
-                                IconButton(
-                                  icon: const Icon(
-                                    Icons.info_outline,
-                                    color: Colors.blueGrey,
-                                  ),
-                                  tooltip: loc.editFolderTooltip,
-                                  onPressed: () {
-                                    _showFolderForm(context, folder, (
-                                      name,
-                                      color,
-                                      icon,
-                                    ) {
-                                      folderNotifier.updateFolder(
-                                        folder.id,
-                                        name: name,
-                                        color: color,
-                                        icon: icon,
-                                      );
-                                    });
-                                  },
-                                ),
-                                ReorderableDragStartListener(
-                                  index: index,
-                                  child: const Padding(
-                                    padding: EdgeInsets.only(left: 8.0),
-                                    child: Icon(
-                                      Icons.drag_handle,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-            );
-          },
+                            ),
+                          ],
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
+          ),
         ),
       ),
       floatingActionButton: GestureDetector(

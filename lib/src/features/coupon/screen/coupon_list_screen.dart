@@ -113,96 +113,99 @@ class _CouponListScreenState extends ConsumerState<CouponListScreen> {
                   ],
                 ),
               )
-              : ReorderableListView.builder(
-                itemCount: coupons.length,
-                onReorder: (oldIndex, newIndex) {
-                  ref
-                      .read(couponListProvider(widget.folderId).notifier)
-                      .reorderCoupons(oldIndex, newIndex);
-                },
-                itemBuilder: (context, index) {
-                  final coupon = coupons[index];
-                  final isSelected = selectedCoupons.contains(coupon.id);
+              : SlidableAutoCloseBehavior(
+                child: ReorderableListView.builder(
+                  itemCount: coupons.length,
+                  onReorder: (oldIndex, newIndex) {
+                    ref
+                        .read(couponListProvider(widget.folderId).notifier)
+                        .reorderCoupons(oldIndex, newIndex);
+                  },
+                  itemBuilder: (context, index) {
+                    final coupon = coupons[index];
+                    final isSelected = selectedCoupons.contains(coupon.id);
 
-                  return Container(
-                    key: ValueKey(coupon.id),
-                    child: Row(
-                      children: [
-                        if (isSelectionMode)
-                          Checkbox(
-                            value: isSelected,
-                            onChanged: (checked) {
-                              setState(() {
-                                if (checked == true) {
-                                  selectedCoupons.add(coupon.id);
-                                } else {
-                                  selectedCoupons.remove(coupon.id);
-                                }
-                              });
-                            },
-                          ),
-                        Expanded(
-                          child: Slidable(
-                            key: ValueKey('slidable_${coupon.id}'),
-                            endActionPane:
-                                isSelectionMode
-                                    ? null
-                                    : ActionPane(
-                                      motion: const ScrollMotion(),
-                                      children: [
-                                        SlidableAction(
-                                          onPressed: (context) {
-                                            context.push(
-                                              '/coupon/${coupon.folderId}/${coupon.id}/edit',
-                                            );
-                                          },
-                                          backgroundColor: Colors.blue,
-                                          foregroundColor: Colors.white,
-                                          icon: Icons.edit,
-                                          label: loc.edit,
-                                        ),
-                                        SlidableAction(
-                                          onPressed: (context) {
-                                            showConfirmDialog(
-                                              context,
-                                              title: loc.deleteCouponTitle,
-                                              message: loc.deleteCouponContent,
-                                              onConfirm: () {
-                                                ref
-                                                    .read(
-                                                      couponListProvider(
-                                                        widget.folderId,
-                                                      ).notifier,
-                                                    )
-                                                    .removeCoupon(coupon);
-                                              },
-                                            );
-                                          },
-                                          backgroundColor: Colors.red,
-                                          foregroundColor: Colors.white,
-                                          icon: Icons.delete,
-                                          label: loc.delete,
-                                        ),
-                                      ],
-                                    ),
-                            child: CouponListItem(coupon: coupon),
-                          ),
-                        ),
-                        if (isSelectionMode)
-                          ReorderableDragStartListener(
-                            index: index,
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Icon(
-                                Icons.drag_handle,
-                                color: Colors.grey,
-                              ),
+                    return Container(
+                      key: ValueKey(coupon.id),
+                      child: Row(
+                        children: [
+                          if (isSelectionMode)
+                            Checkbox(
+                              value: isSelected,
+                              onChanged: (checked) {
+                                setState(() {
+                                  if (checked == true) {
+                                    selectedCoupons.add(coupon.id);
+                                  } else {
+                                    selectedCoupons.remove(coupon.id);
+                                  }
+                                });
+                              },
+                            ),
+                          Expanded(
+                            child: Slidable(
+                              key: ValueKey('slidable_${coupon.id}'),
+                              endActionPane:
+                                  isSelectionMode
+                                      ? null
+                                      : ActionPane(
+                                        motion: const ScrollMotion(),
+                                        children: [
+                                          SlidableAction(
+                                            onPressed: (context) {
+                                              context.push(
+                                                '/coupon/${coupon.folderId}/${coupon.id}/edit',
+                                              );
+                                            },
+                                            backgroundColor: Colors.blue,
+                                            foregroundColor: Colors.white,
+                                            icon: Icons.edit,
+                                            label: loc.edit,
+                                          ),
+                                          SlidableAction(
+                                            onPressed: (context) {
+                                              showConfirmDialog(
+                                                context,
+                                                title: loc.deleteCouponTitle,
+                                                message:
+                                                    loc.deleteCouponContent,
+                                                onConfirm: () {
+                                                  ref
+                                                      .read(
+                                                        couponListProvider(
+                                                          widget.folderId,
+                                                        ).notifier,
+                                                      )
+                                                      .removeCoupon(coupon);
+                                                },
+                                              );
+                                            },
+                                            backgroundColor: Colors.red,
+                                            foregroundColor: Colors.white,
+                                            icon: Icons.delete,
+                                            label: loc.delete,
+                                          ),
+                                        ],
+                                      ),
+                              child: CouponListItem(coupon: coupon),
                             ),
                           ),
-                      ],
-                    ),
-                  );
-                },
+                          if (isSelectionMode)
+                            ReorderableDragStartListener(
+                              index: index,
+                              child: const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Icon(
+                                  Icons.drag_handle,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
