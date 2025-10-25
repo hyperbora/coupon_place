@@ -31,7 +31,7 @@ class _CouponListScreenState extends ConsumerState<CouponListScreen> {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
-    final coupons = ref.watch(couponListProvider(widget.folderId));
+    final coupons = ref.watch(couponListProvider(widget.folderId)).coupons;
 
     return Scaffold(
       appBar: AppBar(
@@ -113,28 +113,25 @@ class _CouponListScreenState extends ConsumerState<CouponListScreen> {
                   ],
                 ),
               )
-              : ListView.builder(
+              : ReorderableListView.builder(
                 itemCount: coupons.length,
+                onReorder: (oldIndex, newIndex) {
+                  ref
+                      .read(couponListProvider(widget.folderId).notifier)
+                      .reorderCoupons(oldIndex, newIndex);
+                },
                 itemBuilder: (context, index) {
                   final coupon = coupons[index];
                   final isSelected = selectedCoupons.contains(coupon.id);
 
-                  return GestureDetector(
-                    onLongPress: () {
-                      setState(() {
-                        if (isSelected) {
-                          selectedCoupons.remove(coupon.id);
-                        } else {
-                          selectedCoupons.add(coupon.id);
-                        }
-                      });
-                    },
+                  return Container(
+                    key: ValueKey(coupon.id),
                     child: Row(
                       children: [
                         if (isSelectionMode)
                           Checkbox(
                             value: isSelected,
-                            onChanged: (bool? checked) {
+                            onChanged: (checked) {
                               setState(() {
                                 if (checked == true) {
                                   selectedCoupons.add(coupon.id);
@@ -146,10 +143,10 @@ class _CouponListScreenState extends ConsumerState<CouponListScreen> {
                           ),
                         Expanded(
                           child: Slidable(
-                            key: ValueKey(coupon.id),
+                            key: ValueKey('slidable_${coupon.id}'),
                             endActionPane:
                                 isSelectionMode
-                                    ? null // 선택 모드에서는 슬라이드 액션 비활성화
+                                    ? null
                                     : ActionPane(
                                       motion: const ScrollMotion(),
                                       children: [
@@ -165,7 +162,7 @@ class _CouponListScreenState extends ConsumerState<CouponListScreen> {
                                           label: loc.edit,
                                         ),
                                         SlidableAction(
-                                          onPressed: (context) async {
+                                          onPressed: (context) {
                                             showConfirmDialog(
                                               context,
                                               title: loc.deleteCouponTitle,
@@ -191,6 +188,17 @@ class _CouponListScreenState extends ConsumerState<CouponListScreen> {
                             child: CouponListItem(coupon: coupon),
                           ),
                         ),
+                        if (isSelectionMode)
+                          ReorderableDragStartListener(
+                            index: index,
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Icon(
+                                Icons.drag_handle,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
                       ],
                     ),
                   );

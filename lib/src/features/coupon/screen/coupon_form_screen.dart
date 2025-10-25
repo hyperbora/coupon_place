@@ -120,7 +120,8 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         notifier.reset(); // build 완료 후에 안전하게 상태 초기화
         if (widget.couponId != null && widget.folderId != null) {
-          final couponList = ref.read(couponListProvider(widget.folderId!));
+          final couponList =
+              ref.read(couponListProvider(widget.folderId!)).coupons;
           final foundCoupon = couponList.firstWhere(
             (c) => c.id == widget.couponId,
           );
@@ -239,6 +240,11 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
                         imagePath: savedImagePath,
                         folderId: state.folder!,
                         enableAlarm: state.enableAlarm,
+                        order:
+                            ref
+                                .read(couponListProvider(state.folder!))
+                                .coupons
+                                .length,
                       )
                       : coupon!.copyWith(
                         name: state.name,

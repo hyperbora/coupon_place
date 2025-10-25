@@ -9,31 +9,48 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final _couponLocalDb = CouponLocalDb();
 
-class CouponListNotifier extends StateNotifier<List<Coupon>> {
+class CouponListState {
+  final List<Coupon> coupons;
+
+  CouponListState({this.coupons = const []});
+
+  CouponListState copyWith({List<Coupon>? coupons}) {
+    return CouponListState(coupons: coupons ?? this.coupons);
+  }
+}
+
+class CouponListNotifier extends StateNotifier<CouponListState> {
   final Ref ref;
   final String folderId;
-  CouponListNotifier(this.ref, this.folderId) : super([]) {
+  CouponListNotifier(this.ref, this.folderId) : super(CouponListState()) {
     _loadCoupons();
   }
 
   Future<void> _loadCoupons() async {
     final allCoupons = await _couponLocalDb.getAll();
-    state = allCoupons.where((coupon) => coupon.folderId == folderId).toList();
+    state = state.copyWith(
+      coupons:
+          allCoupons.where((coupon) => coupon.folderId == folderId).toList()
+            ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0)),
+    );
   }
 
   void addCoupon(Coupon coupon, AppLocalizations loc) async {
-    state = [...state, coupon];
+    state = state.copyWith(coupons: [...state.coupons, coupon]);
     await _couponLocalDb.add(coupon);
     await _registerCouponNotifications(ref: ref, coupon: coupon, loc: loc);
   }
 
   void updateCoupon(Coupon updated, AppLocalizations loc) async {
-    final Coupon oldCoupon = state.firstWhere(
+    final Coupon oldCoupon = state.coupons.firstWhere(
       (coupon) => coupon.id == updated.id,
     );
-    state = [
-      for (final coupon in state) coupon.id == updated.id ? updated : coupon,
-    ];
+    state = state.copyWith(
+      coupons: [
+        for (final coupon in state.coupons)
+          coupon.id == updated.id ? updated : coupon,
+      ],
+    );
     try {
       await _couponLocalDb.update(updated);
       if (oldCoupon.imagePath != null &&
@@ -42,10 +59,12 @@ class CouponListNotifier extends StateNotifier<List<Coupon>> {
       }
       await _registerCouponNotifications(ref: ref, coupon: updated, loc: loc);
     } catch (e) {
-      state = [
-        for (final coupon in state)
-          coupon.id == oldCoupon.id ? oldCoupon : coupon,
-      ];
+      state = state.copyWith(
+        coupons: [
+          for (final coupon in state.coupons)
+            coupon.id == oldCoupon.id ? oldCoupon : coupon,
+        ],
+      );
     }
   }
 
@@ -55,7 +74,10 @@ class CouponListNotifier extends StateNotifier<List<Coupon>> {
     if (deleted.imagePath != null) {
       FileHelper.deleteFile(deleted.imagePath!);
     }
-    state = state.where((coupon) => coupon.id != deleted.id).toList();
+    state = state.copyWith(
+      coupons:
+          state.coupons.where((coupon) => coupon.id != deleted.id).toList(),
+    );
   }
 
   Future<void> toggleUsed(Coupon coupon, AppLocalizations loc) async {
@@ -66,8 +88,31 @@ class CouponListNotifier extends StateNotifier<List<Coupon>> {
       await _registerCouponNotifications(ref: ref, coupon: coupon, loc: loc);
     }
     final updated = coupon.copyWith(isUsed: isUsed);
-    state = [for (final c in state) c.id == updated.id ? updated : c];
+    state = state.copyWith(
+      coupons: [
+        for (final c in state.coupons) c.id == updated.id ? updated : c,
+      ],
+    );
     await _couponLocalDb.update(updated);
+  }
+
+  Future<void> reorderCoupons(int oldIndex, int newIndex) async {
+    if (newIndex > oldIndex) newIndex -= 1;
+
+    final updatedList = [...state.coupons];
+    final movedItem = updatedList.removeAt(oldIndex);
+    updatedList.insert(newIndex, movedItem);
+
+    // 즉시 UI 반영
+    state = state.copyWith(coupons: updatedList);
+
+    // 비동기로 DB 업데이트 (await 제거)
+    Future(() async {
+      for (int i = 0; i < updatedList.length; i++) {
+        final updatedCoupon = updatedList[i].copyWith(order: i);
+        await _couponLocalDb.update(updatedCoupon);
+      }
+    });
   }
 }
 
@@ -153,7 +198,7 @@ Future<void> _registerCouponNotifications({
 }
 
 final couponListProvider =
-    StateNotifierProvider.family<CouponListNotifier, List<Coupon>, String>(
+    StateNotifierProvider.family<CouponListNotifier, CouponListState, String>(
       (ref, folderId) => CouponListNotifier(ref, folderId),
     );
 

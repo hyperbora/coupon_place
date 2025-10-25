@@ -32,6 +32,9 @@ class Coupon extends HiveObject {
   @HiveField(8)
   final bool isUsed;
 
+  @HiveField(9)
+  final int? order;
+
   Coupon({
     required this.id,
     required this.name,
@@ -42,6 +45,7 @@ class Coupon extends HiveObject {
     required this.folderId,
     this.enableAlarm = false,
     this.isUsed = false,
+    this.order,
   });
 
   factory Coupon.create({
@@ -53,6 +57,7 @@ class Coupon extends HiveObject {
     required String folderId,
     bool enableAlarm = true,
     bool isUsed = false,
+    required int order,
   }) {
     return Coupon(
       id: const Uuid().v4(),
@@ -64,6 +69,7 @@ class Coupon extends HiveObject {
       folderId: folderId,
       enableAlarm: enableAlarm,
       isUsed: isUsed,
+      order: order,
     );
   }
 
@@ -77,6 +83,7 @@ class Coupon extends HiveObject {
     String? folderId,
     bool? enableAlarm,
     bool? isUsed,
+    int? order,
   }) {
     return Coupon(
       id: this.id,
@@ -88,6 +95,7 @@ class Coupon extends HiveObject {
       folderId: folderId ?? this.folderId,
       enableAlarm: enableAlarm ?? this.enableAlarm,
       isUsed: isUsed ?? this.isUsed,
+      order: order ?? this.order,
     );
   }
 
@@ -102,6 +110,7 @@ class Coupon extends HiveObject {
       folderId: folderId,
       enableAlarm: enableAlarm,
       isUsed: isUsed,
+      order: order,
     );
   }
 }

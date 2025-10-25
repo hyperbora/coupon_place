@@ -45,7 +45,7 @@ class CouponDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final coupons = ref.watch(couponListProvider(folderId));
+    final coupons = ref.watch(couponListProvider(folderId)).coupons;
     final loc = AppLocalizations.of(context)!;
     final coupon =
         coupons.where((c) => c.id == couponId).isNotEmpty
