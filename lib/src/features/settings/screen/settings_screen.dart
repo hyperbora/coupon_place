@@ -202,12 +202,16 @@ class SettingsScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 8),
           CardContainer(
-            label: loc.settingsDataManagementTitle,
-            icon: Icons.storage_rounded,
+            title: Text(loc.settingsDataManagementTitle),
+            leading: Icons.storage_rounded,
             color: Colors.blue,
             onTap: () {
               context.push(AppRoutes.dataManagementSettings);
             },
+            trailing: Icon(
+              Icons.chevron_right,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
           ),
         ],
       ),

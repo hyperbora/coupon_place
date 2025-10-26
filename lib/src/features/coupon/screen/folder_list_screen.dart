@@ -200,8 +200,8 @@ class FolderListScreen extends ConsumerWidget {
                             ),
                           Expanded(
                             child: CardContainer(
-                              label: folder.name,
-                              icon:
+                              title: Text(folder.name),
+                              leading:
                                   iconMapping[folder.iconCodePoint] ??
                                   Icons.folder,
                               color: Color(folder.colorValue),
@@ -217,6 +217,16 @@ class FolderListScreen extends ConsumerWidget {
                                           extra: folder.name,
                                         );
                                       },
+                              trailing:
+                                  isManageModeInListItem
+                                      ? null
+                                      : Icon(
+                                        Icons.chevron_right,
+                                        color:
+                                            Theme.of(
+                                              context,
+                                            ).colorScheme.onSurfaceVariant,
+                                      ),
                             ),
                           ),
                           if (isManageModeInListItem) ...[

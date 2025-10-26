@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 
 class CardContainer extends StatelessWidget {
-  final String label;
-  final IconData icon;
+  final dynamic leading;
+  final Widget title;
   final Color color;
+  final Widget? trailing;
   final Function()? onTap;
 
   const CardContainer({
     super.key,
-    required this.label,
-    required this.icon,
+    required this.leading,
+    required this.title,
     required this.color,
+    this.trailing,
     this.onTap,
   });
 
@@ -29,22 +31,16 @@ class CardContainer extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
             child: Row(
               children: [
-                CircleAvatar(
-                  backgroundColor: color.withValues(alpha: 0.15),
-                  child: Icon(icon, color: color),
-                ),
+                if (leading is IconData)
+                  CircleAvatar(
+                    backgroundColor: color.withValues(alpha: 0.15),
+                    child: Icon(leading, color: color),
+                  )
+                else if (leading is Widget)
+                  leading,
                 const SizedBox(width: 16),
-                Expanded(
-                  child: Text(
-                    label,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ),
-                if (onTap != null)
-                  Icon(
-                    Icons.chevron_right,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
+                Expanded(child: title),
+                if (trailing != null) trailing!,
               ],
             ),
           ),
