@@ -276,15 +276,20 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
               notifier.reset();
 
               if (context.mounted) {
+                if (widget.folderId == null ||
+                    widget.folderId == state.folder) {
+                  Navigator.of(context).pop();
+                  return;
+                }
                 if (widget.folderId != state.folder) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text(loc.couponMovedFolderMessage)),
                   );
-                  Navigator.of(
-                    context,
-                  ).pop(); // pop once more to exit detail screen
+                  Navigator.of(context).pop();
+                  if (Navigator.of(context).canPop()) {
+                    Navigator.of(context).pop();
+                  }
                 }
-                Navigator.of(context).pop(); // pop normally
               }
             },
             style: TextButton.styleFrom(
