@@ -45,12 +45,26 @@ class CardContainer extends StatelessWidget {
           splashColor: effectiveColor.withValues(alpha: 0.2),
           highlightColor: effectiveColor.withValues(alpha: 0.1),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
-            child: ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-              leading: leadingWidget(context),
-              title: title,
-              trailing: trailing,
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 2),
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: leadingWidget(context),
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [title],
+                  ),
+                ),
+                if (trailing != null)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: trailing,
+                  ),
+              ],
             ),
           ),
         ),
