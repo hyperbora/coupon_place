@@ -41,23 +41,33 @@ class CouponListNotifier extends StateNotifier<CouponListState> {
     await _registerCouponNotifications(ref: ref, coupon: coupon, loc: loc);
   }
 
-  void updateCoupon(Coupon updated, AppLocalizations loc) async {
-    final Coupon oldCoupon = state.coupons.firstWhere(
-      (coupon) => coupon.id == updated.id,
-    );
-    state = state.copyWith(
-      coupons: [
-        for (final coupon in state.coupons)
-          coupon.id == updated.id ? updated : coupon,
-      ],
-    );
+  void updateCoupon(
+    Coupon oldCoupon,
+    Coupon newCoupon,
+    AppLocalizations loc,
+  ) async {
+    if (oldCoupon.folderId != newCoupon.folderId) {
+      if (folderId == newCoupon.folderId) {
+        state = state.copyWith(coupons: [...state.coupons, newCoupon]);
+      } else {
+        state = state.copyWith(
+          coupons: state.coupons.where((c) => c.id != oldCoupon.id).toList(),
+        );
+      }
+    } else {
+      state = state.copyWith(
+        coupons: [
+          for (final c in state.coupons) c.id == newCoupon.id ? newCoupon : c,
+        ],
+      );
+    }
     try {
-      await _couponLocalDb.update(updated);
+      await _couponLocalDb.update(newCoupon);
       if (oldCoupon.imagePath != null &&
-          oldCoupon.imagePath != updated.imagePath) {
+          oldCoupon.imagePath != newCoupon.imagePath) {
         FileHelper.deleteFile(oldCoupon.imagePath!);
       }
-      await _registerCouponNotifications(ref: ref, coupon: updated, loc: loc);
+      await _registerCouponNotifications(ref: ref, coupon: newCoupon, loc: loc);
     } catch (e) {
       state = state.copyWith(
         coupons: [
