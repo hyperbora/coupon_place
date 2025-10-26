@@ -41,26 +41,45 @@ class CouponListNotifier extends StateNotifier<CouponListState> {
     await _registerCouponNotifications(ref: ref, coupon: coupon, loc: loc);
   }
 
+  bool _couponInFolder(Coupon coupon) {
+    return folderId == coupon.folderId;
+  }
+
+  bool _couponNotInFolder(Coupon coupon) {
+    return !_couponInFolder(coupon);
+  }
+
   void updateCoupon(
     Coupon oldCoupon,
     Coupon newCoupon,
     AppLocalizations loc,
   ) async {
+    final previousState = state;
+
     if (oldCoupon.folderId != newCoupon.folderId) {
-      if (folderId == newCoupon.folderId) {
-        state = state.copyWith(coupons: [...state.coupons, newCoupon]);
-      } else {
-        state = state.copyWith(
-          coupons: state.coupons.where((c) => c.id != oldCoupon.id).toList(),
-        );
+      // Remove oldCoupon if present
+      final filteredCoupons =
+          state.coupons.where((c) => c.id != oldCoupon.id).toList();
+
+      // Add newCoupon only if it belongs to current folder
+      if (_couponInFolder(newCoupon)) {
+        filteredCoupons.add(newCoupon);
       }
+
+      state = state.copyWith(coupons: filteredCoupons);
     } else {
+      // Same folder: replace oldCoupon with newCoupon
       state = state.copyWith(
         coupons: [
           for (final c in state.coupons) c.id == newCoupon.id ? newCoupon : c,
         ],
       );
     }
+
+    if (_couponNotInFolder(newCoupon)) {
+      return;
+    }
+
     try {
       await _couponLocalDb.update(newCoupon);
       if (oldCoupon.imagePath != null &&
@@ -69,12 +88,7 @@ class CouponListNotifier extends StateNotifier<CouponListState> {
       }
       await _registerCouponNotifications(ref: ref, coupon: newCoupon, loc: loc);
     } catch (e) {
-      state = state.copyWith(
-        coupons: [
-          for (final coupon in state.coupons)
-            coupon.id == oldCoupon.id ? oldCoupon : coupon,
-        ],
-      );
+      state = previousState;
     }
   }
 
