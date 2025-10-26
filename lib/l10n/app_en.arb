@@ -287,5 +287,25 @@
   "editFolderTooltip": "Edit Folder",
   "@editFolderTooltip": {
     "description": "Tooltip for the edit folder button"
+  },
+  "couponListItemExpiryLabel": "Valid Date: {date}",
+  "@couponListItemExpiryLabel": {
+    "description": "Label for the coupon expiry date on the coupon detail screen",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "2025-01-01"
+      }
+    }
+  },
+  "couponListItemMemoLabel": "memo: {memo}",
+  "@couponListItemMemoLabel": {
+    "description": "Label for the coupon memo on the coupon detail screen",
+    "placeholders": {
+      "memo": {
+        "type": "String",
+        "example": "memo..."
+      }
+    }
   }
 }

@@ -508,6 +508,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Edit Folder'**
   String get editFolderTooltip;
+
+  /// Label for the coupon expiry date on the coupon detail screen
+  ///
+  /// In en, this message translates to:
+  /// **'Valid Date: {date}'**
+  String couponListItemExpiryLabel(String date);
+
+  /// Label for the coupon memo on the coupon detail screen
+  ///
+  /// In en, this message translates to:
+  /// **'memo: {memo}'**
+  String couponListItemMemoLabel(String memo);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

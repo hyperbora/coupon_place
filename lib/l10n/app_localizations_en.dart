@@ -218,4 +218,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get editFolderTooltip => 'Edit Folder';
+
+  @override
+  String couponListItemExpiryLabel(String date) {
+    return 'Valid Date: $date';
+  }
+
+  @override
+  String couponListItemMemoLabel(String memo) {
+    return 'memo: $memo';
+  }
 }

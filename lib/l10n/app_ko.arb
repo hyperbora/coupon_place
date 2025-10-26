@@ -287,5 +287,25 @@
   "editFolderTooltip": "폴더 편집",
   "@editFolderTooltip": {
     "description": "폴더 편집 버튼의 툴팁"
+  },
+  "couponListItemExpiryLabel": "만료일: {date}",
+  "@couponListItemExpiryLabel": {
+    "description": "쿠폰 리스트의 각 행에 보이는 쿠폰 만료일",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "2025-01-01"
+      }
+    }
+  },
+  "couponListItemMemoLabel": "메모: {memo}",
+  "@couponListItemMemoLabel": {
+    "description": "쿠폰 리스트의 각 행에 보이는 쿠폰 메모",
+    "placeholders": {
+      "memo": {
+        "type": "String",
+        "example": "memo..."
+      }
+    }
   }
 }
