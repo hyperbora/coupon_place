@@ -6,6 +6,7 @@ class CardContainer extends StatelessWidget {
   final Color? color;
   final Widget? trailing;
   final Function()? onTap;
+  final EdgeInsetsGeometry? padding;
 
   const CardContainer({
     super.key,
@@ -14,6 +15,7 @@ class CardContainer extends StatelessWidget {
     this.color,
     this.trailing,
     this.onTap,
+    this.padding,
   });
 
   Widget leadingWidget(BuildContext context) {
@@ -45,13 +47,16 @@ class CardContainer extends StatelessWidget {
           splashColor: effectiveColor.withValues(alpha: 0.2),
           highlightColor: effectiveColor.withValues(alpha: 0.1),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 2),
+            padding:
+                padding ??
+                const EdgeInsets.symmetric(vertical: 6, horizontal: 2),
             child: Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: leadingWidget(context),
-                ),
+                if (leading != null)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: leadingWidget(context),
+                  ),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
