@@ -520,6 +520,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'memo: {memo}'**
   String couponListItemMemoLabel(String memo);
+
+  /// Message shown when a coupon is moved to another folder and is no longer visible in the detail screen
+  ///
+  /// In en, this message translates to:
+  /// **'The coupon has been moved to another folder.'**
+  String get couponMovedFolderMessage;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -228,4 +228,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String couponListItemMemoLabel(String memo) {
     return 'memo: $memo';
   }
+
+  @override
+  String get couponMovedFolderMessage => 'The coupon has been moved to another folder.';
 }

@@ -307,5 +307,9 @@
         "example": "memo..."
       }
     }
+  },
+  "couponMovedFolderMessage": "The coupon has been moved to another folder.",
+  "@couponMovedFolderMessage": {
+    "description": "Message shown when a coupon is moved to another folder and is no longer visible in the detail screen"
   }
 }
