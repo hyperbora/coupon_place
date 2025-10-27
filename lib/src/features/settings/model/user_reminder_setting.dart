@@ -30,8 +30,8 @@ class UserReminderSetting {
     int? reminderMinute,
   }) {
     return UserReminderSetting(
-      firstReminderDays: firstReminderDays ?? this.firstReminderDays,
-      secondReminderDays: secondReminderDays ?? this.secondReminderDays,
+      firstReminderDays: firstReminderDays,
+      secondReminderDays: secondReminderDays,
       reminderHour: reminderHour ?? this.reminderHour,
       reminderMinute: reminderMinute ?? this.reminderMinute,
     );

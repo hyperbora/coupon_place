@@ -25,19 +25,30 @@ class UserReminderSettingNotifier extends StateNotifier<UserReminderSetting> {
   }
 
   Future<void> updateFirst(int? days, AppLocalizations loc) async {
-    state = state.copyWith(firstReminderDays: days);
+    state = state.copyWith(
+      firstReminderDays: days,
+      secondReminderDays: state.secondReminderDays,
+    );
     await repository.save(state);
     await _reschedule(loc);
   }
 
   Future<void> updateSecond(int? days, AppLocalizations loc) async {
-    state = state.copyWith(secondReminderDays: days);
+    state = state.copyWith(
+      firstReminderDays: state.firstReminderDays,
+      secondReminderDays: days,
+    );
     await repository.save(state);
     await _reschedule(loc);
   }
 
   Future<void> updateTime(int hour, int minute, AppLocalizations loc) async {
-    state = state.copyWith(reminderHour: hour, reminderMinute: minute);
+    state = state.copyWith(
+      firstReminderDays: state.firstReminderDays,
+      secondReminderDays: state.secondReminderDays,
+      reminderHour: hour,
+      reminderMinute: minute,
+    );
     await repository.save(state);
     await _reschedule(loc);
   }
