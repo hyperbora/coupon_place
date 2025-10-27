@@ -1,5 +1,6 @@
 import 'package:coupon_place/src/core/router/app_routes.dart';
 import 'package:coupon_place/src/shared/widgets/card_container.dart';
+import 'package:coupon_place/src/shared/widgets/card_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:coupon_place/l10n/app_localizations.dart';
@@ -135,45 +136,31 @@ class SettingsScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 4, bottom: 4, top: 2),
-            child: Text(
-              loc.settingsReminderTitle,
-              style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                color: Colors.grey,
-                fontWeight: FontWeight.w600,
+          CardSection(
+            label: loc.settingsReminderTitle,
+            children: [
+              alarmRow(
+                label: loc.firstAlarmLabel,
+                value: reminderSetting.firstReminderDays,
+                onChanged: (int? days) async {
+                  await notifier.updateFirst(days, loc);
+                },
+                color: Colors.deepPurple,
+                icon: Icons.notifications_active_rounded,
               ),
-            ),
-          ),
-          CardContainer(
-            color: Theme.of(context).colorScheme.surface,
-            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                alarmRow(
-                  label: loc.firstAlarmLabel,
-                  value: reminderSetting.firstReminderDays,
-                  onChanged: (int? days) async {
-                    await notifier.updateFirst(days, loc);
-                  },
-                  color: Colors.deepPurple,
-                  icon: Icons.notifications_active_rounded,
-                ),
-                const Divider(height: 0, indent: 50, endIndent: 50),
-                alarmRow(
-                  label: loc.secondAlarmLabel,
-                  value: reminderSetting.secondReminderDays,
-                  onChanged: (int? days) async {
-                    await notifier.updateSecond(days, loc);
-                  },
-                  color: Colors.orange,
-                  icon: Icons.notifications_none_rounded,
-                ),
-                const Divider(height: 0, indent: 50, endIndent: 50),
-                reminderTimeRow(),
-              ],
-            ),
+              const Divider(height: 0, indent: 50, endIndent: 50),
+              alarmRow(
+                label: loc.secondAlarmLabel,
+                value: reminderSetting.secondReminderDays,
+                onChanged: (int? days) async {
+                  await notifier.updateSecond(days, loc);
+                },
+                color: Colors.orange,
+                icon: Icons.notifications_none_rounded,
+              ),
+              const Divider(height: 0, indent: 50, endIndent: 50),
+              reminderTimeRow(),
+            ],
           ),
           const SizedBox(height: 8),
           CardContainer(
