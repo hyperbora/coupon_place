@@ -77,6 +77,7 @@ class CouponListNotifier extends StateNotifier<CouponListState> {
     }
 
     if (_couponNotInFolder(newCoupon)) {
+      await cancelCouponNotifications(coupon: oldCoupon);
       return;
     }
 
