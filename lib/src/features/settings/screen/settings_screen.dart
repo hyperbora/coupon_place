@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:coupon_place/l10n/app_localizations.dart';
 import 'package:coupon_place/src/features/settings/provider/user_reminder_setting_provider.dart';
-import 'package:go_router/go_router.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -168,7 +167,7 @@ class SettingsScreen extends ConsumerWidget {
             leading: Icons.storage_rounded,
             color: Colors.blue,
             onTap: () {
-              context.push(AppRoutes.dataManagementSettings);
+              AppRoutes.dataManagementSettings.push(context);
             },
             trailing: Icon(
               Icons.chevron_right,

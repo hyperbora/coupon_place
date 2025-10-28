@@ -1,11 +1,10 @@
 import 'package:coupon_place/l10n/app_localizations.dart';
+import 'package:coupon_place/src/core/router/app_routes.dart';
 import 'package:intl/intl.dart';
 import 'dart:io';
-
 import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
 import 'package:coupon_place/src/shared/widgets/card_container.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class CouponListItem extends StatelessWidget {
   final Coupon coupon;
@@ -84,7 +83,10 @@ class CouponListItem extends StatelessWidget {
       ),
       trailing: isUsed ? Icon(Icons.check, color: Colors.grey) : null,
       onTap: () {
-        context.push('/coupon/${coupon.folderId}/${coupon.id}');
+        AppRoutes.couponDetail.push(
+          context,
+          pathParams: {'folderId': coupon.folderId, 'couponId': coupon.id},
+        );
       },
     );
   }

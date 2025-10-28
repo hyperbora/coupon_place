@@ -9,7 +9,6 @@ import 'package:coupon_place/src/features/folder/screen/folder_form_screen.dart'
 import 'package:flutter/material.dart';
 import 'package:coupon_place/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 final manageModeProvider = StateProvider<bool>((ref) => false);
@@ -209,12 +208,9 @@ class FolderListScreen extends ConsumerWidget {
                                   isManageModeInListItem
                                       ? null
                                       : () {
-                                        context.push(
-                                          AppRoutes.folderDetail.replaceFirst(
-                                            ':folderId',
-                                            folder.id,
-                                          ),
-                                          extra: folder.name,
+                                        AppRoutes.couponList.push(
+                                          context,
+                                          pathParams: {'folderId': folder.id},
                                         );
                                       },
                               trailing:

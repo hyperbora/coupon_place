@@ -3,7 +3,6 @@ import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
 import 'package:coupon_place/src/shared/utils/file_helper.dart';
 import 'package:coupon_place/src/features/coupon/provider/coupon_list_provider.dart';
 import 'package:coupon_place/src/shared/utils/icon_mapping.dart';
-import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -283,8 +282,9 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
                   final folder = folders.firstWhere(
                     (f) => f.id == state.folder,
                   );
-                  context.push(
-                    AppRoutes.folderDetail.replaceFirst(':folderId', folder.id),
+                  AppRoutes.couponList.push(
+                    context,
+                    pathParams: {'folderId': folder.id},
                     extra: folder.name,
                   );
                   return;

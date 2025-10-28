@@ -1,7 +1,8 @@
+import 'dart:convert';
+
 import 'package:coupon_place/src/core/router/app_router.dart';
 import 'package:coupon_place/src/core/router/app_routes.dart';
 import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:coupon_place/l10n/app_localizations.dart';
 import 'package:coupon_place/src/infra/notification/reminder_config.dart';
@@ -14,16 +15,30 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 /// 알림에 포함되는 쿠폰 정보
 class BasePayload {
-  final String folderId;
-  final String couponId;
+  final String routeName;
+  final Map<String, String> pathParams;
 
-  BasePayload({required this.folderId, required this.couponId});
+  BasePayload({required this.routeName, required this.pathParams});
 
   factory BasePayload.fromCoupon(Coupon coupon) {
-    return BasePayload(folderId: coupon.folderId, couponId: coupon.id);
+    return BasePayload(
+      routeName: AppRoutes.couponDetail.name,
+      pathParams: {'folderId': coupon.folderId, 'couponId': coupon.id},
+    );
   }
 
-  String toPayload() => '/coupon/$folderId/$couponId';
+  String toPayload() =>
+      jsonEncode({'routeName': routeName, 'pathParams': pathParams});
+
+  static BasePayload fromJson(String jsonString) {
+    final Map<String, dynamic> jsonMap = jsonDecode(jsonString);
+    return BasePayload(
+      routeName: jsonMap['routeName'] as String,
+      pathParams: Map<String, String>.from(
+        jsonMap['pathParams'] as Map<dynamic, dynamic>,
+      ),
+    );
+  }
 }
 
 /// 초기화
@@ -69,18 +84,28 @@ Future<void> _handleNotificationPayload(String? payload) async {
 
   await Future.delayed(const Duration(milliseconds: 500));
 
+  BasePayload basePayload;
+  try {
+    basePayload = BasePayload.fromJson(payload);
+  } catch (_) {
+    return;
+  }
+
   // 홈에서 바로 진입한 경우 대비
   if (!appRouter.canPop()) {
-    appRouter.go(AppRoutes.mainTab);
+    appRouter.goNamed(AppRoutes.mainTab.name);
     await Future.delayed(const Duration(milliseconds: 100));
   }
 
-  appRouter.push(payload);
+  appRouter.pushNamed(
+    basePayload.routeName,
+    pathParameters: basePayload.pathParams,
+  );
 }
 
 /// 고정 해시 기반 ID 생성
 int _getNotificationId(BasePayload basePayload, ReminderType key) {
-  final input = '${basePayload.folderId}-${basePayload.couponId}-${key.name}';
+  final input = '${basePayload.pathParams['couponId']}-${key.name}';
   return input.hashCode & 0x7FFFFFFF;
 }
 
@@ -114,8 +139,6 @@ Future<void> registerCouponNotifications({
 
     final now = tz.TZDateTime.now(tz.local);
 
-    debugPrint('$scheduledDate / $now');
-    debugPrint('isBefore : ${scheduledDate.isBefore(now)}');
     if (scheduledDate.isBefore(now)) continue;
 
     await flutterLocalNotificationsPlugin.zonedSchedule(

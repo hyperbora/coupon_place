@@ -1,22 +1,18 @@
+import 'package:coupon_place/src/core/router/app_routes.dart';
 import 'package:coupon_place/src/features/coupon/widget/coupon_list_item.dart';
+import 'package:coupon_place/src/features/folder/provider/folder_provider.dart';
 import 'package:coupon_place/src/shared/widgets/confirm_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:go_router/go_router.dart';
 import 'coupon_form_screen.dart';
 import '../provider/coupon_list_provider.dart';
 import 'package:coupon_place/l10n/app_localizations.dart';
 
 class CouponListScreen extends ConsumerStatefulWidget {
   final String folderId;
-  final String folderName;
 
-  const CouponListScreen({
-    super.key,
-    required this.folderId,
-    required this.folderName,
-  });
+  const CouponListScreen({super.key, required this.folderId});
 
   @override
   ConsumerState<CouponListScreen> createState() => _CouponListScreenState();
@@ -32,10 +28,14 @@ class _CouponListScreenState extends ConsumerState<CouponListScreen> {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
     final coupons = ref.watch(couponListProvider(widget.folderId)).coupons;
+    final folder = ref
+        .read(folderProvider)
+        .folders
+        .firstWhere((f) => f.id == widget.folderId);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.folderName),
+        title: Text(folder.name),
         centerTitle: true,
         leading:
             isSelectionMode
@@ -153,8 +153,12 @@ class _CouponListScreenState extends ConsumerState<CouponListScreen> {
                                         children: [
                                           SlidableAction(
                                             onPressed: (context) {
-                                              context.push(
-                                                '/coupon/${coupon.folderId}/${coupon.id}/edit',
+                                              AppRoutes.couponFormEdit.push(
+                                                context,
+                                                pathParams: {
+                                                  'folderId': coupon.folderId,
+                                                  'couponId': 'coupon.id',
+                                                },
                                               );
                                             },
                                             backgroundColor: Colors.blue,

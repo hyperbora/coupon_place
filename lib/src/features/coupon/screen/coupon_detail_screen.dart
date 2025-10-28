@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:io';
 import 'package:intl/intl.dart';
 import '../provider/coupon_list_provider.dart';
-import 'coupon_form_screen.dart';
 import 'package:coupon_place/l10n/app_localizations.dart';
 
 class CouponDetailScreen extends ConsumerWidget {
@@ -70,14 +69,9 @@ class CouponDetailScreen extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.edit),
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder:
-                      (context) => CouponFormScreen(
-                        folderId: folderId,
-                        couponId: couponId,
-                      ),
-                ),
+              AppRoutes.couponFormEdit.push(
+                context,
+                pathParams: {'folderId': folderId, 'couponId': couponId},
               );
             },
           ),
@@ -278,7 +272,7 @@ class CouponDetailScreen extends ConsumerWidget {
                     if (Navigator.canPop(context)) {
                       Navigator.pop(context);
                     } else {
-                      appRouter.go(AppRoutes.mainTab);
+                      appRouter.goNamed(AppRoutes.mainTab.name);
                     }
                   },
                 ),

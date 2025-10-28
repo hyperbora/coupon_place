@@ -13,45 +13,48 @@ final appRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
   routes: [
     GoRoute(
-      path: AppRoutes.mainTab,
+      name: AppRoutes.mainTab.name,
+      path: AppRoutes.mainTab.path,
       builder: (context, state) => const MainTabScreen(),
     ),
     GoRoute(
-      path: AppRoutes.folderDetail,
+      name: AppRoutes.couponList.name,
+      path: AppRoutes.couponList.path,
       builder: (context, state) {
         final folderId = state.pathParameters['folderId'];
-        final folderName = state.extra as String? ?? '';
-        return CouponListScreen(folderId: folderId!, folderName: folderName);
+        return CouponListScreen(folderId: folderId!);
       },
     ),
     GoRoute(
-      path: AppRoutes.couponFormNew,
+      name: AppRoutes.couponFormNew.name,
+      path: AppRoutes.couponFormNew.path,
       builder: (context, state) => CouponFormScreen(),
     ),
     GoRoute(
-      path: AppRoutes.couponDetail,
+      name: AppRoutes.couponDetail.name,
+      path: AppRoutes.couponDetail.path,
       builder: (context, state) {
         final folderId = state.pathParameters['folderId']!;
         final couponId = state.pathParameters['couponId']!;
         return CouponDetailScreen(folderId: folderId, couponId: couponId);
       },
-      routes: [
-        GoRoute(
-          path: 'edit',
-          builder: (context, state) {
-            final folderId = state.pathParameters['folderId']!;
-            final couponId = state.pathParameters['couponId']!;
-            return CouponFormScreen(
-              folderId: folderId,
-              couponId: couponId,
-              key: ValueKey(couponId),
-            );
-          },
-        ),
-      ],
     ),
     GoRoute(
-      path: AppRoutes.dataManagementSettings,
+      name: AppRoutes.couponFormEdit.name,
+      path: AppRoutes.couponFormEdit.path,
+      builder: (context, state) {
+        final folderId = state.pathParameters['folderId']!;
+        final couponId = state.pathParameters['couponId']!;
+        return CouponFormScreen(
+          folderId: folderId,
+          couponId: couponId,
+          key: ValueKey(couponId),
+        );
+      },
+    ),
+    GoRoute(
+      name: AppRoutes.dataManagementSettings.name,
+      path: AppRoutes.dataManagementSettings.path,
       builder: (context, state) => const DataManagementScreen(),
     ),
   ],
