@@ -8,7 +8,6 @@ import 'package:coupon_place/l10n/app_localizations.dart';
 import 'package:coupon_place/src/infra/notification/reminder_config.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
-import 'package:flutter_native_timezone_updated_gradle/flutter_native_timezone.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -74,8 +73,6 @@ Future<void> initNotifications() async {
   }
 
   tz.initializeTimeZones();
-  final String currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
-  tz.setLocalLocation(tz.getLocation(currentTimeZone));
 }
 
 /// 알림 클릭 시 처리 로직
@@ -125,17 +122,16 @@ Future<void> registerCouponNotifications({
   if (coupon.enableAlarm == false) return;
 
   final basePayload = BasePayload.fromCoupon(coupon);
-
+  final Duration offsetTime = DateTime.now().timeZoneOffset;
   for (final config in configs) {
     final targetDate = validDate.subtract(config.offset);
-    final scheduledDate = tz.TZDateTime(
-      tz.local,
+    final scheduledDate = tz.TZDateTime.local(
       targetDate.year,
       targetDate.month,
       targetDate.day,
       config.hour,
       config.minute,
-    );
+    ).subtract(offsetTime);
 
     final now = tz.TZDateTime.now(tz.local);
 
