@@ -119,7 +119,7 @@ class _CouponListScreenState extends ConsumerState<CouponListScreen> {
                   onReorder: (oldIndex, newIndex) {
                     ref
                         .read(couponListProvider(widget.folderId).notifier)
-                        .reorderCoupons(oldIndex, newIndex);
+                        .reorderCoupons(oldIndex, newIndex, loc);
                   },
                   itemBuilder: (context, index) {
                     final coupon = coupons[index];

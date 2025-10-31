@@ -261,18 +261,9 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
                     .read(couponListProvider(state.folder!).notifier)
                     .addCoupon(newCoupon, loc);
               } else {
-                if (widget.folderId == state.folder!) {
-                  ref
-                      .read(couponListProvider(state.folder!).notifier)
-                      .updateCoupon(coupon!, newCoupon, loc);
-                } else {
-                  ref
-                      .read(couponListProvider(widget.folderId!).notifier)
-                      .updateCoupon(coupon!, newCoupon, loc);
-                  ref
-                      .read(couponListProvider(state.folder!).notifier)
-                      .updateCoupon(coupon!, newCoupon, loc);
-                }
+                ref
+                    .read(couponListProvider(state.folder!).notifier)
+                    .updateCoupon(newCoupon, loc);
               }
               notifier.reset();
 

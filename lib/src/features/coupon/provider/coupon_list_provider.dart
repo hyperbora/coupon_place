@@ -23,105 +23,36 @@ class CouponListNotifier extends StateNotifier<CouponListState> {
   final Ref ref;
   final String folderId;
   CouponListNotifier(this.ref, this.folderId) : super(CouponListState()) {
-    _loadCoupons();
-  }
-
-  Future<void> _loadCoupons() async {
-    final allCoupons = await _couponLocalDb.getAll();
-    state = state.copyWith(
-      coupons:
-          allCoupons.where((coupon) => coupon.folderId == folderId).toList()
-            ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0)),
-    );
+    ref.listen<List<Coupon>>(allCouponsProvider, (_, allCoupons) {
+      state = state.copyWith(
+        coupons:
+            allCoupons.where((c) => c.folderId == folderId).toList()
+              ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0)),
+      );
+    });
   }
 
   void addCoupon(Coupon coupon, AppLocalizations loc) async {
-    state = state.copyWith(coupons: [...state.coupons, coupon]);
-    await _couponLocalDb.add(coupon);
-    await _registerCouponNotifications(ref: ref, coupon: coupon, loc: loc);
+    await ref.read(allCouponsProvider.notifier).addCoupon(coupon, loc);
   }
 
-  bool _couponInFolder(Coupon coupon) {
-    return folderId == coupon.folderId;
-  }
-
-  bool _couponNotInFolder(Coupon coupon) {
-    return !_couponInFolder(coupon);
-  }
-
-  void updateCoupon(
-    Coupon oldCoupon,
-    Coupon newCoupon,
-    AppLocalizations loc,
-  ) async {
-    final previousState = state;
-
-    if (oldCoupon.folderId != newCoupon.folderId) {
-      // Remove oldCoupon if present
-      final filteredCoupons =
-          state.coupons.where((c) => c.id != oldCoupon.id).toList();
-
-      // Add newCoupon only if it belongs to current folder
-      if (_couponInFolder(newCoupon)) {
-        filteredCoupons.add(newCoupon);
-      }
-
-      state = state.copyWith(coupons: filteredCoupons);
-    } else {
-      // Same folder: replace oldCoupon with newCoupon
-      state = state.copyWith(
-        coupons: [
-          for (final c in state.coupons) c.id == newCoupon.id ? newCoupon : c,
-        ],
-      );
-    }
-
-    if (_couponNotInFolder(newCoupon)) {
-      await cancelCouponNotifications(coupon: oldCoupon);
-      return;
-    }
-
-    try {
-      await _couponLocalDb.update(newCoupon);
-      if (oldCoupon.imagePath != null &&
-          oldCoupon.imagePath != newCoupon.imagePath) {
-        FileHelper.deleteFile(oldCoupon.imagePath!);
-      }
-      await _registerCouponNotifications(ref: ref, coupon: newCoupon, loc: loc);
-    } catch (e) {
-      state = previousState;
-    }
+  void updateCoupon(Coupon newCoupon, AppLocalizations loc) async {
+    await ref.read(allCouponsProvider.notifier).updateCoupon(newCoupon, loc);
   }
 
   void removeCoupon(Coupon deleted) async {
-    await _couponLocalDb.delete(deleted.id);
-    await cancelCouponNotifications(coupon: deleted);
-    if (deleted.imagePath != null) {
-      FileHelper.deleteFile(deleted.imagePath!);
-    }
-    state = state.copyWith(
-      coupons:
-          state.coupons.where((coupon) => coupon.id != deleted.id).toList(),
-    );
+    await ref.read(allCouponsProvider.notifier).removeCoupon(deleted);
   }
 
   Future<void> toggleUsed(Coupon coupon, AppLocalizations loc) async {
-    final isUsed = !coupon.isUsed;
-    if (isUsed) {
-      await cancelCouponNotifications(coupon: coupon);
-    } else {
-      await _registerCouponNotifications(ref: ref, coupon: coupon, loc: loc);
-    }
-    final updated = coupon.copyWith(isUsed: isUsed);
-    state = state.copyWith(
-      coupons: [
-        for (final c in state.coupons) c.id == updated.id ? updated : c,
-      ],
-    );
-    await _couponLocalDb.update(updated);
+    await ref.read(allCouponsProvider.notifier).toggleUsed(coupon, loc);
   }
 
-  Future<void> reorderCoupons(int oldIndex, int newIndex) async {
+  Future<void> reorderCoupons(
+    int oldIndex,
+    int newIndex,
+    AppLocalizations loc,
+  ) async {
     if (newIndex > oldIndex) newIndex -= 1;
 
     final updatedList = [...state.coupons];
@@ -135,7 +66,9 @@ class CouponListNotifier extends StateNotifier<CouponListState> {
     Future(() async {
       for (int i = 0; i < updatedList.length; i++) {
         final updatedCoupon = updatedList[i].copyWith(order: i);
-        await _couponLocalDb.update(updatedCoupon);
+        await ref
+            .read(allCouponsProvider.notifier)
+            .updateCoupon(updatedCoupon, loc);
       }
     });
   }
@@ -151,16 +84,14 @@ class AllCouponsNotifier extends StateNotifier<List<Coupon>> {
     state = await _couponLocalDb.getAll();
   }
 
-  void addCoupon(Coupon coupon, AppLocalizations loc) async {
+  Future<void> addCoupon(Coupon coupon, AppLocalizations loc) async {
     state = [...state, coupon];
     await _couponLocalDb.add(coupon);
     await _registerCouponNotifications(ref: ref, coupon: coupon, loc: loc);
   }
 
-  void updateCoupon(Coupon updated, AppLocalizations loc) async {
-    final Coupon oldCoupon = state.firstWhere(
-      (coupon) => coupon.id == updated.id,
-    );
+  Future<void> updateCoupon(Coupon updated, AppLocalizations loc) async {
+    Coupon oldCoupon = state.firstWhere((c) => c.id == updated.id).copyWith();
     state = [
       for (final coupon in state) coupon.id == updated.id ? updated : coupon,
     ];
@@ -179,7 +110,7 @@ class AllCouponsNotifier extends StateNotifier<List<Coupon>> {
     }
   }
 
-  void removeCoupon(Coupon deleted) async {
+  Future<void> removeCoupon(Coupon deleted) async {
     await _couponLocalDb.delete(deleted.id);
     await cancelCouponNotifications(coupon: deleted);
     if (deleted.imagePath != null) {
