@@ -189,13 +189,6 @@ class AllCouponsNotifier extends StateNotifier<List<Coupon>> {
   }
 
   Future<void> clearAll() async {
-    for (final coupon in state) {
-      await _couponLocalDb.delete(coupon.id);
-      await cancelCouponNotifications(coupon: coupon);
-      if (coupon.imagePath != null) {
-        FileHelper.deleteFile(coupon.imagePath!);
-      }
-    }
     state = [];
   }
 

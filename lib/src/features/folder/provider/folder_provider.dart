@@ -79,21 +79,21 @@ class FolderNotifier extends StateNotifier<FolderState> {
   }
 
   Future<void> removeFolder(String id) async {
-    // 상태 갱신 (UI 먼저 반영)
     state = state.copyWith(
       folders: state.folders.where((folder) => folder.id != id).toList(),
     );
 
-    // 해당 폴더의 쿠폰 가져오기
+    await _removeFolder(id);
+  }
+
+  Future<void> _removeFolder(String id) async {
     final coupons =
         (await _couponDb.getAll())
             .where((coupon) => coupon.folderId == id)
             .toList();
 
-    // 로컬 DB에서 폴더 삭제
     await _folderDb.delete(id);
 
-    // 쿠폰 이미지 파일 삭제
     for (final coupon in coupons) {
       if (coupon.imagePath != null) {
         FileHelper.deleteFile(coupon.imagePath!);
@@ -102,9 +102,8 @@ class FolderNotifier extends StateNotifier<FolderState> {
   }
 
   Future<void> clearAll() async {
-    // Hive 또는 Local DB 전체 삭제
     for (final folder in state.folders) {
-      await _folderDb.delete(folder.id);
+      await _removeFolder(folder.id);
     }
     state = FolderState();
   }
