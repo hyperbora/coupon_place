@@ -7,18 +7,18 @@ import 'package:coupon_place/src/infra/notification/user_reminder_repository.dar
 import 'package:coupon_place/src/infra/prefs/shared_preferences_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// 앱 실행 시 필요한 모든 초기화 과정을 담당합니다.
-/// - 알림, Hive 초기화
 /// - 최초 실행 시 기본 폴더 및 사용자 설정 생성
 class AppInitializer {
   /// 앱 전체 초기화 (앱 시작 시 1회 호출)
   static Future<void> initializeApp() async {
     WidgetsFlutterBinding.ensureInitialized();
 
-    await Future.wait([_initNotifications(), _initHive()]);
+    await Future.wait([_initNotifications(), _initHive(), _initAdmob()]);
 
     await _configureFirstLaunch();
   }
@@ -36,6 +36,10 @@ class AppInitializer {
 
     await Hive.openBox<Coupon>('coupons');
     await Hive.openBox<Folder>('folders');
+  }
+
+  static Future<void> _initAdmob() async {
+    await MobileAds.instance.initialize();
   }
 
   /// 앱 최초 실행 시 기본 폴더 및 기본 설정 생성
