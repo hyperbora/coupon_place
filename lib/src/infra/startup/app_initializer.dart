@@ -6,6 +6,7 @@ import 'package:coupon_place/src/infra/notification/notification_service.dart';
 import 'package:coupon_place/src/infra/notification/user_reminder_repository.dart';
 import 'package:coupon_place/src/infra/prefs/shared_preferences_keys.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -18,9 +19,18 @@ class AppInitializer {
   static Future<void> initializeApp() async {
     WidgetsFlutterBinding.ensureInitialized();
 
-    await Future.wait([_initNotifications(), _initHive(), _initAdmob()]);
+    await Future.wait([
+      _initDotenv(),
+      _initNotifications(),
+      _initHive(),
+      _initAdmob(),
+    ]);
 
     await _configureFirstLaunch();
+  }
+
+  static Future<void> _initDotenv() async {
+    await dotenv.load(fileName: ".env");
   }
 
   /// 로컬 알림 초기화
