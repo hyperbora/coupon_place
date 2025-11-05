@@ -51,7 +51,7 @@
       android:value="2" />
     <meta-data
       android:name="com.google.android.gms.ads.APPLICATION_ID"
-      android:value="ca-app-pub-3890569291656481~5088076696" />
+      android:value="ca-app-pub-3890569291656481~9257372091" />
   </application>
   <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and
