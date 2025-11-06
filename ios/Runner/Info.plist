@@ -56,5 +56,7 @@
     <string>$(NSUserNotificationsUsageDescription)</string>
     <key>GADApplicationIdentifier</key>
     <string>ca-app-pub-3890569291656481~5088076696</string>
+    <key>NSUserTrackingUsageDescription</key>
+    <string>$(NSUserTrackingUsageDescription)</string>
   </dict>
 </plist>

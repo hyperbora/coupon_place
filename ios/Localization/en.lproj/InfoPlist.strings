@@ -2,3 +2,4 @@
 "NSCameraUsageDescription" = "CouponPlace uses the camera to take photos of your coupons so you can save and manage them easily.";
 "NSPhotoLibraryUsageDescription" = "CouponPlace uses your photo library to select existing coupon images and attach them to your saved coupons.";
 "NSUserNotificationsUsageDescription" = "CouponPlace sends notifications to remind you of coupons before they expire.";
+"NSUserTrackingUsageDescription" = "This app uses your advertising identifier to provide personalized ads.";
