@@ -75,54 +75,97 @@ class SettingsScreen extends ConsumerWidget {
       );
     }
 
-    Widget reminderTimeRow() {
-      return CardContainer(
-        leading: Icons.access_time_rounded,
-        color: Colors.teal,
-        title: Text(
-          loc.reminderTimeLabel,
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        padding: EdgeInsets.symmetric(vertical: 0, horizontal: 2),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              (reminderSetting.reminderHour != null &&
-                      reminderSetting.reminderMinute != null)
-                  ? MaterialLocalizations.of(context).formatTimeOfDay(
-                    TimeOfDay(
-                      hour: reminderSetting.reminderHour!,
-                      minute: reminderSetting.reminderMinute!,
-                    ),
-                  )
-                  : loc.selectTimePlaceholder,
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            const SizedBox(width: 8),
-            const Icon(Icons.edit, size: 18, color: Colors.grey),
-          ],
-        ),
-        onTap: () async {
-          final now = TimeOfDay.now();
-          final initialTime =
-              reminderSetting.reminderHour != null &&
-                      reminderSetting.reminderMinute != null
-                  ? TimeOfDay(
+    final reminderTimeRow = CardContainer(
+      leading: Icons.access_time_rounded,
+      color: Colors.teal,
+      title: Text(
+        loc.reminderTimeLabel,
+        style: Theme.of(context).textTheme.titleMedium,
+      ),
+      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 2),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            (reminderSetting.reminderHour != null &&
+                    reminderSetting.reminderMinute != null)
+                ? MaterialLocalizations.of(context).formatTimeOfDay(
+                  TimeOfDay(
                     hour: reminderSetting.reminderHour!,
                     minute: reminderSetting.reminderMinute!,
-                  )
-                  : now;
-          final picked = await showTimePicker(
-            context: context,
-            initialTime: initialTime,
-          );
-          if (picked != null) {
-            await notifier.updateTime(picked.hour, picked.minute, loc);
-          }
-        },
-      );
-    }
+                  ),
+                )
+                : loc.selectTimePlaceholder,
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+          const SizedBox(width: 8),
+          const Icon(Icons.edit, size: 18, color: Colors.grey),
+        ],
+      ),
+      onTap: () async {
+        final now = TimeOfDay.now();
+        final initialTime =
+            reminderSetting.reminderHour != null &&
+                    reminderSetting.reminderMinute != null
+                ? TimeOfDay(
+                  hour: reminderSetting.reminderHour!,
+                  minute: reminderSetting.reminderMinute!,
+                )
+                : now;
+        final picked = await showTimePicker(
+          context: context,
+          initialTime: initialTime,
+        );
+        if (picked != null) {
+          await notifier.updateTime(picked.hour, picked.minute, loc);
+        }
+      },
+    );
+
+    final settingsBody = ListView(
+      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+      children: [
+        CardSection(
+          label: loc.settingsReminderTitle,
+          children: [
+            alarmRow(
+              label: loc.firstAlarmLabel,
+              value: reminderSetting.firstReminderDays,
+              onChanged: (int? days) async {
+                await notifier.updateFirst(days, loc);
+              },
+              color: Colors.deepPurple,
+              icon: Icons.notifications_active_rounded,
+            ),
+            const Divider(height: 0, indent: 50, endIndent: 50),
+            alarmRow(
+              label: loc.secondAlarmLabel,
+              value: reminderSetting.secondReminderDays,
+              onChanged: (int? days) async {
+                await notifier.updateSecond(days, loc);
+              },
+              color: Colors.orange,
+              icon: Icons.notifications_none_rounded,
+            ),
+            const Divider(height: 0, indent: 50, endIndent: 50),
+            reminderTimeRow,
+          ],
+        ),
+        const SizedBox(height: 8),
+        CardContainer(
+          title: Text(loc.settingsDataManagementTitle),
+          leading: Icons.storage_rounded,
+          color: Colors.blue,
+          onTap: () {
+            AppRoutes.dataManagementSettings.push(context);
+          },
+          trailing: Icon(
+            Icons.chevron_right,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          ),
+        ),
+      ],
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -132,50 +175,7 @@ class SettingsScreen extends ConsumerWidget {
         backgroundColor: Theme.of(context).colorScheme.surface,
       ),
       backgroundColor: Theme.of(context).colorScheme.surfaceContainerHigh,
-      body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-        children: [
-          CardSection(
-            label: loc.settingsReminderTitle,
-            children: [
-              alarmRow(
-                label: loc.firstAlarmLabel,
-                value: reminderSetting.firstReminderDays,
-                onChanged: (int? days) async {
-                  await notifier.updateFirst(days, loc);
-                },
-                color: Colors.deepPurple,
-                icon: Icons.notifications_active_rounded,
-              ),
-              const Divider(height: 0, indent: 50, endIndent: 50),
-              alarmRow(
-                label: loc.secondAlarmLabel,
-                value: reminderSetting.secondReminderDays,
-                onChanged: (int? days) async {
-                  await notifier.updateSecond(days, loc);
-                },
-                color: Colors.orange,
-                icon: Icons.notifications_none_rounded,
-              ),
-              const Divider(height: 0, indent: 50, endIndent: 50),
-              reminderTimeRow(),
-            ],
-          ),
-          const SizedBox(height: 8),
-          CardContainer(
-            title: Text(loc.settingsDataManagementTitle),
-            leading: Icons.storage_rounded,
-            color: Colors.blue,
-            onTap: () {
-              AppRoutes.dataManagementSettings.push(context);
-            },
-            trailing: Icon(
-              Icons.chevron_right,
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-            ),
-          ),
-        ],
-      ),
+      body: settingsBody,
     );
   }
 }
