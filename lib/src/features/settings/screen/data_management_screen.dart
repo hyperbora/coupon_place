@@ -12,33 +12,32 @@ class DataManagementScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final loc = AppLocalizations.of(context)!;
+    final clearAllButton = FullWidthInkButton(
+      text: loc.clearAllDataLabel,
+      onTap: () async {
+        await showConfirmDialog(
+          context,
+          title: loc.deleteAllDataDialogTitle,
+          message: loc.deleteAllDataDialogMessage,
+          onConfirm: () async {
+            await ref.read(allCouponsProvider.notifier).clearAll();
+            await ref.read(folderProvider.notifier).clearAll();
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(loc.allDataDeletedMessage)),
+              );
+            }
+          },
+        );
+      },
+      backgroundColor: Colors.red,
+    );
     return Scaffold(
       appBar: AppBar(title: Text(loc.dataManagementTitle), centerTitle: true),
       backgroundColor: Theme.of(context).colorScheme.surfaceContainerHigh,
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-        children: [
-          FullWidthInkButton(
-            text: loc.clearAllDataLabel,
-            onTap: () async {
-              await showConfirmDialog(
-                context,
-                title: loc.deleteAllDataDialogTitle,
-                message: loc.deleteAllDataDialogMessage,
-                onConfirm: () async {
-                  await ref.read(allCouponsProvider.notifier).clearAll();
-                  await ref.read(folderProvider.notifier).clearAll();
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(loc.allDataDeletedMessage)),
-                    );
-                  }
-                },
-              );
-            },
-            backgroundColor: Colors.red,
-          ),
-        ],
+        children: [clearAllButton],
       ),
     );
   }
