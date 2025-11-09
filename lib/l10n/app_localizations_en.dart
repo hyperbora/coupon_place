@@ -199,6 +199,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get allDataDeletedMessage => 'All data has been deleted.';
 
   @override
+  String get dataBackupLabel => 'Backup Data';
+
+  @override
+  String get dataBackupDialogTitle => 'Backup Data';
+
+  @override
+  String get dataBackupDialogMessage => 'Would you like to back up all coupons, folders, and settings data in the app?';
+
+  @override
+  String get dataBackupDoneMessage => 'Data backup completed successfully.';
+
+  @override
+  String get dataRestoreLabel => 'Restore Data';
+
+  @override
+  String get dataRestoreDialogTitle => 'Restore Data';
+
+  @override
+  String get dataRestoreDialogMessage => 'Would you like to load the backup and overwrite existing data?';
+
+  @override
+  String get dataRestoreDoneMessage => 'Data restore completed successfully.';
+
+  @override
   String get markAsUsedLabel => 'Mark as used';
 
   @override

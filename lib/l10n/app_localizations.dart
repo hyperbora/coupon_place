@@ -467,6 +467,54 @@ abstract class AppLocalizations {
   /// **'All data has been deleted.'**
   String get allDataDeletedMessage;
 
+  /// Text for the data backup button
+  ///
+  /// In en, this message translates to:
+  /// **'Backup Data'**
+  String get dataBackupLabel;
+
+  /// Title of the data backup dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Backup Data'**
+  String get dataBackupDialogTitle;
+
+  /// Message shown in the data backup confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Would you like to back up all coupons, folders, and settings data in the app?'**
+  String get dataBackupDialogMessage;
+
+  /// Message displayed after data backup is complete
+  ///
+  /// In en, this message translates to:
+  /// **'Data backup completed successfully.'**
+  String get dataBackupDoneMessage;
+
+  /// Text for the data restore button
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Data'**
+  String get dataRestoreLabel;
+
+  /// Title of the data restore dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Data'**
+  String get dataRestoreDialogTitle;
+
+  /// Message shown in the data restore confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Would you like to load the backup and overwrite existing data?'**
+  String get dataRestoreDialogMessage;
+
+  /// Message displayed after data restore is complete
+  ///
+  /// In en, this message translates to:
+  /// **'Data restore completed successfully.'**
+  String get dataRestoreDoneMessage;
+
   /// Label for the button to mark a coupon as used
   ///
   /// In en, this message translates to:

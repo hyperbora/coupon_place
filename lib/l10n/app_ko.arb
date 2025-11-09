@@ -260,6 +260,38 @@
   "@allDataDeletedMessage": {
     "description": "모든 데이터가 삭제된 후 표시되는 메시지"
   },
+  "dataBackupLabel": "데이터 백업",
+  "@dataBackupLabel": {
+    "description": "데이터 백업 버튼의 텍스트"
+  },
+  "dataBackupDialogTitle": "데이터 백업",
+  "@dataBackupDialogTitle": {
+    "description": "데이터 백업 다이얼로그의 제목"
+  },
+  "dataBackupDialogMessage": "앱의 모든 쿠폰, 폴더 및 설정 데이터를 백업하시겠습니까?",
+  "@dataBackupDialogMessage": {
+    "description": "데이터 백업 다이얼로그의 본문"
+  },
+  "dataBackupDoneMessage": "데이터 백업이 완료되었습니다.",
+  "@dataBackupDoneMessage": {
+    "description": "데이터 백업 완료 후 표시되는 메시지"
+  },
+  "dataRestoreLabel": "데이터 복원",
+  "@dataRestoreLabel": {
+    "description": "데이터 복원 버튼의 텍스트"
+  },
+  "dataRestoreDialogTitle": "데이터 복원",
+  "@dataRestoreDialogTitle": {
+    "description": "데이터 복원 다이얼로그의 제목"
+  },
+  "dataRestoreDialogMessage": "백업된 데이터를 불러와 기존 데이터를 덮어쓰시겠습니까?",
+  "@dataRestoreDialogMessage": {
+    "description": "데이터 복원 다이얼로그의 본문"
+  },
+  "dataRestoreDoneMessage": "데이터 복원이 완료되었습니다.",
+  "@dataRestoreDoneMessage": {
+    "description": "데이터 복원 완료 후 표시되는 메시지"
+  },
   "markAsUsedLabel": "사용 완료",
   "@markAsUsedLabel": {
     "description": "쿠폰을 사용 완료로 표시하는 버튼의 텍스트"

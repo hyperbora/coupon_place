@@ -199,6 +199,30 @@ class AppLocalizationsKo extends AppLocalizations {
   String get allDataDeletedMessage => '모든 데이터가 삭제되었습니다.';
 
   @override
+  String get dataBackupLabel => '데이터 백업';
+
+  @override
+  String get dataBackupDialogTitle => '데이터 백업';
+
+  @override
+  String get dataBackupDialogMessage => '앱의 모든 쿠폰, 폴더 및 설정 데이터를 백업하시겠습니까?';
+
+  @override
+  String get dataBackupDoneMessage => '데이터 백업이 완료되었습니다.';
+
+  @override
+  String get dataRestoreLabel => '데이터 복원';
+
+  @override
+  String get dataRestoreDialogTitle => '데이터 복원';
+
+  @override
+  String get dataRestoreDialogMessage => '백업된 데이터를 불러와 기존 데이터를 덮어쓰시겠습니까?';
+
+  @override
+  String get dataRestoreDoneMessage => '데이터 복원이 완료되었습니다.';
+
+  @override
   String get markAsUsedLabel => '사용 완료';
 
   @override

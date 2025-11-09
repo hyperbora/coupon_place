@@ -12,6 +12,42 @@ class DataManagementScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final loc = AppLocalizations.of(context)!;
+    final dataBackupButton = FullWidthInkButton(
+      text: loc.dataBackupLabel,
+      onTap: () async {
+        await showConfirmDialog(
+          context,
+          title: loc.dataBackupDialogTitle,
+          message: loc.dataBackupDialogMessage,
+          onConfirm: () async {
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(loc.dataBackupDoneMessage)),
+              );
+            }
+          },
+        );
+      },
+      backgroundColor: Colors.blue.shade600,
+    );
+    final dataRestoreButton = FullWidthInkButton(
+      text: loc.dataRestoreLabel,
+      onTap: () async {
+        await showConfirmDialog(
+          context,
+          title: loc.dataRestoreDialogTitle,
+          message: loc.dataRestoreDialogMessage,
+          onConfirm: () async {
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(loc.dataRestoreDoneMessage)),
+              );
+            }
+          },
+        );
+      },
+      backgroundColor: Colors.purple.shade600,
+    );
     final clearAllButton = FullWidthInkButton(
       text: loc.clearAllDataLabel,
       onTap: () async {
@@ -37,7 +73,13 @@ class DataManagementScreen extends ConsumerWidget {
       backgroundColor: Theme.of(context).colorScheme.surfaceContainerHigh,
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-        children: [clearAllButton],
+        children: [
+          dataBackupButton,
+          const SizedBox(height: 16),
+          dataRestoreButton,
+          const SizedBox(height: 16),
+          clearAllButton,
+        ],
       ),
     );
   }

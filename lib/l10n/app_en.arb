@@ -260,6 +260,38 @@
   "@allDataDeletedMessage": {
     "description": "Message displayed after all data has been successfully deleted"
   },
+  "dataBackupLabel": "Backup Data",
+  "@dataBackupLabel": {
+    "description": "Text for the data backup button"
+  },
+  "dataBackupDialogTitle": "Backup Data",
+  "@dataBackupDialogTitle": {
+    "description": "Title of the data backup dialog"
+  },
+  "dataBackupDialogMessage": "Would you like to back up all coupons, folders, and settings data in the app?",
+  "@dataBackupDialogMessage": {
+    "description": "Message shown in the data backup confirmation dialog"
+  },
+  "dataBackupDoneMessage": "Data backup completed successfully.",
+  "@dataBackupDoneMessage": {
+    "description": "Message displayed after data backup is complete"
+  },
+  "dataRestoreLabel": "Restore Data",
+  "@dataRestoreLabel": {
+    "description": "Text for the data restore button"
+  },
+  "dataRestoreDialogTitle": "Restore Data",
+  "@dataRestoreDialogTitle": {
+    "description": "Title of the data restore dialog"
+  },
+  "dataRestoreDialogMessage": "Would you like to load the backup and overwrite existing data?",
+  "@dataRestoreDialogMessage": {
+    "description": "Message shown in the data restore confirmation dialog"
+  },
+  "dataRestoreDoneMessage": "Data restore completed successfully.",
+  "@dataRestoreDoneMessage": {
+    "description": "Message displayed after data restore is complete"
+  },
   "markAsUsedLabel": "Mark as used",
   "@markAsUsedLabel": {
     "description": "Label for the button to mark a coupon as used"
