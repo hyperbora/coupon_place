@@ -34,7 +34,7 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
           ad.dispose();
         },
       ),
-      request: const AdRequest(),
+      request: const AdRequest(nonPersonalizedAds: true),
     );
 
     ad.load();
