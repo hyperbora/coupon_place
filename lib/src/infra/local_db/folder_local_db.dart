@@ -1,8 +1,9 @@
+import 'package:coupon_place/src/infra/local_db/box_names.dart';
 import 'package:hive/hive.dart';
 import 'package:coupon_place/src/features/folder/model/folder_model.dart';
 
 class FolderLocalDb {
-  static const _boxName = 'folders';
+  static final _boxName = BoxNames.folders.value;
 
   Future<Box<Folder>> _openBox() async {
     return await Hive.openBox<Folder>(_boxName);

@@ -2,6 +2,7 @@ import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
 import 'package:coupon_place/src/features/folder/model/folder_model.dart';
 import 'package:coupon_place/src/features/folder/provider/folder_provider.dart';
 import 'package:coupon_place/src/features/settings/model/user_reminder_setting.dart';
+import 'package:coupon_place/src/infra/local_db/box_names.dart';
 import 'package:coupon_place/src/infra/notification/notification_service.dart';
 import 'package:coupon_place/src/infra/notification/user_reminder_repository.dart';
 import 'package:coupon_place/src/infra/prefs/shared_preferences_keys.dart';
@@ -44,8 +45,8 @@ class AppInitializer {
     Hive.registerAdapter(CouponAdapter());
     Hive.registerAdapter(FolderAdapter());
 
-    await Hive.openBox<Coupon>('coupons');
-    await Hive.openBox<Folder>('folders');
+    await Hive.openBox<Coupon>(BoxNames.coupons.value);
+    await Hive.openBox<Folder>(BoxNames.folders.value);
   }
 
   static Future<void> _initAdmob() async {

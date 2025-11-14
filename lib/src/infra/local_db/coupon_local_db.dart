@@ -1,8 +1,9 @@
+import 'package:coupon_place/src/infra/local_db/box_names.dart';
 import 'package:hive/hive.dart';
 import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
 
 class CouponLocalDb {
-  static const _boxName = 'coupons';
+  static final _boxName = BoxNames.coupons.value;
 
   Future<Box<Coupon>> _openBox() async {
     return await Hive.openBox<Coupon>(_boxName);
