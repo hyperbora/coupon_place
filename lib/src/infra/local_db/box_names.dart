@@ -1,7 +1,11 @@
+import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
+import 'package:coupon_place/src/features/folder/model/folder_model.dart';
+
 enum BoxNames {
-  coupons('coupons'),
-  folders('folders');
+  coupons('coupons', Coupon),
+  folders('folders', Folder);
 
   final String value;
-  const BoxNames(this.value);
+  final Type type;
+  const BoxNames(this.value, this.type);
 }

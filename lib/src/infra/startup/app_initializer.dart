@@ -45,8 +45,17 @@ class AppInitializer {
     Hive.registerAdapter(CouponAdapter());
     Hive.registerAdapter(FolderAdapter());
 
-    await Hive.openBox<Coupon>(BoxNames.coupons.value);
-    await Hive.openBox<Folder>(BoxNames.folders.value);
+    await Future.wait(
+      BoxNames.values.map((boxName) {
+        if (boxName.type == Coupon) {
+          return Hive.openBox<Coupon>(boxName.value);
+        } else if (boxName.type == Folder) {
+          return Hive.openBox<Folder>(boxName.value);
+        } else {
+          throw Exception('Unknown box type: ${boxName.type}');
+        }
+      }),
+    );
   }
 
   static Future<void> _initAdmob() async {
