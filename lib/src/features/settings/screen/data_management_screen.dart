@@ -1,6 +1,8 @@
 import 'package:coupon_place/l10n/app_localizations.dart';
 import 'package:coupon_place/src/features/coupon/provider/coupon_list_provider.dart';
 import 'package:coupon_place/src/features/folder/provider/folder_provider.dart';
+import 'package:coupon_place/src/infra/local_db/backup_manager.dart';
+import 'package:coupon_place/src/infra/local_db/backup_status.dart';
 import 'package:coupon_place/src/shared/widgets/confirm_dialog.dart';
 import 'package:coupon_place/src/shared/widgets/full_width_ink_button.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DataManagementScreen extends ConsumerWidget {
   const DataManagementScreen({super.key});
+
+  String getBackupMessage(BackupStatus backupStatus, AppLocalizations loc) {
+    if (backupStatus == BackupStatus.success) {
+      return loc.backupSuccess;
+    }
+    if (backupStatus == BackupStatus.cancelled) {
+      return loc.backupCancelled;
+    }
+    return loc.backupError;
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -20,10 +32,14 @@ class DataManagementScreen extends ConsumerWidget {
           title: loc.dataBackupDialogTitle,
           message: loc.dataBackupDialogMessage,
           onConfirm: () async {
+            final backupStatus = await BackupService.createBackupAndSave(
+              loc.saveBackupDialogTitle,
+            );
             if (context.mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(loc.dataBackupDoneMessage)),
-              );
+              final backupResultMessage = getBackupMessage(backupStatus, loc);
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(backupResultMessage)));
             }
           },
         );

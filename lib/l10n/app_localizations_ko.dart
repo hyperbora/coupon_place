@@ -208,9 +208,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get dataBackupDialogMessage => '앱의 모든 쿠폰, 폴더 및 설정 데이터를 백업하시겠습니까?';
 
   @override
-  String get dataBackupDoneMessage => '데이터 백업이 완료되었습니다.';
-
-  @override
   String get dataRestoreLabel => '데이터 복원';
 
   @override
@@ -255,4 +252,16 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get couponMovedFolderMessage => '쿠폰이 다른 폴더로 이동되었습니다.';
+
+  @override
+  String get saveBackupDialogTitle => '백업 저장';
+
+  @override
+  String get backupSuccess => '백업이 성공적으로 완료되었습니다.';
+
+  @override
+  String get backupCancelled => '백업이 취소되었습니다.';
+
+  @override
+  String get backupError => '백업 중 오류가 발생했습니다.';
 }

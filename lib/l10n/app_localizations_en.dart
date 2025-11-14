@@ -208,9 +208,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dataBackupDialogMessage => 'Would you like to back up all coupons, folders, and settings data in the app?';
 
   @override
-  String get dataBackupDoneMessage => 'Data backup completed successfully.';
-
-  @override
   String get dataRestoreLabel => 'Restore Data';
 
   @override
@@ -255,4 +252,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get couponMovedFolderMessage => 'The coupon has been moved to another folder.';
+
+  @override
+  String get saveBackupDialogTitle => 'Save Backup';
+
+  @override
+  String get backupSuccess => 'Backup completed successfully.';
+
+  @override
+  String get backupCancelled => 'Backup was cancelled.';
+
+  @override
+  String get backupError => 'An error occurred during backup.';
 }

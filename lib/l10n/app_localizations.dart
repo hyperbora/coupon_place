@@ -485,12 +485,6 @@ abstract class AppLocalizations {
   /// **'Would you like to back up all coupons, folders, and settings data in the app?'**
   String get dataBackupDialogMessage;
 
-  /// Message displayed after data backup is complete
-  ///
-  /// In en, this message translates to:
-  /// **'Data backup completed successfully.'**
-  String get dataBackupDoneMessage;
-
   /// Text for the data restore button
   ///
   /// In en, this message translates to:
@@ -574,6 +568,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The coupon has been moved to another folder.'**
   String get couponMovedFolderMessage;
+
+  /// Backup dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Save Backup'**
+  String get saveBackupDialogTitle;
+
+  /// Message shown to the user when the backup file has been created and saved successfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup completed successfully.'**
+  String get backupSuccess;
+
+  /// Message displayed when the user cancels the save dialog during the backup process.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup was cancelled.'**
+  String get backupCancelled;
+
+  /// Message shown when an error occurs during file creation, compression, or saving.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred during backup.'**
+  String get backupError;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

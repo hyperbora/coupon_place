@@ -38,4 +38,26 @@ class Folder extends HiveObject {
       order: order ?? this.order,
     );
   }
+
+  /// Converts Folder object to JSON map
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'colorValue': colorValue,
+      'iconCodePoint': iconCodePoint,
+      'order': order,
+    };
+  }
+
+  /// Creates Folder object from JSON map
+  factory Folder.fromJson(Map<String, dynamic> json) {
+    return Folder(
+      id: json['id'],
+      name: json['name'],
+      colorValue: json['colorValue'],
+      iconCodePoint: json['iconCodePoint'],
+      order: json['order'],
+    );
+  }
 }

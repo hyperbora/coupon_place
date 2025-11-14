@@ -272,10 +272,6 @@
   "@dataBackupDialogMessage": {
     "description": "데이터 백업 다이얼로그의 본문"
   },
-  "dataBackupDoneMessage": "데이터 백업이 완료되었습니다.",
-  "@dataBackupDoneMessage": {
-    "description": "데이터 백업 완료 후 표시되는 메시지"
-  },
   "dataRestoreLabel": "데이터 복원",
   "@dataRestoreLabel": {
     "description": "데이터 복원 버튼의 텍스트"
@@ -343,5 +339,21 @@
   "couponMovedFolderMessage": "쿠폰이 다른 폴더로 이동되었습니다.",
   "@couponMovedFolderMessage": {
     "description": "쿠폰이 다른 폴더로 이동되어 상세 화면에서 볼 수 없을 때 표시되는 안내 메시지"
+  },
+  "saveBackupDialogTitle": "백업 저장",
+  "@saveBackupDialogTitle": {
+    "description": "백업 저장 대화상자 타이틀"
+  },
+  "backupSuccess": "백업이 성공적으로 완료되었습니다.",
+  "@backupSuccess": {
+    "description": "백업 파일 생성 및 저장이 정상적으로 끝났을 때 사용자에게 표시되는 메시지입니다."
+  },
+  "backupCancelled": "백업이 취소되었습니다.",
+  "@backupCancelled": {
+    "description": "사용자가 파일 저장 UI에서 취소를 선택했을 때 표시되는 메시지입니다."
+  },
+  "backupError": "백업 중 오류가 발생했습니다.",
+  "@backupError": {
+    "description": "파일 생성, 압축, 저장 중 오류가 발생했을 때 표시되는 메시지입니다."
   }
 }

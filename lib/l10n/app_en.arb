@@ -272,10 +272,6 @@
   "@dataBackupDialogMessage": {
     "description": "Message shown in the data backup confirmation dialog"
   },
-  "dataBackupDoneMessage": "Data backup completed successfully.",
-  "@dataBackupDoneMessage": {
-    "description": "Message displayed after data backup is complete"
-  },
   "dataRestoreLabel": "Restore Data",
   "@dataRestoreLabel": {
     "description": "Text for the data restore button"
@@ -343,5 +339,21 @@
   "couponMovedFolderMessage": "The coupon has been moved to another folder.",
   "@couponMovedFolderMessage": {
     "description": "Message shown when a coupon is moved to another folder and is no longer visible in the detail screen"
+  },
+  "saveBackupDialogTitle": "Save Backup",
+  "@saveBackupDialogTitle": {
+    "description": "Backup dialog title"
+  },
+  "backupSuccess": "Backup completed successfully.",
+  "@backupSuccess": {
+    "description": "Message shown to the user when the backup file has been created and saved successfully."
+  },
+  "backupCancelled": "Backup was cancelled.",
+  "@backupCancelled": {
+    "description": "Message displayed when the user cancels the save dialog during the backup process."
+  },
+  "backupError": "An error occurred during backup.",
+  "@backupError": {
+    "description": "Message shown when an error occurs during file creation, compression, or saving."
   }
 }
