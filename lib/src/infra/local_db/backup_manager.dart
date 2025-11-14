@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
+import 'dart:io' show Directory, File, Platform;
 import 'package:archive/archive_io.dart';
 import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
 import 'package:coupon_place/src/features/folder/model/folder_model.dart';
@@ -58,8 +58,11 @@ class BackupService {
       );
 
       if (savePath != null && savePath.isNotEmpty) {
-        final savedFile = File(savePath);
-        await savedFile.writeAsBytes(bytes);
+        if (!Platform.isIOS) {
+          final savedFile = File(savePath);
+          await savedFile.writeAsBytes(bytes);
+        }
+
         debugPrint('백업 저장 완료: $savePath');
         return BackupStatus.success;
       } else {
