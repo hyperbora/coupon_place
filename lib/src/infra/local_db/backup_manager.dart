@@ -1,16 +1,15 @@
 import 'dart:convert';
-import 'dart:io' show Directory, File;
-import 'package:archive/archive_io.dart';
+import 'dart:io';
 import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
 import 'package:coupon_place/src/features/folder/model/folder_model.dart';
 import 'package:coupon_place/src/infra/local_db/backup_status.dart';
 import 'package:coupon_place/src/infra/local_db/box_names.dart';
 import 'package:coupon_place/src/shared/utils/file_helper.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter_archive/flutter_archive.dart';
 
 class BackupService {
   static Future<BackupStatus> createBackupAndSave(
@@ -39,16 +38,23 @@ class BackupService {
         '${appDir.path}/${FileHelper.imagesRootDirName}',
       );
       if (imagesDir.existsSync()) {
-        final target = Directory('${tempDir.path}/images');
+        final target = Directory(
+          '${tempDir.path}/${FileHelper.imagesRootDirName}',
+        );
         await _copyDirectory(imagesDir, target);
       }
 
-      final encoder = ZipFileEncoder();
-      encoder.create(internalZipPath);
-      encoder.addDirectory(tempDir);
-      encoder.close();
+      final zipFile = File(internalZipPath);
 
-      final bytes = await File(internalZipPath).readAsBytes();
+      await ZipFile.createFromDirectory(
+        sourceDir: tempDir,
+        zipFile: zipFile,
+        includeBaseDirectory: false,
+        recurseSubDirs: true,
+      );
+
+      final bytes = await zipFile.readAsBytes();
+
       final savePath = await FilePicker.platform.saveFile(
         dialogTitle: saveBackupDialogTitle,
         fileName: backupFileName,
@@ -58,14 +64,11 @@ class BackupService {
       );
 
       if (savePath != null && savePath.isNotEmpty) {
-        debugPrint('백업 저장 완료: $savePath');
         return BackupStatus.success;
       } else {
-        debugPrint('사용자가 백업 저장을 취소했습니다.');
         return BackupStatus.cancelled;
       }
     } catch (e) {
-      debugPrintStack();
       return BackupStatus.error;
     } finally {
       await tempDir.delete(recursive: true);
@@ -74,9 +77,6 @@ class BackupService {
     }
   }
 
-  /// -----------------------------
-  /// JSON Export
-  /// -----------------------------
   static Future<void> _exportBoxJson<T>(
     String boxName,
     Directory targetDir,
@@ -89,7 +89,7 @@ class BackupService {
           } else if (e is Folder) {
             return e.toJson();
           } else {
-            return e; // fallback for primitive types
+            return e;
           }
         }).toList();
 
@@ -97,9 +97,6 @@ class BackupService {
     await file.writeAsString(jsonEncode(jsonList));
   }
 
-  /// -----------------------------
-  /// 복사 함수
-  /// -----------------------------
   static Future<void> _copyDirectory(Directory src, Directory dst) async {
     await dst.create(recursive: true);
 
