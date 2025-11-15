@@ -66,11 +66,11 @@ class AppInitializer {
   static Future<void> _configureFirstLaunch() async {
     final prefs = await SharedPreferences.getInstance();
     final isFirstLaunch =
-        prefs.getBool(SharedPreferencesKeys.firstLaunchKey) ?? true;
+        prefs.getBool(SharedPreferencesKeys.firstLaunchKey.value) ?? true;
 
     if (!isFirstLaunch) return;
 
-    await prefs.setBool(SharedPreferencesKeys.firstLaunchKey, false);
+    await prefs.setBool(SharedPreferencesKeys.firstLaunchKey.value, false);
 
     await _addDefaultFolder();
     await _setDefaultUserReminder();
