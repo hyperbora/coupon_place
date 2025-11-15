@@ -4,14 +4,18 @@ import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
 import 'package:coupon_place/src/features/folder/model/folder_model.dart';
 import 'package:coupon_place/src/infra/local_db/backup_status.dart';
 import 'package:coupon_place/src/infra/local_db/box_names.dart';
+import 'package:coupon_place/src/infra/prefs/shared_preferences_keys.dart';
 import 'package:coupon_place/src/shared/utils/file_helper.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_archive/flutter_archive.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BackupService {
+  static const _sharedPreferencesJsonFile = "SharedPreferences.json";
+
   static Future<BackupStatus> createBackupAndSave(
     String saveBackupDialogTitle,
   ) async {
@@ -43,6 +47,8 @@ class BackupService {
         );
         await _copyDirectory(imagesDir, target);
       }
+
+      await _exportSharedPreferences(tempDir);
 
       final zipFile = File(internalZipPath);
 
@@ -95,6 +101,20 @@ class BackupService {
 
     final file = File('${targetDir.path}/$boxName.json');
     await file.writeAsString(jsonEncode(jsonList));
+  }
+
+  static Future<void> _exportSharedPreferences(Directory targetDir) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final Map<String, dynamic> rawJsonMap = {};
+
+    for (final key in SharedPreferencesKeys.values) {
+      final value = prefs.get(key.value);
+      rawJsonMap[key.value] = value;
+    }
+
+    final file = File('${targetDir.path}/$_sharedPreferencesJsonFile');
+    await file.writeAsString(jsonEncode(rawJsonMap));
   }
 
   static Future<void> _copyDirectory(Directory src, Directory dst) async {
