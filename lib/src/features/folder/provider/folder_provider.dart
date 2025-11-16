@@ -95,9 +95,7 @@ class FolderNotifier extends StateNotifier<FolderState> {
     await _folderDb.delete(id);
 
     for (final coupon in coupons) {
-      if (coupon.imagePath != null) {
-        FileHelper.deleteFile(coupon.imagePath!);
-      }
+      FileHelper.deleteImageFile(coupon.imagePath);
     }
   }
 

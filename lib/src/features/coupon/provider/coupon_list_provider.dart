@@ -99,7 +99,7 @@ class AllCouponsNotifier extends StateNotifier<List<Coupon>> {
       await _couponLocalDb.update(updated);
       if (oldCoupon.imagePath != null &&
           oldCoupon.imagePath != updated.imagePath) {
-        FileHelper.deleteFile(oldCoupon.imagePath!);
+        FileHelper.deleteImageFile(oldCoupon.imagePath);
       }
       await _registerCouponNotifications(ref: ref, coupon: updated, loc: loc);
     } catch (e) {
@@ -113,9 +113,9 @@ class AllCouponsNotifier extends StateNotifier<List<Coupon>> {
   Future<void> removeCoupon(Coupon deleted) async {
     await _couponLocalDb.delete(deleted.id);
     await cancelCouponNotifications(coupon: deleted);
-    if (deleted.imagePath != null) {
-      FileHelper.deleteFile(deleted.imagePath!);
-    }
+
+    FileHelper.deleteImageFile(deleted.imagePath);
+
     state = state.where((coupon) => coupon.id != deleted.id).toList();
   }
 

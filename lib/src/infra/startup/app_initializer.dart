@@ -6,6 +6,7 @@ import 'package:coupon_place/src/infra/local_db/box_names.dart';
 import 'package:coupon_place/src/infra/notification/notification_service.dart';
 import 'package:coupon_place/src/infra/notification/user_reminder_repository.dart';
 import 'package:coupon_place/src/infra/prefs/shared_preferences_keys.dart';
+import 'package:coupon_place/src/shared/utils/file_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,6 +24,7 @@ class AppInitializer {
     await Future.wait([
       _initDotenv(),
       _initNotifications(),
+      _initFileHelder(),
       _initHive(),
       _initAdmob(),
     ]);
@@ -37,6 +39,10 @@ class AppInitializer {
   /// 로컬 알림 초기화
   static Future<void> _initNotifications() async {
     await initNotifications();
+  }
+
+  static Future<void> _initFileHelder() async {
+    await FileHelper.init();
   }
 
   /// Hive 초기화 및 어댑터 등록
