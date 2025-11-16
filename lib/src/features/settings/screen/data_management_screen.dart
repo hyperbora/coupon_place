@@ -1,8 +1,7 @@
 import 'package:coupon_place/l10n/app_localizations.dart';
-import 'package:coupon_place/src/features/coupon/provider/coupon_list_provider.dart';
-import 'package:coupon_place/src/features/folder/provider/folder_provider.dart';
 import 'package:coupon_place/src/infra/local_db/backup_manager.dart';
 import 'package:coupon_place/src/infra/local_db/backup_status.dart';
+import 'package:coupon_place/src/infra/local_db/data_clear_manager.dart';
 import 'package:coupon_place/src/shared/widgets/confirm_dialog.dart';
 import 'package:coupon_place/src/shared/widgets/full_width_ink_button.dart';
 import 'package:flutter/material.dart';
@@ -72,8 +71,7 @@ class DataManagementScreen extends ConsumerWidget {
           title: loc.deleteAllDataDialogTitle,
           message: loc.deleteAllDataDialogMessage,
           onConfirm: () async {
-            await ref.read(allCouponsProvider.notifier).clearAll();
-            await ref.read(folderProvider.notifier).clearAll();
+            DataClearManager.clearAll(ref);
             if (context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(loc.allDataDeletedMessage)),

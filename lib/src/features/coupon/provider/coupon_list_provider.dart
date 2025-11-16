@@ -121,6 +121,10 @@ class AllCouponsNotifier extends StateNotifier<List<Coupon>> {
 
   Future<void> clearAll() async {
     state = [];
+    final coupons = await _couponLocalDb.getAll();
+    for (final coupon in coupons) {
+      await removeCoupon(coupon);
+    }
   }
 
   Future<void> toggleUsed(Coupon coupon, AppLocalizations loc) async {
