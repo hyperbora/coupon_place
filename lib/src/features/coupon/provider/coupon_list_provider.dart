@@ -77,10 +77,10 @@ class CouponListNotifier extends StateNotifier<CouponListState> {
 class AllCouponsNotifier extends StateNotifier<List<Coupon>> {
   final Ref ref;
   AllCouponsNotifier(this.ref) : super([]) {
-    _loadAllCoupons();
+    loadAllCoupons();
   }
 
-  Future<void> _loadAllCoupons() async {
+  Future<void> loadAllCoupons() async {
     state = await _couponLocalDb.getAll();
   }
 

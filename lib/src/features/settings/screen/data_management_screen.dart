@@ -66,6 +66,7 @@ class DataManagementScreen extends ConsumerWidget {
           onConfirm: () async {
             final restoreStatus = await BackupService.restoreFromBackup(
               "백업 파일을 선택하세요.",
+              ref,
             );
             if (context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(

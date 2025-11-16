@@ -1,12 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
+import 'package:coupon_place/src/features/coupon/provider/coupon_list_provider.dart';
 import 'package:coupon_place/src/features/folder/model/folder_model.dart';
+import 'package:coupon_place/src/features/folder/provider/folder_provider.dart';
 import 'package:coupon_place/src/infra/local_db/backup_status.dart';
 import 'package:coupon_place/src/infra/local_db/box_names.dart';
 import 'package:coupon_place/src/infra/local_db/restore_status.dart';
 import 'package:coupon_place/src/infra/prefs/shared_preferences_keys.dart';
 import 'package:coupon_place/src/shared/utils/file_helper.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
@@ -134,6 +137,7 @@ class BackupService {
 
   static Future<RestoreStatus> restoreFromBackup(
     String pickBackupDialogTitle,
+    WidgetRef ref,
   ) async {
     final appDir = await getApplicationDocumentsDirectory();
     final tempDir = Directory('${appDir.path}/restore_temp');
@@ -237,6 +241,8 @@ class BackupService {
         }
       }
 
+      await ref.read(allCouponsProvider.notifier).loadAllCoupons();
+      await ref.read(folderProvider.notifier).loadFolders();
       return RestoreStatus.success;
     } catch (e) {
       return RestoreStatus.error;

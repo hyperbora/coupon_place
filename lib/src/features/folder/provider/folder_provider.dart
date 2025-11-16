@@ -11,21 +11,21 @@ class FolderState {
 
   FolderState({this.folders = const []});
 
-  FolderState copyWith({List<Folder>? folders, bool? isEditing}) {
+  FolderState copyWith({List<Folder>? folders}) {
     return FolderState(folders: folders ?? this.folders);
   }
 }
 
 class FolderNotifier extends StateNotifier<FolderState> {
   FolderNotifier() : super(FolderState()) {
-    _loadFolders();
+    loadFolders();
   }
 
   final FolderLocalDb _folderDb = FolderLocalDb();
   final CouponLocalDb _couponDb = CouponLocalDb();
   final _uuid = const Uuid();
 
-  Future<void> _loadFolders() async {
+  Future<void> loadFolders() async {
     final folders = await _folderDb.getAll();
     folders.sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
     state = state.copyWith(folders: folders);
