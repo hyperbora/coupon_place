@@ -2,6 +2,7 @@ import 'package:coupon_place/l10n/app_localizations.dart';
 import 'package:coupon_place/src/infra/local_db/backup_manager.dart';
 import 'package:coupon_place/src/infra/local_db/backup_status.dart';
 import 'package:coupon_place/src/infra/local_db/data_clear_manager.dart';
+import 'package:coupon_place/src/infra/local_db/restore_status.dart';
 import 'package:coupon_place/src/shared/widgets/confirm_dialog.dart';
 import 'package:coupon_place/src/shared/widgets/full_width_ink_button.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,16 @@ class DataManagementScreen extends ConsumerWidget {
       return loc.backupCancelled;
     }
     return loc.backupError;
+  }
+
+  String getRestoreMessage(RestoreStatus restoreStatus, AppLocalizations loc) {
+    if (restoreStatus == RestoreStatus.success) {
+      return "복원이 성공하였습니다.";
+    }
+    if (restoreStatus == RestoreStatus.cancelled) {
+      return "복원이 취소되었습니다.";
+    }
+    return "복원 오류";
   }
 
   @override
@@ -53,9 +64,12 @@ class DataManagementScreen extends ConsumerWidget {
           title: loc.dataRestoreDialogTitle,
           message: loc.dataRestoreDialogMessage,
           onConfirm: () async {
+            final restoreStatus = await BackupService.restoreFromBackup(
+              "백업 파일을 선택하세요.",
+            );
             if (context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(loc.dataRestoreDoneMessage)),
+                SnackBar(content: Text(getRestoreMessage(restoreStatus, loc))),
               );
             }
           },

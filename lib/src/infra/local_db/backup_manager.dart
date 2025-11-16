@@ -4,6 +4,7 @@ import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
 import 'package:coupon_place/src/features/folder/model/folder_model.dart';
 import 'package:coupon_place/src/infra/local_db/backup_status.dart';
 import 'package:coupon_place/src/infra/local_db/box_names.dart';
+import 'package:coupon_place/src/infra/local_db/restore_status.dart';
 import 'package:coupon_place/src/infra/prefs/shared_preferences_keys.dart';
 import 'package:coupon_place/src/shared/utils/file_helper.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -127,6 +128,121 @@ class BackupService {
       } else if (entity is File) {
         final newFile = File('${dst.path}/${entity.uri.pathSegments.last}');
         await newFile.writeAsBytes(await entity.readAsBytes());
+      }
+    }
+  }
+
+  static Future<RestoreStatus> restoreFromBackup(
+    String pickBackupDialogTitle,
+  ) async {
+    final appDir = await getApplicationDocumentsDirectory();
+    final tempDir = Directory('${appDir.path}/restore_temp');
+
+    try {
+      final picked = await FilePicker.platform.pickFiles(
+        dialogTitle: pickBackupDialogTitle,
+        type: FileType.custom,
+        allowedExtensions: ['zip'],
+      );
+
+      if (picked == null || picked.files.isEmpty) {
+        return RestoreStatus.cancelled;
+      }
+
+      final pickedZipPath = picked.files.single.path;
+      if (pickedZipPath == null) {
+        return RestoreStatus.error;
+      }
+
+      if (tempDir.existsSync()) await tempDir.delete(recursive: true);
+      await tempDir.create(recursive: true);
+
+      final zipFile = File(pickedZipPath);
+      await ZipFile.extractToDirectory(
+        zipFile: zipFile,
+        destinationDir: tempDir,
+      );
+
+      for (final boxName in BoxNames.values) {
+        final jsonFile = File('${tempDir.path}/${boxName.value}.json');
+        if (!jsonFile.existsSync()) continue;
+
+        final List<dynamic> jsonArr = jsonDecode(await jsonFile.readAsString());
+
+        if (Hive.isBoxOpen(boxName.value)) {
+          final openedBox = switch (boxName) {
+            BoxNames.coupons => Hive.box<Coupon>(boxName.value),
+            BoxNames.folders => Hive.box<Folder>(boxName.value),
+          };
+          await openedBox.close();
+        }
+
+        final box = await switch (boxName) {
+          BoxNames.coupons => Hive.openBox<Coupon>(boxName.value),
+          BoxNames.folders => Hive.openBox<Folder>(boxName.value),
+        };
+
+        await box.clear();
+
+        for (final item in jsonArr) {
+          switch (boxName) {
+            case BoxNames.coupons:
+              await box.add(Coupon.fromJson(item));
+            case BoxNames.folders:
+              await box.add(Folder.fromJson(item));
+          }
+        }
+      }
+
+      final restoredImagesDir = Directory(
+        '${tempDir.path}/${FileHelper.imagesRootDirName}',
+      );
+
+      final appImagesDir = await FileHelper.getImagesDirectory();
+
+      if (appImagesDir.existsSync()) {
+        await appImagesDir.delete(recursive: true);
+      }
+      if (restoredImagesDir.existsSync()) {
+        await restoredImagesDir.rename(appImagesDir.path);
+      }
+
+      final prefsFile = File('${tempDir.path}/$_sharedPreferencesJsonFile');
+
+      if (prefsFile.existsSync()) {
+        final prefsJson =
+            jsonDecode(await prefsFile.readAsString()) as Map<String, dynamic>;
+
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.clear();
+
+        for (final entry in prefsJson.entries) {
+          final key = entry.key;
+          final value = entry.value;
+
+          if (value is bool) {
+            await prefs.setBool(key, value);
+          } else if (value is int) {
+            await prefs.setInt(key, value);
+          } else if (value is double) {
+            await prefs.setDouble(key, value);
+          } else if (value is String) {
+            await prefs.setString(key, value);
+          } else if (value is List<dynamic>) {
+            await prefs.setStringList(
+              key,
+              value.map((e) => e.toString()).toList(),
+            );
+          }
+        }
+      }
+
+      return RestoreStatus.success;
+    } catch (e) {
+      return RestoreStatus.error;
+    } finally {
+      if (tempDir.existsSync()) {
+        await tempDir.delete(recursive: true);
       }
     }
   }
