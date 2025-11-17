@@ -592,6 +592,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'An error occurred during backup.'**
   String get backupError;
+
+  /// Title shown in the file picker dialog when selecting a backup file to restore
+  ///
+  /// In en, this message translates to:
+  /// **'Select Backup File'**
+  String get selectBackupDialogTitle;
+
+  /// Message shown when the restore process completes without errors.
+  ///
+  /// In en, this message translates to:
+  /// **'Data restore completed successfully.'**
+  String get restoreSuccess;
+
+  /// Message shown when the user cancels the restore process.
+  ///
+  /// In en, this message translates to:
+  /// **'Data restore was cancelled.'**
+  String get restoreCancelled;
+
+  /// Message shown when an error occurs during restoring data.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred during data restore.'**
+  String get restoreError;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

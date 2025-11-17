@@ -17,10 +17,10 @@ class UserReminderSettingNotifier extends StateNotifier<UserReminderSetting> {
 
   UserReminderSettingNotifier(this.ref, this.repository)
     : super(UserReminderSetting.defaults) {
-    _load();
+    load();
   }
 
-  Future<void> _load() async {
+  Future<void> load() async {
     state = await repository.load();
   }
 
@@ -30,7 +30,7 @@ class UserReminderSettingNotifier extends StateNotifier<UserReminderSetting> {
       secondReminderDays: state.secondReminderDays,
     );
     await repository.save(state);
-    await _reschedule(loc);
+    await reschedule(loc);
   }
 
   Future<void> updateSecond(int? days, AppLocalizations loc) async {
@@ -39,7 +39,7 @@ class UserReminderSettingNotifier extends StateNotifier<UserReminderSetting> {
       secondReminderDays: days,
     );
     await repository.save(state);
-    await _reschedule(loc);
+    await reschedule(loc);
   }
 
   Future<void> updateTime(int hour, int minute, AppLocalizations loc) async {
@@ -50,10 +50,10 @@ class UserReminderSettingNotifier extends StateNotifier<UserReminderSetting> {
       reminderMinute: minute,
     );
     await repository.save(state);
-    await _reschedule(loc);
+    await reschedule(loc);
   }
 
-  Future<void> _reschedule(AppLocalizations loc) async {
+  Future<void> reschedule(AppLocalizations loc) async {
     final coupons = ref.read(allCouponsProvider);
     final configs = buildReminderConfigs(state);
     await rescheduleAllNotifications(

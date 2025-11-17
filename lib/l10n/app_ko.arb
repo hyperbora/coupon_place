@@ -355,5 +355,21 @@
   "backupError": "백업 중 오류가 발생했습니다.",
   "@backupError": {
     "description": "파일 생성, 압축, 저장 중 오류가 발생했을 때 표시되는 메시지입니다."
+  },
+  "selectBackupDialogTitle": "백업 파일 선택",
+  "@selectBackupDialogTitle": {
+    "description": "사용자가 복원할 ZIP 백업 파일을 선택할 때 표시되는 대화상자 타이틀"
+  },
+  "restoreSuccess": "복원이 성공적으로 완료되었습니다.",
+  "@restoreSuccess": {
+    "description": "백업 파일에서 데이터를 정상적으로 불러와 기존 데이터를 대체했을 때 표시되는 메시지입니다."
+  },
+  "restoreCancelled": "복원이 취소되었습니다.",
+  "@restoreCancelled": {
+    "description": "사용자가 복원할 ZIP 파일 선택을 취소했을 때 표시되는 메시지입니다."
+  },
+  "restoreError": "복원 중 오류가 발생했습니다.",
+  "@restoreError": {
+    "description": "ZIP 파일 해제, 데이터 변환, Hive 저장 과정에서 오류가 발생했을 때 표시되는 메시지입니다."
   }
 }

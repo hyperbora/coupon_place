@@ -23,12 +23,12 @@ class DataManagementScreen extends ConsumerWidget {
 
   String getRestoreMessage(RestoreStatus restoreStatus, AppLocalizations loc) {
     if (restoreStatus == RestoreStatus.success) {
-      return "복원이 성공하였습니다.";
+      return loc.restoreSuccess;
     }
     if (restoreStatus == RestoreStatus.cancelled) {
-      return "복원이 취소되었습니다.";
+      return loc.restoreCancelled;
     }
-    return "복원 오류";
+    return loc.restoreError;
   }
 
   @override
@@ -65,8 +65,9 @@ class DataManagementScreen extends ConsumerWidget {
           message: loc.dataRestoreDialogMessage,
           onConfirm: () async {
             final restoreStatus = await BackupService.restoreFromBackup(
-              "백업 파일을 선택하세요.",
+              loc.selectBackupDialogTitle,
               ref,
+              loc,
             );
             if (context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(

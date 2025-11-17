@@ -264,4 +264,16 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get backupError => '백업 중 오류가 발생했습니다.';
+
+  @override
+  String get selectBackupDialogTitle => '백업 파일 선택';
+
+  @override
+  String get restoreSuccess => '복원이 성공적으로 완료되었습니다.';
+
+  @override
+  String get restoreCancelled => '복원이 취소되었습니다.';
+
+  @override
+  String get restoreError => '복원 중 오류가 발생했습니다.';
 }

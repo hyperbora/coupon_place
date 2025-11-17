@@ -264,4 +264,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get backupError => 'An error occurred during backup.';
+
+  @override
+  String get selectBackupDialogTitle => 'Select Backup File';
+
+  @override
+  String get restoreSuccess => 'Data restore completed successfully.';
+
+  @override
+  String get restoreCancelled => 'Data restore was cancelled.';
+
+  @override
+  String get restoreError => 'An error occurred during data restore.';
 }

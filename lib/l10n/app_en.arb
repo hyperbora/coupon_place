@@ -355,5 +355,21 @@
   "backupError": "An error occurred during backup.",
   "@backupError": {
     "description": "Message shown when an error occurs during file creation, compression, or saving."
+  },
+  "selectBackupDialogTitle": "Select Backup File",
+  "@selectBackupDialogTitle": {
+    "description": "Title shown in the file picker dialog when selecting a backup file to restore"
+  },
+  "restoreSuccess": "Data restore completed successfully.",
+  "@restoreSuccess": {
+    "description": "Message shown when the restore process completes without errors."
+  },
+  "restoreCancelled": "Data restore was cancelled.",
+  "@restoreCancelled": {
+    "description": "Message shown when the user cancels the restore process."
+  },
+  "restoreError": "An error occurred during data restore.",
+  "@restoreError": {
+    "description": "Message shown when an error occurs during restoring data."
   }
 }

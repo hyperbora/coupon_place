@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:coupon_place/l10n/app_localizations.dart';
 import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
 import 'package:coupon_place/src/features/coupon/provider/coupon_list_provider.dart';
 import 'package:coupon_place/src/features/folder/model/folder_model.dart';
 import 'package:coupon_place/src/features/folder/provider/folder_provider.dart';
+import 'package:coupon_place/src/features/settings/provider/user_reminder_setting_provider.dart';
 import 'package:coupon_place/src/infra/local_db/backup_status.dart';
 import 'package:coupon_place/src/infra/local_db/box_names.dart';
 import 'package:coupon_place/src/infra/local_db/restore_status.dart';
@@ -138,6 +140,7 @@ class BackupService {
   static Future<RestoreStatus> restoreFromBackup(
     String pickBackupDialogTitle,
     WidgetRef ref,
+    AppLocalizations loc,
   ) async {
     final appDir = await getApplicationDocumentsDirectory();
     final tempDir = Directory('${appDir.path}/restore_temp');
@@ -243,6 +246,9 @@ class BackupService {
 
       await ref.read(allCouponsProvider.notifier).loadAllCoupons();
       await ref.read(folderProvider.notifier).loadFolders();
+      final reminder = ref.read(userReminderSettingProvider.notifier);
+      await reminder.load();
+      await reminder.reschedule(loc);
       return RestoreStatus.success;
     } catch (e) {
       return RestoreStatus.error;
