@@ -23,6 +23,13 @@ class CouponListNotifier extends StateNotifier<CouponListState> {
   final Ref ref;
   final String folderId;
   CouponListNotifier(this.ref, this.folderId) : super(CouponListState()) {
+    final initial = ref.read(allCouponsProvider);
+    state = state.copyWith(
+      coupons:
+          initial.where((c) => c.folderId == folderId).toList()
+            ..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0)),
+    );
+
     ref.listen<List<Coupon>>(allCouponsProvider, (_, allCoupons) {
       state = state.copyWith(
         coupons:
