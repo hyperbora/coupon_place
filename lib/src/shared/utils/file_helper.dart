@@ -4,23 +4,69 @@ import 'package:uuid/uuid.dart';
 import 'package:path/path.dart' as p;
 
 class FileHelper {
-  static final String imagesRootDirName = 'images';
-  static Future<String> saveImageToAppDir(String originPath) async {
+  static final String imagesRootDirName = 'coupon_images';
+  static final String _imageNamePrefix = 'cp_';
+
+  // 캐싱된 디렉토리
+  static Directory? _cachedImagesDir;
+
+  /// 앱 실행 시 반드시 한 번 호출
+  static Future<void> init() async {
+    _cachedImagesDir = await getImagesDirectory();
+  }
+
+  static Future<Directory> getImagesDirectory() async {
+    if (_cachedImagesDir != null) {
+      return _cachedImagesDir!;
+    }
     final appDir = await getApplicationDocumentsDirectory();
-    final fileName = const Uuid().v4();
-    final folderDir = Directory(p.join(appDir.path, imagesRootDirName));
-    if (!await folderDir.exists()) {
-      await folderDir.create(recursive: true);
+    final imagesDirectory = Directory(p.join(appDir.path, imagesRootDirName));
+    return imagesDirectory;
+  }
+
+  static bool existsImageInApp(String? fileName) {
+    if (fileName == null) {
+      return false;
     }
-    final savedPath = p.join(folderDir.path, fileName);
-    if (originPath == savedPath) {
-      return originPath;
+    if (_cachedImagesDir == null) {
+      return false;
     }
+
+    final file = File(p.join(_cachedImagesDir!.path, fileName));
+    return file.existsSync();
+  }
+
+  static String getImageAbsolutePath(String imagePath) {
+    if (isNotInAppDir(imagePath)) {
+      return imagePath;
+    }
+    if (_cachedImagesDir == null) {
+      return imagePath;
+    }
+    return p.join(_cachedImagesDir!.path, imagePath);
+  }
+
+  static Future<String> _getNewImageFileName(String path) async {
+    final extension = p.extension(path);
+    return _imageNamePrefix + Uuid().v4() + extension;
+  }
+
+  static Future<String> saveImageToAppDir(String originPath) async {
     if (!File(originPath).existsSync()) {
       return '';
     }
-    final savedFile = await File(originPath).copy(savedPath);
-    return savedFile.path;
+    if (FileHelper.isInAppDir(originPath)) {
+      return originPath;
+    }
+    final fileName = await _getNewImageFileName(originPath);
+    final imagesDirectory = await getImagesDirectory();
+    if (!await imagesDirectory.exists()) {
+      await imagesDirectory.create(recursive: true);
+    }
+    final savedPath = p.join(imagesDirectory.path, fileName);
+
+    await File(originPath).copy(savedPath);
+    return fileName;
   }
 
   static void deleteFile(String filePath) {
@@ -30,12 +76,26 @@ class FileHelper {
     }
   }
 
-  static Future<bool> isInAppDir(String filePath) async {
-    final appDir = await getApplicationDocumentsDirectory();
-    return File(filePath).absolute.path.startsWith(appDir.path);
+  static bool isInAppDir(String filePath) {
+    return filePath.startsWith(_imageNamePrefix);
   }
 
-  static Future<bool> isNotInAppDir(String filePath) async {
-    return isInAppDir(filePath).then((value) => !value);
+  static bool isNotInAppDir(String filePath) {
+    return !isInAppDir(filePath);
+  }
+
+  static void deleteImageFile(String? filePath) {
+    if (filePath == null) {
+      return;
+    }
+    final file = File(filePath);
+    if (file.existsSync()) {
+      file.deleteSync();
+    }
+    final imagePath = getImageAbsolutePath(filePath);
+    final imageFile = File(imagePath);
+    if (imageFile.existsSync()) {
+      imageFile.deleteSync();
+    }
   }
 }

@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:coupon_place/src/core/router/app_routes.dart';
 import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
 import 'package:coupon_place/src/shared/utils/file_helper.dart';
@@ -225,7 +226,8 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
 
               String? savedImagePath;
               if (state.imageFilePath != null &&
-                  await FileHelper.isNotInAppDir(state.imageFilePath!)) {
+                  FileHelper.isNotInAppDir(state.imageFilePath!)) {
+                // FileHelper
                 savedImagePath = await FileHelper.saveImageToAppDir(
                   state.imageFilePath!,
                 );
@@ -311,7 +313,10 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
     bool imageExists(String? path) {
       if (path == null) return false;
       final file = File(path);
-      return file.existsSync();
+      if (file.existsSync()) {
+        return true;
+      }
+      return FileHelper.existsImageInApp(path);
     }
 
     Widget buildImagePicker() {
@@ -332,7 +337,7 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
                       borderRadius: BorderRadius.circular(12),
                       child: SizedBox(
                         child: Image.file(
-                          File(imagePath!),
+                          File(FileHelper.getImageAbsolutePath(imagePath!)),
                           fit: BoxFit.contain,
                         ),
                       ),
@@ -420,7 +425,7 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
             TextFormField(
               controller: _memoController,
               decoration: InputDecoration(labelText: loc.memoLabel),
-              maxLines: 2,
+              maxLines: max('\n'.allMatches(coupon?.memo ?? '').length + 1, 2),
               onChanged: notifier.setMemo,
             ),
             const SizedBox(height: 16),

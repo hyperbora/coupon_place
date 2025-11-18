@@ -467,6 +467,48 @@ abstract class AppLocalizations {
   /// **'All data has been deleted.'**
   String get allDataDeletedMessage;
 
+  /// Text for the data backup button
+  ///
+  /// In en, this message translates to:
+  /// **'Backup Data'**
+  String get dataBackupLabel;
+
+  /// Title of the data backup dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Backup Data'**
+  String get dataBackupDialogTitle;
+
+  /// Message shown in the data backup confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Would you like to back up all coupons, folders, and settings data in the app?'**
+  String get dataBackupDialogMessage;
+
+  /// Text for the data restore button
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Data'**
+  String get dataRestoreLabel;
+
+  /// Title of the data restore dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Data'**
+  String get dataRestoreDialogTitle;
+
+  /// Message shown in the data restore confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Would you like to load the backup and overwrite existing data?'**
+  String get dataRestoreDialogMessage;
+
+  /// Message displayed after data restore is complete
+  ///
+  /// In en, this message translates to:
+  /// **'Data restore completed successfully.'**
+  String get dataRestoreDoneMessage;
+
   /// Label for the button to mark a coupon as used
   ///
   /// In en, this message translates to:
@@ -526,6 +568,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The coupon has been moved to another folder.'**
   String get couponMovedFolderMessage;
+
+  /// Backup dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Save Backup'**
+  String get saveBackupDialogTitle;
+
+  /// Message shown to the user when the backup file has been created and saved successfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup completed successfully.'**
+  String get backupSuccess;
+
+  /// Message displayed when the user cancels the save dialog during the backup process.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup was cancelled.'**
+  String get backupCancelled;
+
+  /// Message shown when an error occurs during file creation, compression, or saving.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred during backup.'**
+  String get backupError;
+
+  /// Title shown in the file picker dialog when selecting a backup file to restore
+  ///
+  /// In en, this message translates to:
+  /// **'Select Backup File'**
+  String get selectBackupDialogTitle;
+
+  /// Message shown when the restore process completes without errors.
+  ///
+  /// In en, this message translates to:
+  /// **'Data restore completed successfully.'**
+  String get restoreSuccess;
+
+  /// Message shown when the user cancels the restore process.
+  ///
+  /// In en, this message translates to:
+  /// **'Data restore was cancelled.'**
+  String get restoreCancelled;
+
+  /// Message shown when an error occurs during restoring data.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred during data restore.'**
+  String get restoreError;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

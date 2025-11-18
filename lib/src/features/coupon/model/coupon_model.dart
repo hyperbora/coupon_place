@@ -113,4 +113,37 @@ class Coupon extends HiveObject {
       order: order,
     );
   }
+
+  /// Converts Coupon object to JSON map
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'code': code,
+      'memo': memo,
+      'validDate': validDate?.toIso8601String(),
+      'imagePath': imagePath,
+      'folderId': folderId,
+      'enableAlarm': enableAlarm,
+      'isUsed': isUsed,
+      'order': order,
+    };
+  }
+
+  /// Creates Coupon object from JSON map
+  factory Coupon.fromJson(Map<String, dynamic> json) {
+    return Coupon(
+      id: json['id'],
+      name: json['name'],
+      code: json['code'],
+      memo: json['memo'],
+      validDate:
+          json['validDate'] != null ? DateTime.parse(json['validDate']) : null,
+      imagePath: json['imagePath'],
+      folderId: json['folderId'],
+      enableAlarm: json['enableAlarm'] ?? false,
+      isUsed: json['isUsed'] ?? false,
+      order: json['order'],
+    );
+  }
 }

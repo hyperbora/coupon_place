@@ -199,6 +199,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get allDataDeletedMessage => 'All data has been deleted.';
 
   @override
+  String get dataBackupLabel => 'Backup Data';
+
+  @override
+  String get dataBackupDialogTitle => 'Backup Data';
+
+  @override
+  String get dataBackupDialogMessage => 'Would you like to back up all coupons, folders, and settings data in the app?';
+
+  @override
+  String get dataRestoreLabel => 'Restore Data';
+
+  @override
+  String get dataRestoreDialogTitle => 'Restore Data';
+
+  @override
+  String get dataRestoreDialogMessage => 'Would you like to load the backup and overwrite existing data?';
+
+  @override
+  String get dataRestoreDoneMessage => 'Data restore completed successfully.';
+
+  @override
   String get markAsUsedLabel => 'Mark as used';
 
   @override
@@ -231,4 +252,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get couponMovedFolderMessage => 'The coupon has been moved to another folder.';
+
+  @override
+  String get saveBackupDialogTitle => 'Save Backup';
+
+  @override
+  String get backupSuccess => 'Backup completed successfully.';
+
+  @override
+  String get backupCancelled => 'Backup was cancelled.';
+
+  @override
+  String get backupError => 'An error occurred during backup.';
+
+  @override
+  String get selectBackupDialogTitle => 'Select Backup File';
+
+  @override
+  String get restoreSuccess => 'Data restore completed successfully.';
+
+  @override
+  String get restoreCancelled => 'Data restore was cancelled.';
+
+  @override
+  String get restoreError => 'An error occurred during data restore.';
 }

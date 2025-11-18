@@ -77,10 +77,10 @@ class CouponListNotifier extends StateNotifier<CouponListState> {
 class AllCouponsNotifier extends StateNotifier<List<Coupon>> {
   final Ref ref;
   AllCouponsNotifier(this.ref) : super([]) {
-    _loadAllCoupons();
+    loadAllCoupons();
   }
 
-  Future<void> _loadAllCoupons() async {
+  Future<void> loadAllCoupons() async {
     state = await _couponLocalDb.getAll();
   }
 
@@ -99,7 +99,7 @@ class AllCouponsNotifier extends StateNotifier<List<Coupon>> {
       await _couponLocalDb.update(updated);
       if (oldCoupon.imagePath != null &&
           oldCoupon.imagePath != updated.imagePath) {
-        FileHelper.deleteFile(oldCoupon.imagePath!);
+        FileHelper.deleteImageFile(oldCoupon.imagePath);
       }
       await _registerCouponNotifications(ref: ref, coupon: updated, loc: loc);
     } catch (e) {
@@ -110,17 +110,26 @@ class AllCouponsNotifier extends StateNotifier<List<Coupon>> {
     }
   }
 
-  Future<void> removeCoupon(Coupon deleted) async {
+  Future<void> _removeCoupon(Coupon deleted) async {
     await _couponLocalDb.delete(deleted.id);
     await cancelCouponNotifications(coupon: deleted);
-    if (deleted.imagePath != null) {
-      FileHelper.deleteFile(deleted.imagePath!);
-    }
+
+    FileHelper.deleteImageFile(deleted.imagePath);
+  }
+
+  Future<void> removeCoupon(Coupon deleted) async {
+    await _removeCoupon(deleted);
+
     state = state.where((coupon) => coupon.id != deleted.id).toList();
   }
 
   Future<void> clearAll() async {
     state = [];
+    final coupons = await _couponLocalDb.getAll();
+    for (final coupon in coupons) {
+      await _removeCoupon(coupon);
+    }
+    _couponLocalDb.clear();
   }
 
   Future<void> toggleUsed(Coupon coupon, AppLocalizations loc) async {

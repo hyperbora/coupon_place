@@ -260,6 +260,34 @@
   "@allDataDeletedMessage": {
     "description": "모든 데이터가 삭제된 후 표시되는 메시지"
   },
+  "dataBackupLabel": "데이터 백업",
+  "@dataBackupLabel": {
+    "description": "데이터 백업 버튼의 텍스트"
+  },
+  "dataBackupDialogTitle": "데이터 백업",
+  "@dataBackupDialogTitle": {
+    "description": "데이터 백업 다이얼로그의 제목"
+  },
+  "dataBackupDialogMessage": "앱의 모든 쿠폰, 폴더 및 설정 데이터를 백업하시겠습니까?",
+  "@dataBackupDialogMessage": {
+    "description": "데이터 백업 다이얼로그의 본문"
+  },
+  "dataRestoreLabel": "데이터 복원",
+  "@dataRestoreLabel": {
+    "description": "데이터 복원 버튼의 텍스트"
+  },
+  "dataRestoreDialogTitle": "데이터 복원",
+  "@dataRestoreDialogTitle": {
+    "description": "데이터 복원 다이얼로그의 제목"
+  },
+  "dataRestoreDialogMessage": "백업된 데이터를 불러와 기존 데이터를 덮어쓰시겠습니까?",
+  "@dataRestoreDialogMessage": {
+    "description": "데이터 복원 다이얼로그의 본문"
+  },
+  "dataRestoreDoneMessage": "데이터 복원이 완료되었습니다.",
+  "@dataRestoreDoneMessage": {
+    "description": "데이터 복원 완료 후 표시되는 메시지"
+  },
   "markAsUsedLabel": "사용 완료",
   "@markAsUsedLabel": {
     "description": "쿠폰을 사용 완료로 표시하는 버튼의 텍스트"
@@ -311,5 +339,37 @@
   "couponMovedFolderMessage": "쿠폰이 다른 폴더로 이동되었습니다.",
   "@couponMovedFolderMessage": {
     "description": "쿠폰이 다른 폴더로 이동되어 상세 화면에서 볼 수 없을 때 표시되는 안내 메시지"
+  },
+  "saveBackupDialogTitle": "백업 저장",
+  "@saveBackupDialogTitle": {
+    "description": "백업 저장 대화상자 타이틀"
+  },
+  "backupSuccess": "백업이 성공적으로 완료되었습니다.",
+  "@backupSuccess": {
+    "description": "백업 파일 생성 및 저장이 정상적으로 끝났을 때 사용자에게 표시되는 메시지입니다."
+  },
+  "backupCancelled": "백업이 취소되었습니다.",
+  "@backupCancelled": {
+    "description": "사용자가 파일 저장 UI에서 취소를 선택했을 때 표시되는 메시지입니다."
+  },
+  "backupError": "백업 중 오류가 발생했습니다.",
+  "@backupError": {
+    "description": "파일 생성, 압축, 저장 중 오류가 발생했을 때 표시되는 메시지입니다."
+  },
+  "selectBackupDialogTitle": "백업 파일 선택",
+  "@selectBackupDialogTitle": {
+    "description": "사용자가 복원할 ZIP 백업 파일을 선택할 때 표시되는 대화상자 타이틀"
+  },
+  "restoreSuccess": "복원이 성공적으로 완료되었습니다.",
+  "@restoreSuccess": {
+    "description": "백업 파일에서 데이터를 정상적으로 불러와 기존 데이터를 대체했을 때 표시되는 메시지입니다."
+  },
+  "restoreCancelled": "복원이 취소되었습니다.",
+  "@restoreCancelled": {
+    "description": "사용자가 복원할 ZIP 파일 선택을 취소했을 때 표시되는 메시지입니다."
+  },
+  "restoreError": "복원 중 오류가 발생했습니다.",
+  "@restoreError": {
+    "description": "ZIP 파일 해제, 데이터 변환, Hive 저장 과정에서 오류가 발생했을 때 표시되는 메시지입니다."
   }
 }

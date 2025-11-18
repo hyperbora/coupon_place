@@ -1,5 +1,6 @@
 import 'package:coupon_place/l10n/app_localizations.dart';
 import 'package:coupon_place/src/core/router/app_routes.dart';
+import 'package:coupon_place/src/shared/utils/file_helper.dart';
 import 'package:intl/intl.dart';
 import 'dart:io';
 import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
@@ -22,11 +23,11 @@ class CouponListItem extends StatelessWidget {
     return CardContainer(
       color: isUsed ? Colors.grey[200] : null,
       leading:
-          (coupon.imagePath != null && File(coupon.imagePath!).existsSync())
+          FileHelper.existsImageInApp(coupon.imagePath)
               ? ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Image.file(
-                  File(coupon.imagePath!),
+                  File(FileHelper.getImageAbsolutePath(coupon.imagePath!)),
                   width: 48,
                   height: 48,
                   fit: BoxFit.cover,

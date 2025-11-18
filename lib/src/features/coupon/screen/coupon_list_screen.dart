@@ -157,7 +157,7 @@ class _CouponListScreenState extends ConsumerState<CouponListScreen> {
                                                 context,
                                                 pathParams: {
                                                   'folderId': coupon.folderId,
-                                                  'couponId': 'coupon.id',
+                                                  'couponId': coupon.id,
                                                 },
                                               );
                                             },

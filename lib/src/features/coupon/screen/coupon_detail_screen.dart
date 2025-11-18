@@ -1,6 +1,7 @@
 import 'package:coupon_place/src/core/router/app_router.dart';
 import 'package:coupon_place/src/core/router/app_routes.dart';
 import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
+import 'package:coupon_place/src/shared/utils/file_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:io';
@@ -89,8 +90,7 @@ class CouponDetailScreen extends ConsumerWidget {
                   width: double.infinity,
                   height: MediaQuery.of(context).size.width * 0.6,
                   child:
-                      (coupon.imagePath != null &&
-                              File(coupon.imagePath!).existsSync())
+                      FileHelper.existsImageInApp(coupon.imagePath)
                           ? GestureDetector(
                             onTap: () {
                               showDialog(
@@ -99,19 +99,29 @@ class CouponDetailScreen extends ConsumerWidget {
                                     (context) => Dialog(
                                       backgroundColor: Colors.transparent,
                                       child: InteractiveViewer(
-                                        child: AspectRatio(
-                                          aspectRatio: 1,
-                                          child: Image.file(
-                                            File(coupon.imagePath!),
-                                            fit: BoxFit.contain,
+                                        clipBehavior: Clip.none,
+                                        minScale: 0.5,
+                                        maxScale: 3.0,
+                                        child: Image.file(
+                                          File(
+                                            FileHelper.getImageAbsolutePath(
+                                              coupon.imagePath!,
+                                            ),
                                           ),
+                                          key: ValueKey("${coupon.id}_dialog"),
+                                          fit: BoxFit.contain,
                                         ),
                                       ),
                                     ),
                               );
                             },
                             child: Image.file(
-                              File(coupon.imagePath!),
+                              File(
+                                FileHelper.getImageAbsolutePath(
+                                  coupon.imagePath!,
+                                ),
+                              ),
+                              key: ValueKey("${coupon.id}_main"),
                               fit: BoxFit.contain,
                             ),
                           )

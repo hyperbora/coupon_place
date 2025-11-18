@@ -3,10 +3,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:coupon_place/src/features/settings/model/user_reminder_setting.dart';
 
 class UserReminderRepository {
-  static const _firstKey = SharedPreferencesKeys.reminderFirstDaysKey;
-  static const _secondKey = SharedPreferencesKeys.reminderSecondDaysKey;
-  static const _hourKey = SharedPreferencesKeys.reminderHourKey;
-  static const _minuteKey = SharedPreferencesKeys.reminderMinuteKey;
+  final _firstKey = SharedPreferencesKeys.reminderFirstDaysKey.value;
+  final _secondKey = SharedPreferencesKeys.reminderSecondDaysKey.value;
+  final _hourKey = SharedPreferencesKeys.reminderHourKey.value;
+  final _minuteKey = SharedPreferencesKeys.reminderMinuteKey.value;
 
   Future<UserReminderSetting> load() async {
     final prefs = await SharedPreferences.getInstance();

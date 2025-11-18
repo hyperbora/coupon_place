@@ -260,6 +260,34 @@
   "@allDataDeletedMessage": {
     "description": "Message displayed after all data has been successfully deleted"
   },
+  "dataBackupLabel": "Backup Data",
+  "@dataBackupLabel": {
+    "description": "Text for the data backup button"
+  },
+  "dataBackupDialogTitle": "Backup Data",
+  "@dataBackupDialogTitle": {
+    "description": "Title of the data backup dialog"
+  },
+  "dataBackupDialogMessage": "Would you like to back up all coupons, folders, and settings data in the app?",
+  "@dataBackupDialogMessage": {
+    "description": "Message shown in the data backup confirmation dialog"
+  },
+  "dataRestoreLabel": "Restore Data",
+  "@dataRestoreLabel": {
+    "description": "Text for the data restore button"
+  },
+  "dataRestoreDialogTitle": "Restore Data",
+  "@dataRestoreDialogTitle": {
+    "description": "Title of the data restore dialog"
+  },
+  "dataRestoreDialogMessage": "Would you like to load the backup and overwrite existing data?",
+  "@dataRestoreDialogMessage": {
+    "description": "Message shown in the data restore confirmation dialog"
+  },
+  "dataRestoreDoneMessage": "Data restore completed successfully.",
+  "@dataRestoreDoneMessage": {
+    "description": "Message displayed after data restore is complete"
+  },
   "markAsUsedLabel": "Mark as used",
   "@markAsUsedLabel": {
     "description": "Label for the button to mark a coupon as used"
@@ -311,5 +339,37 @@
   "couponMovedFolderMessage": "The coupon has been moved to another folder.",
   "@couponMovedFolderMessage": {
     "description": "Message shown when a coupon is moved to another folder and is no longer visible in the detail screen"
+  },
+  "saveBackupDialogTitle": "Save Backup",
+  "@saveBackupDialogTitle": {
+    "description": "Backup dialog title"
+  },
+  "backupSuccess": "Backup completed successfully.",
+  "@backupSuccess": {
+    "description": "Message shown to the user when the backup file has been created and saved successfully."
+  },
+  "backupCancelled": "Backup was cancelled.",
+  "@backupCancelled": {
+    "description": "Message displayed when the user cancels the save dialog during the backup process."
+  },
+  "backupError": "An error occurred during backup.",
+  "@backupError": {
+    "description": "Message shown when an error occurs during file creation, compression, or saving."
+  },
+  "selectBackupDialogTitle": "Select Backup File",
+  "@selectBackupDialogTitle": {
+    "description": "Title shown in the file picker dialog when selecting a backup file to restore"
+  },
+  "restoreSuccess": "Data restore completed successfully.",
+  "@restoreSuccess": {
+    "description": "Message shown when the restore process completes without errors."
+  },
+  "restoreCancelled": "Data restore was cancelled.",
+  "@restoreCancelled": {
+    "description": "Message shown when the user cancels the restore process."
+  },
+  "restoreError": "An error occurred during data restore.",
+  "@restoreError": {
+    "description": "Message shown when an error occurs during restoring data."
   }
 }
