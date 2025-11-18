@@ -8,6 +8,8 @@ class DataClearManager {
     await ref.read(allCouponsProvider.notifier).clearAll();
     await ref.read(folderProvider.notifier).clearAll();
     final imageDirectory = await FileHelper.getImagesDirectory();
-    imageDirectory.deleteSync(recursive: true);
+    if (imageDirectory.existsSync()) {
+      imageDirectory.deleteSync(recursive: true);
+    }
   }
 }

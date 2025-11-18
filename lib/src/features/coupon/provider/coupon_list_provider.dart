@@ -110,11 +110,15 @@ class AllCouponsNotifier extends StateNotifier<List<Coupon>> {
     }
   }
 
-  Future<void> removeCoupon(Coupon deleted) async {
+  Future<void> _removeCoupon(Coupon deleted) async {
     await _couponLocalDb.delete(deleted.id);
     await cancelCouponNotifications(coupon: deleted);
 
     FileHelper.deleteImageFile(deleted.imagePath);
+  }
+
+  Future<void> removeCoupon(Coupon deleted) async {
+    await _removeCoupon(deleted);
 
     state = state.where((coupon) => coupon.id != deleted.id).toList();
   }
@@ -123,8 +127,9 @@ class AllCouponsNotifier extends StateNotifier<List<Coupon>> {
     state = [];
     final coupons = await _couponLocalDb.getAll();
     for (final coupon in coupons) {
-      await removeCoupon(coupon);
+      await _removeCoupon(coupon);
     }
+    _couponLocalDb.clear();
   }
 
   Future<void> toggleUsed(Coupon coupon, AppLocalizations loc) async {

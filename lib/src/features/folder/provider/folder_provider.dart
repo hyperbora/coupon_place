@@ -12,7 +12,7 @@ class FolderState {
   FolderState({this.folders = const []});
 
   FolderState copyWith({List<Folder>? folders}) {
-    return FolderState(folders: folders ?? this.folders);
+    return FolderState(folders: folders ?? []);
   }
 }
 
@@ -43,39 +43,15 @@ class FolderNotifier extends StateNotifier<FolderState> {
     _folderDb.add(newFolder);
   }
 
-  void editFolder(String id, String name, Color color, IconData icon) {
-    state = state.copyWith(
-      folders:
-          state.folders.map((folder) {
-            if (folder.id == id) {
-              return Folder(
-                id: id,
-                name: name,
-                colorValue: color.toARGB32(),
-                iconCodePoint: icon.codePoint,
-              );
-            }
-            return folder;
-          }).toList(),
-    );
-  }
-
   void updateFolder(String id, {String? name, Color? color, IconData? icon}) {
-    final updatedFolders =
-        state.folders.map((folder) {
-          if (folder.id == id) {
-            final updatedFolder = Folder(
-              id: folder.id,
-              name: name ?? folder.name,
-              colorValue: color?.toARGB32() ?? folder.colorValue,
-              iconCodePoint: icon?.codePoint ?? folder.iconCodePoint,
-            );
-            _folderDb.update(updatedFolder);
-            return updatedFolder;
-          }
-          return folder;
-        }).toList();
-    state = state.copyWith(folders: updatedFolders);
+    final oldFolder = state.folders.firstWhere((f) => f.id == id);
+    final newFolder = oldFolder.copyWith(
+      name: name,
+      colorValue: color?.toARGB32(),
+      iconCodePoint: icon?.codePoint,
+    );
+    state = state.copyWith(folders: [...state.folders, newFolder]);
+    _folderDb.update(newFolder);
   }
 
   Future<void> removeFolder(String id) async {
@@ -103,6 +79,7 @@ class FolderNotifier extends StateNotifier<FolderState> {
     for (final folder in state.folders) {
       await _removeFolder(folder.id);
     }
+    await _folderDb.clear();
     state = FolderState();
   }
 
