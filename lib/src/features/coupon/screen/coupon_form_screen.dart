@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:coupon_place/src/core/router/app_routes.dart';
 import 'package:coupon_place/src/features/coupon/model/coupon_model.dart';
 import 'package:coupon_place/src/shared/utils/file_helper.dart';
@@ -424,7 +425,7 @@ class _CouponFormScreenState extends ConsumerState<CouponFormScreen> {
             TextFormField(
               controller: _memoController,
               decoration: InputDecoration(labelText: loc.memoLabel),
-              maxLines: 2,
+              maxLines: max('\n'.allMatches(coupon?.memo ?? '').length + 1, 2),
               onChanged: notifier.setMemo,
             ),
             const SizedBox(height: 16),
