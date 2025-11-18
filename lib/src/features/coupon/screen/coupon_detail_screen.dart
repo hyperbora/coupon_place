@@ -99,16 +99,17 @@ class CouponDetailScreen extends ConsumerWidget {
                                     (context) => Dialog(
                                       backgroundColor: Colors.transparent,
                                       child: InteractiveViewer(
-                                        child: AspectRatio(
-                                          aspectRatio: 1,
-                                          child: Image.file(
-                                            File(
-                                              FileHelper.getImageAbsolutePath(
-                                                coupon.imagePath!,
-                                              ),
+                                        clipBehavior: Clip.none,
+                                        minScale: 0.5,
+                                        maxScale: 3.0,
+                                        child: Image.file(
+                                          File(
+                                            FileHelper.getImageAbsolutePath(
+                                              coupon.imagePath!,
                                             ),
-                                            fit: BoxFit.contain,
                                           ),
+                                          key: ValueKey("${coupon.id}_dialog"),
+                                          fit: BoxFit.contain,
                                         ),
                                       ),
                                     ),
@@ -120,6 +121,7 @@ class CouponDetailScreen extends ConsumerWidget {
                                   coupon.imagePath!,
                                 ),
                               ),
+                              key: ValueKey("${coupon.id}_main"),
                               fit: BoxFit.contain,
                             ),
                           )
