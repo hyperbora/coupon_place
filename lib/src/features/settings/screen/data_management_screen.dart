@@ -5,6 +5,7 @@ import 'package:coupon_place/src/infra/local_db/data_clear_manager.dart';
 import 'package:coupon_place/src/infra/local_db/restore_status.dart';
 import 'package:coupon_place/src/shared/widgets/confirm_dialog.dart';
 import 'package:coupon_place/src/shared/widgets/full_width_ink_button.dart';
+import 'package:coupon_place/src/shared/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -34,21 +35,26 @@ class DataManagementScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final loc = AppLocalizations.of(context)!;
+    final currentContext = context;
     final dataBackupButton = FullWidthInkButton(
       text: loc.dataBackupLabel,
       onTap: () async {
         await showConfirmDialog(
-          context,
+          currentContext,
           title: loc.dataBackupDialogTitle,
           message: loc.dataBackupDialogMessage,
           onConfirm: () async {
-            final backupStatus = await BackupService.createBackupAndSave(
-              loc.saveBackupDialogTitle,
+            final backupStatus = await withLoading(
+              currentContext,
+              () =>
+                  BackupService.createBackupAndSave(loc.saveBackupDialogTitle),
+              loc.loadingBackupMessage,
             );
-            if (context.mounted) {
-              final backupResultMessage = getBackupMessage(backupStatus, loc);
+
+            final backupResultMessage = getBackupMessage(backupStatus, loc);
+            if (currentContext.mounted) {
               ScaffoldMessenger.of(
-                context,
+                currentContext,
               ).showSnackBar(SnackBar(content: Text(backupResultMessage)));
             }
           },
@@ -60,17 +66,21 @@ class DataManagementScreen extends ConsumerWidget {
       text: loc.dataRestoreLabel,
       onTap: () async {
         await showConfirmDialog(
-          context,
+          currentContext,
           title: loc.dataRestoreDialogTitle,
           message: loc.dataRestoreDialogMessage,
           onConfirm: () async {
-            final restoreStatus = await BackupService.restoreFromBackup(
-              loc.selectBackupDialogTitle,
-              ref,
-              loc,
+            final restoreStatus = await withLoading(
+              currentContext,
+              () => BackupService.restoreFromBackup(
+                loc.selectBackupDialogTitle,
+                ref,
+                loc,
+              ),
+              loc.loadingRestoreMessage,
             );
-            if (context.mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
+            if (currentContext.mounted) {
+              ScaffoldMessenger.of(currentContext).showSnackBar(
                 SnackBar(content: Text(getRestoreMessage(restoreStatus, loc))),
               );
             }
@@ -83,13 +93,17 @@ class DataManagementScreen extends ConsumerWidget {
       text: loc.clearAllDataLabel,
       onTap: () async {
         await showConfirmDialog(
-          context,
+          currentContext,
           title: loc.deleteAllDataDialogTitle,
           message: loc.deleteAllDataDialogMessage,
           onConfirm: () async {
-            DataClearManager.clearAll(ref);
-            if (context.mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
+            await withLoading(
+              currentContext,
+              () => DataClearManager.clearAll(ref),
+              loc.loadingClearAllMessage,
+            );
+            if (currentContext.mounted) {
+              ScaffoldMessenger.of(currentContext).showSnackBar(
                 SnackBar(content: Text(loc.allDataDeletedMessage)),
               );
             }

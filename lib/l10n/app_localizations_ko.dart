@@ -276,4 +276,13 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get restoreError => '복원 중 오류가 발생했습니다.';
+
+  @override
+  String get loadingBackupMessage => '백업을 진행하는 중입니다…';
+
+  @override
+  String get loadingRestoreMessage => '데이터를 복원하는 중입니다…';
+
+  @override
+  String get loadingClearAllMessage => '모든 데이터를 삭제하는 중입니다…';
 }

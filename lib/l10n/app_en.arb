@@ -371,5 +371,17 @@
   "restoreError": "An error occurred during data restore.",
   "@restoreError": {
     "description": "Message shown when an error occurs during restoring data."
+  },
+  "loadingBackupMessage": "Backing up your data…",
+  "@loadingBackupMessage": {
+    "description": "Message displayed to the user while the backup process is in progress."
+  },
+  "loadingRestoreMessage": "Restoring your data…",
+  "@loadingRestoreMessage": {
+    "description": "Message displayed to the user while the restore operation is being performed."
+  },
+  "loadingClearAllMessage": "Deleting all data…",
+  "@loadingClearAllMessage": {
+    "description": "Message shown to the user during the process of deleting all stored data."
   }
 }

@@ -616,6 +616,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'An error occurred during data restore.'**
   String get restoreError;
+
+  /// Message displayed to the user while the backup process is in progress.
+  ///
+  /// In en, this message translates to:
+  /// **'Backing up your data…'**
+  String get loadingBackupMessage;
+
+  /// Message displayed to the user while the restore operation is being performed.
+  ///
+  /// In en, this message translates to:
+  /// **'Restoring your data…'**
+  String get loadingRestoreMessage;
+
+  /// Message shown to the user during the process of deleting all stored data.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleting all data…'**
+  String get loadingClearAllMessage;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -276,4 +276,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get restoreError => 'An error occurred during data restore.';
+
+  @override
+  String get loadingBackupMessage => 'Backing up your data…';
+
+  @override
+  String get loadingRestoreMessage => 'Restoring your data…';
+
+  @override
+  String get loadingClearAllMessage => 'Deleting all data…';
 }
