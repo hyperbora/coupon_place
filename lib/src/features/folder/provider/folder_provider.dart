@@ -50,7 +50,12 @@ class FolderNotifier extends StateNotifier<FolderState> {
       colorValue: color?.toARGB32(),
       iconCodePoint: icon?.codePoint,
     );
-    state = state.copyWith(folders: [...state.folders, newFolder]);
+
+    final updatedFolders = [
+      for (final folder in state.folders) folder.id == id ? newFolder : folder,
+    ];
+
+    state = state.copyWith(folders: updatedFolders);
     _folderDb.update(newFolder);
   }
 
