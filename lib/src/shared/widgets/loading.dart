@@ -17,6 +17,7 @@ void _showLoadingOverlay(BuildContext context, String message) {
             ),
             Center(
               child: Container(
+                constraints: const BoxConstraints(maxWidth: 280),
                 padding: const EdgeInsets.symmetric(
                   horizontal: 24,
                   vertical: 28,
@@ -44,10 +45,12 @@ void _showLoadingOverlay(BuildContext context, String message) {
                     Text(
                       message,
                       textAlign: TextAlign.center,
+                      softWrap: true,
                       style: const TextStyle(
                         color: Colors.black87,
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
+                        decoration: TextDecoration.none,
                       ),
                     ),
                   ],
