@@ -24,14 +24,13 @@ class Folder extends HiveObject {
   });
 
   Folder copyWith({
-    String? id,
     String? name,
     int? colorValue,
     int? iconCodePoint,
     int? order,
   }) {
     return Folder(
-      id: id ?? this.id,
+      id: id,
       name: name ?? this.name,
       colorValue: colorValue ?? this.colorValue,
       iconCodePoint: iconCodePoint ?? this.iconCodePoint,

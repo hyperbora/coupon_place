@@ -85,7 +85,7 @@ class FolderNotifier extends StateNotifier<FolderState> {
       await _removeFolder(folder.id);
     }
     await _folderDb.clear();
-    state = FolderState();
+    state = state.copyWith(folders: []);
   }
 
   Future<void> reorderFolders(int oldIndex, int newIndex) async {
