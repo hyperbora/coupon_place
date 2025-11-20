@@ -44,16 +44,18 @@
     <key>UIApplicationSupportsIndirectInputEvents</key>
     <true />
     <key>NSCameraUsageDescription</key>
-    <string>NSCameraUsageDescription</string>
+    <string>CouponPlace uses the camera to take photos of your coupons so you can save and manage
+      them easily</string>
     <key>NSPhotoLibraryUsageDescription</key>
-    <string>NSPhotoLibraryUsageDescription</string>
+    <string>CouponPlace uses your photo library to select existing coupon images and attach them to
+      your saved coupons</string>
     <key>UIBackgroundModes</key>
     <array>
       <string>fetch</string>
       <string>remote-notification</string>
     </array>
     <key>NSUserNotificationsUsageDescription</key>
-    <string>NSUserNotificationsUsageDescription</string>
+    <string>CouponPlace sends notifications to remind you of coupons before they expire</string>
     <key>GADApplicationIdentifier</key>
     <string>ca-app-pub-3890569291656481~5088076696</string>
   </dict>
